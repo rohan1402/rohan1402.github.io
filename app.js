@@ -48,7 +48,7 @@
   function addBot(html) {
     const wrap = document.createElement("div");
     wrap.className = "msg bot";
-    wrap.innerHTML = `<span class="avatar">R</span><div class="text">${html}</div>`;
+    wrap.innerHTML = `<span class="avatar"><img src="assets/rohan-avatar.jpg" alt="Rohan" onerror="this.parentNode.textContent='R'"></span><div class="text">${html}</div>`;
     messages.appendChild(wrap);
     scrollDown();
   }
@@ -57,7 +57,7 @@
     const wrap = document.createElement("div");
     wrap.className = "msg bot typing-msg";
     wrap.innerHTML =
-      '<span class="avatar">R</span><div class="text"><div class="typing"><span></span><span></span><span></span></div></div>';
+      `<span class="avatar"><img src="assets/rohan-avatar.jpg" alt="Rohan" onerror="this.parentNode.textContent='R'"></span><div class="text"><div class="typing"><span></span><span></span><span></span></div></div>`;
     messages.appendChild(wrap);
     scrollDown();
     return wrap;
@@ -179,13 +179,16 @@
 
     return `<div class="plain-wrap">
       <div class="r-head">
-        <h1>${esc(ROHAN.name)}</h1>
-        <div class="r-sub">${esc(ROHAN.title)} — ${esc(ROHAN.tagline)}</div>
-        <div class="r-links">
-          <a href="mailto:${c.email}">${esc(c.email)}</a>
-          <a href="${c.linkedin}" target="_blank" rel="noopener">LinkedIn</a>
-          <a href="${c.github}" target="_blank" rel="noopener">GitHub</a>
-          <span>${esc(c.phone)}</span>
+        <img class="r-photo" src="assets/rohan-photo.jpg" alt="Rohan Pant" onerror="this.style.display='none'">
+        <div class="r-head-text">
+          <h1>${esc(ROHAN.name)}</h1>
+          <div class="r-sub">${esc(ROHAN.title)} — ${esc(ROHAN.tagline)}</div>
+          <div class="r-links">
+            <a href="mailto:${c.email}">${esc(c.email)}</a>
+            <a href="${c.linkedin}" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="${c.github}" target="_blank" rel="noopener">GitHub</a>
+            <span>${esc(c.phone)}</span>
+          </div>
         </div>
       </div>
       <div class="r-section"><h2>Summary</h2>

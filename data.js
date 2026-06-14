@@ -164,6 +164,7 @@ const INTENTS = [
     label: "About Rohan",
     keywords: ["about", "who", "yourself", "bio", "summary", "intro", "background"],
     answer: () => `
+      <img class="about-photo" src="assets/rohan-photo.jpg" alt="Rohan Pant" onerror="this.style.display='none'">
       <p><strong>${esc(ROHAN.name)}</strong> is an <strong>${esc(ROHAN.title)}</strong> ${esc(ROHAN.tagline)}</p>
       <p>He's currently a <strong>${esc(ROHAN.nowRoles[0])}</strong> while finishing his
       <strong>${esc(ROHAN.education[0].degree)} @ ${esc(ROHAN.education[0].school)}</strong>
