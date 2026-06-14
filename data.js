@@ -28,8 +28,8 @@ const ROHAN = {
   availability:
     "Open to AI Engineer · ML Engineer · SWE internships (Summer/Fall 2026). F-1 OPT eligible.",
   contact: {
-    email: "rp1610@scarletmail.rutgers.edu",
-    altEmail: "rohan.pant14@gmail.com",
+    email: "rohan.pant14@gmail.com",
+    altEmail: "rp1610@scarletmail.rutgers.edu",
     phone: "(908) 801-0976",
     linkedin: "https://www.linkedin.com/in/rohan1402",
     github: "https://github.com/rohan1402",
