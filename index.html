@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ask Rohan — Rohan Pant · AI / ML Engineer</title>
+  <meta name="description" content="Chat with an AI assistant about Rohan Pant — AI/ML Engineer building agent systems, RAG pipelines, and LLM-eval frameworks. Open to AI/ML/SWE internships." />
+  <meta property="og:title" content="Ask Rohan — Rohan Pant" />
+  <meta property="og:description" content="Chat with an AI version of Rohan Pant: projects, experience, skills, and contact." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app" class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar" aria-label="Navigation">
+      <div class="brand">✦ Ask&nbsp;Rohan</div>
+      <button class="new-chat" data-action="new-chat">＋ New chat</button>
+
+      <nav class="recent" aria-label="Topics">
+        <div class="recent-label">EXPLORE</div>
+        <button class="recent-item" data-intent="about">👋 About Rohan</button>
+        <button class="recent-item" data-intent="projects">🚀 Projects</button>
+        <button class="recent-item" data-intent="experience">💼 Experience</button>
+        <button class="recent-item" data-intent="skills">🛠 Skills</button>
+        <button class="recent-item" data-intent="resume">📄 Resume</button>
+        <button class="recent-item" data-intent="contact">✉️ Contact</button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <button class="ghost-row" data-action="plain"><span>📄</span> Plain résumé view</button>
+        <div class="account"><span class="avatar sm">R</span> Rohan Pant</div>
+      </div>
+    </aside>
+    <div class="scrim" id="scrim" data-action="close-sidebar" hidden></div>
+
+    <!-- Chat -->
+    <main class="main" id="chat-view">
+      <header class="topbar">
+        <button class="icon-btn only-mobile" data-action="open-sidebar" aria-label="Open menu">☰</button>
+        <div class="topbar-title">✦ Ask Rohan</div>
+        <div class="topbar-actions">
+          <button class="icon-btn" data-action="theme" aria-label="Toggle theme" id="theme-btn">🌙</button>
+          <button class="pill-btn" data-action="plain">Plain view</button>
+        </div>
+      </header>
+
+      <div class="messages" id="messages" aria-live="polite"></div>
+
+      <div class="composer">
+        <div class="chips" id="chips"></div>
+        <form class="input-row" id="input-form" autocomplete="off">
+          <input id="input" type="text" placeholder="Ask anything about Rohan…" aria-label="Ask anything about Rohan" />
+          <button type="submit" class="send" aria-label="Send">↑</button>
+        </form>
+        <div class="composer-note">Scripted demo · built by Rohan Pant · <a href="https://github.com/rohan1402" target="_blank" rel="noopener">github.com/rohan1402</a></div>
+      </div>
+    </main>
+
+    <!-- Plain résumé view (hidden until toggled) -->
+    <section class="plain-view" id="plain-view" hidden aria-label="Résumé">
+      <button class="back-btn" data-action="chat">← Back to chat</button>
+      <div id="plain-content"></div>
+    </section>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
