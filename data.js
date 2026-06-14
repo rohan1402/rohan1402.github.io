@@ -8,22 +8,35 @@
 const ROHAN = {
   name: "Rohan Pant",
   title: "AI / ML Engineer",
-  tagline: "Building agent systems, RAG pipelines & LLM-eval frameworks.",
-  location: "New Jersey, USA",
-  education: {
-    school: "Rutgers University",
-    degree: "M.S. Data Science",
-    grad: "May 2027",
-  },
+  tagline: "Building agentic AI systems, LLM-integrated backends & RAG pipelines.",
+  location: "New Brunswick, NJ",
+  summary:
+    "Software engineer specializing in agentic AI systems, LLM-integrated backends, and production Node.js/TypeScript services — building autonomous agents with Gemini and Claude (tool use, MCP-style integrations, RAG), plus ML automation and AWS-integrated systems.",
+  education: [
+    {
+      school: "Rutgers University",
+      degree: "M.S. Data Science",
+      detail: "CGPA 4.0",
+      when: "Sep 2025 – May 2027",
+      where: "New Brunswick, NJ",
+    },
+    {
+      school: "University of Petroleum & Energy Studies",
+      degree: "B.Tech, Computer Science & Engineering (Big Data)",
+      detail: "",
+      when: "Aug 2018 – May 2022",
+      where: "India",
+    },
+  ],
   nowRoles: [
-    "Software Developer @ Rutgers SAS IT",
+    "Software Developer @ Rutgers University",
     "M.S. Data Science @ Rutgers (May 2027)",
   ],
-  past: "Software Engineer + QA @ Cohesity (3 years)",
+  past: "Member of Technical Staff 2 @ Cohesity (2022–2025)",
   focus: [
-    "Agentic AI & LLM pipelines",
-    "RAG systems & custom evaluation frameworks",
-    "Developer tooling & automation",
+    "Agentic AI, tool use & autonomous workflows",
+    "RAG systems & LLM evaluation frameworks",
+    "LLM-integrated backends (Node.js / TypeScript)",
   ],
   availability:
     "Open to AI Engineer · ML Engineer · SWE internships (Summer/Fall 2026). F-1 OPT eligible.",
@@ -40,8 +53,8 @@ const ROHAN = {
       icon: "🔧",
       name: "Patchwork",
       blurb:
-        "GitHub App that turns bug reports into regression tests and opens PRs automatically. Built solo at the Zero to Agent hackathon (Vercel × Google DeepMind).",
-      stack: ["Gemini 2.5 Pro", "Next.js", "Octokit", "Supabase", "Vercel"],
+        "Autonomous agent that ingests a bug report, generates regression tests, runs them in an E2B sandbox, and opens a GitHub PR with passing tests — end-to-end, no human in the loop. Built at the Zero to Agent hackathon (Vercel × DeepMind).",
+      stack: ["Gemini", "E2B Sandbox", "GitHub API", "Next.js", "Tool Use"],
       url: "https://github.com/rohan1402/patchwork",
     },
     {
@@ -58,7 +71,7 @@ const ROHAN = {
       icon: "📊",
       name: "Rutgers LLM Benchmarking",
       blurb:
-        "Local LLM evaluation pipeline — 4 GGUF Q4_K_M models, a custom RAG harness, and Groq-as-judge scoring. Built proactively at SAS IT.",
+        "Local LLM evaluation pipeline — 4 GGUF Q4_K_M models, a custom RAG harness, and Groq-as-judge scoring. Built at Rutgers.",
       stack: ["llama-cpp-python", "LangChain", "Groq", "Python"],
       url: "https://github.com/rohan1402/llm-playground",
     },
@@ -75,45 +88,54 @@ const ROHAN = {
   experience: [
     {
       role: "Software Developer",
-      org: "Rutgers SAS IT",
-      when: "2024 — present",
+      org: "Rutgers University — New Brunswick",
+      when: "Jan 2026 — Present",
       points: [
-        "Build internal developer tooling and automation.",
-        "Proactively shipped a local LLM benchmarking pipeline with a custom RAG eval harness.",
+        "Built an agentic AI chatbot from scratch (Node.js, TypeScript, Express, React), integrating LLM APIs with tool use and retrieval to deliver context-aware academic content across departments.",
+        "Designed a modular LLM evaluation framework supporting 4+ models with structured logging, latency tracking, and token-usage metrics — for benchmarking RAG quality and instruction-following.",
+        "Implemented RAG to ground responses in structured academic content, enabling automated MCQ, programming, and essay-question generation mapped to learning objectives.",
       ],
     },
     {
-      role: "Software Engineer + QA",
+      role: "Member of Technical Staff 2",
       org: "Cohesity",
-      when: "3 years",
+      when: "Jul 2022 — Jul 2025",
       points: [
-        "Shipped and tested production software across the engineering + QA lifecycle.",
-        "Built automation and reliability tooling for enterprise data management.",
+        "Engineered a production Auto-Triage system (Python + ML) classifying defects across Product, Automation, and Environment — cutting debugging turnaround by 37%.",
+        "Built backend workflows processing 150k+ log events with NLP-based pattern detection for faster root-cause analysis across distributed systems.",
+        "Owned a full Jenkins CI/CD pipeline and a Grafana monitoring dashboard, reducing manual QA effort by 20%.",
+      ],
+    },
+    {
+      role: "Data Science Intern",
+      org: "Alpha AI",
+      when: "Jun 2021 — Jul 2021",
+      points: [
+        "Built Facial Expression and Speech Emotion Recognition pipelines (Keras, 27k 48×48 grayscale images).",
+        "Used OpenCV for face detection and emotion prediction, reaching ~73% accuracy.",
       ],
     },
   ],
   skills: {
-    Languages: ["Python", "TypeScript", "JavaScript", "R", "SQL"],
-    "AI / ML": [
-      "LangChain",
-      "Anthropic / Claude",
-      "Gemini",
-      "Groq",
-      "Hugging Face",
-      "PyTorch",
-      "scikit-learn",
-      "llama-cpp-python",
+    "Agentic AI": [
+      "Claude Agent SDK",
+      "MCP Servers",
+      "Tool Use",
+      "Gemini tool calling",
+      "Autonomous workflows",
+      "Prompt engineering",
     ],
-    "Infra / Dev": [
-      "Next.js",
-      "Supabase",
-      "Vercel",
-      "Streamlit",
-      "Docker",
-      "Git",
-      "PostgreSQL",
-      "MongoDB",
+    "RAG & Vector DBs": [
+      "RAG pipelines",
+      "Semantic search",
+      "MongoDB Atlas",
+      "OpenSearch",
+      "S3 Vectors",
+      "sentence-transformers",
     ],
+    AWS: ["Lambda", "Bedrock", "S3", "EC2"],
+    Languages: ["Python", "Node.js", "TypeScript", "Java", "SQL"],
+    "Backend & DevOps": ["Express", "REST APIs", "Jenkins CI/CD", "Git", "Docker"],
   },
 };
 
@@ -140,13 +162,13 @@ const INTENTS = [
   {
     id: "about",
     label: "About Rohan",
-    keywords: ["about", "who", "yourself", "bio", "summary", "tell me", "intro", "rohan"],
+    keywords: ["about", "who", "yourself", "bio", "summary", "intro", "background"],
     answer: () => `
       <p><strong>${esc(ROHAN.name)}</strong> is an <strong>${esc(ROHAN.title)}</strong> ${esc(ROHAN.tagline)}</p>
-      <p>He's currently an <strong>${esc(ROHAN.nowRoles[0])}</strong> while finishing his
-      <strong>${esc(ROHAN.education.degree)} @ ${esc(ROHAN.education.school)}</strong>
-      (${esc(ROHAN.education.grad)}). Before grad school he spent
-      <strong>3 years as a ${esc("Software Engineer + QA")} at Cohesity</strong>.</p>
+      <p>He's currently a <strong>${esc(ROHAN.nowRoles[0])}</strong> while finishing his
+      <strong>${esc(ROHAN.education[0].degree)} @ ${esc(ROHAN.education[0].school)}</strong>
+      (${esc(ROHAN.education[0].when)}). Before grad school he spent
+      <strong>3 years at Cohesity as a Member of Technical Staff 2</strong>.</p>
       <p>What he loves building:</p>
       <ul>${ROHAN.focus.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>`,
     followups: ["projects", "experience", "skills"],
@@ -183,7 +205,7 @@ const INTENTS = [
     label: "LLM Benchmarking",
     keywords: ["llm", "benchmark", "benchmarking", "eval", "evaluation", "rag", "playground", "groq", "gguf"],
     answer: () => `<div class="cards">${projectCard(ROHAN.projects[2])}</div>
-      <p>Rohan built this proactively at SAS IT — a local evaluation pipeline running 4 quantized
+      <p>Rohan built this at Rutgers — a local evaluation pipeline running 4 quantized
       GGUF models through a custom RAG harness, with Groq-as-judge scoring.</p>`,
     followups: ["projects", "skills", "experience"],
   },
@@ -217,11 +239,15 @@ const INTENTS = [
   {
     id: "education",
     label: "Education",
-    keywords: ["education", "school", "degree", "rutgers", "study", "masters", "master", "ms", "university", "grad"],
+    keywords: ["education", "school", "degree", "rutgers", "study", "masters", "master", "university", "grad", "petroleum", "upes"],
     answer: () => `
-      <p><strong>${esc(ROHAN.education.degree)}</strong> — ${esc(ROHAN.education.school)}<br/>
-      Expected ${esc(ROHAN.education.grad)}.</p>
-      <p>Alongside the degree he works as a Software Developer at Rutgers SAS IT, so the coursework
+      ${ROHAN.education
+        .map(
+          (ed) => `<p><strong>${esc(ed.degree)}</strong> — ${esc(ed.school)}<br/>
+          ${esc(ed.when)}${ed.detail ? " · " + esc(ed.detail) : ""}</p>`
+        )
+        .join("")}
+      <p>Alongside the master's he works as a Software Developer at Rutgers, so the coursework
       and the production work feed each other.</p>`,
     followups: ["experience", "skills", "availability"],
   },

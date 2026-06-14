@@ -105,8 +105,10 @@
     for (const intent of INTENTS) {
       let score = 0;
       for (const kw of intent.keywords) {
-        if (q.includes(" " + kw) || q.includes(kw + " ") || q.includes(kw)) {
-          score += kw.includes(" ") ? 3 : 1; // multi-word keywords are stronger signals
+        if (q.includes(kw)) {
+          // weight by specificity: longer / multi-word keywords beat generic short ones,
+          // so "tell me about patchwork" matches patchwork, not the generic about intent.
+          score += kw.length + (kw.includes(" ") ? 2 : 0);
         }
       }
       if (score > bestScore) {
@@ -187,13 +189,17 @@
         </div>
       </div>
       <div class="r-section"><h2>Summary</h2>
-        <p>${esc(ROHAN.title)} and ${esc(ROHAN.education.degree)} candidate at ${esc(ROHAN.education.school)}
-        (${esc(ROHAN.education.grad)}), previously ${esc(ROHAN.past)}. ${esc(ROHAN.availability)}</p>
+        <p>${esc(ROHAN.summary)} ${esc(ROHAN.availability)}</p>
       </div>
       <div class="r-section"><h2>Experience</h2>${exp}</div>
       <div class="r-section"><h2>Education</h2>
-        <div class="r-item"><div class="r-item-head"><strong>${esc(ROHAN.education.degree)} · ${esc(ROHAN.education.school)}</strong>
-        <span class="r-item-when">${esc(ROHAN.education.grad)}</span></div></div>
+        ${ROHAN.education
+          .map(
+            (ed) => `<div class="r-item"><div class="r-item-head">
+            <strong>${esc(ed.degree)} · ${esc(ed.school)}</strong>
+            <span class="r-item-when">${esc(ed.when)}${ed.detail ? " · " + esc(ed.detail) : ""}</span></div></div>`
+          )
+          .join("")}
       </div>
       <div class="r-section"><h2>Projects</h2>${projects}</div>
       <div class="r-section"><h2>Skills</h2>${skills}</div>
@@ -206,9 +212,11 @@
       host.innerHTML = buildPlain();
       host.dataset.built = "1";
     }
+    document.getElementById("plain-view").hidden = false; // clear the initial hidden attr
     document.body.classList.add("plain-mode");
   }
   function showChat() {
+    document.getElementById("plain-view").hidden = true;
     document.body.classList.remove("plain-mode");
   }
 
