@@ -1,5 +1,5 @@
 /* ============================================================================
-   mascot.js — a playful Shiba Inu that lives in the corner of the portfolio.
+   mascot.js: a playful Shiba Inu that lives in the corner of the portfolio.
    Soft-shaded SVG (looks 3D, weighs ~nothing). Vanilla JS, self-contained.
    Recruiter-safe: dismissible (persisted), respects reduced-motion, pauses
    when the tab is hidden, and never overlays interactive UI.

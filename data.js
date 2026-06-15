@@ -1,5 +1,5 @@
 /* ============================================================================
-   data.js — single source of truth for everything "Ask Rohan" knows.
+   data.js: single source of truth for everything "Ask Rohan" knows.
    Pure data + small HTML builders. No DOM, no dependencies.
    To plug in a real Claude API later, this same content becomes the system
    prompt and the INTENTS below become the offline fallback.

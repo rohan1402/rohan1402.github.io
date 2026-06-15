@@ -1,7 +1,7 @@
 /* ============================================================================
-   styles.css — "Ask Rohan" ChatGPT/Claude-style theme.
+   styles.css: "Ask Rohan" ChatGPT/Claude-style theme.
    Light + dark (auto via prefers-color-scheme, override via [data-theme]).
-   No external fonts or libraries — instant load on any device.
+   No external fonts or libraries, instant load on any device.
    ============================================================================ */
 
 :root {

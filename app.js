@@ -1,5 +1,5 @@
 /* ============================================================================
-   app.js — DOM wiring for "Ask Rohan".
+   app.js: DOM wiring for "Ask Rohan".
    Depends on globals from data.js: ROHAN, INTENTS, GREETING, INITIAL_CHIPS, esc.
    Vanilla JS, no modules (so it runs straight from file://).
    ============================================================================ */
