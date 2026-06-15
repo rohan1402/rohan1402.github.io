@@ -24,10 +24,10 @@
     experience: "What's his experience?",
     education: "Where did he study?",
     skills: "What's his tech stack?",
-    resume: "Can I see his résumé?",
+    resume: "Can I see his resume?",
     availability: "Is he open to work?",
     contact: "How do I get in touch?",
-    easter: "Wait — are you really AI?",
+    easter: "Wait, are you really AI?",
   };
 
   const intentById = (id) => INTENTS.find((i) => i.id === id);
@@ -87,7 +87,7 @@
   }
 
   function fallbackHTML() {
-    return `<p>I'm not totally sure what you meant — but I know plenty about Rohan. Try one of these:</p>
+    return `<p>I'm not totally sure what you meant, but I know plenty about Rohan. Try one of these:</p>
       <p>his <strong>projects</strong>, <strong>experience</strong>, <strong>skills</strong>,
       <strong>education</strong>, <strong>availability</strong>, or how to <strong>contact</strong> him.</p>`;
   }
@@ -136,7 +136,7 @@
     const isDark =
       theme === "dark" ||
       (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches);
-    if (themeBtn) themeBtn.textContent = isDark ? "☀️" : "🌙";
+    if (themeBtn) themeBtn.textContent = isDark ? "Light" : "Dark";
   }
 
   function toggleTheme() {
@@ -156,7 +156,7 @@
       .map(
         (e) => `
         <div class="r-item">
-          <div class="r-item-head"><strong>${esc(e.role)} · ${esc(e.org)}</strong>
+          <div class="r-item-head"><strong>${esc(e.role)}, ${esc(e.org)}</strong>
             <span class="r-item-when">${esc(e.when)}</span></div>
           <ul>${e.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>
         </div>`
@@ -166,8 +166,8 @@
       .map(
         (p) => `
         <div class="r-item">
-          <div class="r-item-head"><strong>${p.icon} ${esc(p.name)}</strong>
-            <a class="r-item-when" href="${p.url}" target="_blank" rel="noopener">repo ↗</a></div>
+          <div class="r-item-head"><strong>${esc(p.name)}</strong>
+            <a class="r-item-when" href="${p.url}" target="_blank" rel="noopener">repo &#8599;</a></div>
           <div>${esc(p.blurb)}</div>
           ${pills(p.stack)}
         </div>`
@@ -182,7 +182,7 @@
         <img class="r-photo" src="assets/rohan-photo.jpg" alt="Rohan Pant" onerror="this.style.display='none'">
         <div class="r-head-text">
           <h1>${esc(ROHAN.name)}</h1>
-          <div class="r-sub">${esc(ROHAN.title)} — ${esc(ROHAN.tagline)}</div>
+          <div class="r-sub">${esc(ROHAN.title)}. ${esc(ROHAN.tagline)}</div>
           <div class="r-links">
             <a href="mailto:${c.email}">${esc(c.email)}</a>
             <a href="${c.linkedin}" target="_blank" rel="noopener">LinkedIn</a>
@@ -199,8 +199,8 @@
         ${ROHAN.education
           .map(
             (ed) => `<div class="r-item"><div class="r-item-head">
-            <strong>${esc(ed.degree)} · ${esc(ed.school)}</strong>
-            <span class="r-item-when">${esc(ed.when)}${ed.detail ? " · " + esc(ed.detail) : ""}</span></div></div>`
+            <strong>${esc(ed.degree)}, ${esc(ed.school)}</strong>
+            <span class="r-item-when">${esc(ed.when)}${ed.detail ? ", " + esc(ed.detail) : ""}</span></div></div>`
           )
           .join("")}
       </div>

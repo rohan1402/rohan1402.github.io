@@ -3,33 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ask Rohan — Rohan Pant · AI / ML Engineer</title>
-  <meta name="description" content="Chat with an AI assistant about Rohan Pant — AI/ML Engineer building agent systems, RAG pipelines, and LLM-eval frameworks. Open to AI/ML/SWE internships." />
-  <meta property="og:title" content="Ask Rohan — Rohan Pant" />
+  <title>Ask Rohan - Rohan Pant, AI / ML Engineer</title>
+  <meta name="description" content="Chat with an AI assistant about Rohan Pant, an AI / ML Engineer building agentic AI systems, RAG pipelines, and LLM-integrated backends. Open to AI, ML, and SWE internships." />
+  <meta property="og:title" content="Ask Rohan - Rohan Pant" />
   <meta property="og:description" content="Chat with an AI version of Rohan Pant: projects, experience, skills, and contact." />
   <meta property="og:type" content="website" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-  <link rel="stylesheet" href="styles.css?v=3" />
+  <link rel="stylesheet" href="styles.css?v=4" />
 </head>
 <body>
   <div id="app" class="app">
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar" aria-label="Navigation">
-      <div class="brand">✦ Ask&nbsp;Rohan</div>
+      <div class="brand">Ask&nbsp;Rohan</div>
       <button class="new-chat" data-action="new-chat">＋ New chat</button>
 
       <nav class="recent" aria-label="Topics">
         <div class="recent-label">EXPLORE</div>
-        <button class="recent-item" data-intent="about">👋 About Rohan</button>
-        <button class="recent-item" data-intent="projects">🚀 Projects</button>
-        <button class="recent-item" data-intent="experience">💼 Experience</button>
-        <button class="recent-item" data-intent="skills">🛠 Skills</button>
-        <button class="recent-item" data-intent="resume">📄 Resume</button>
-        <button class="recent-item" data-intent="contact">✉️ Contact</button>
+        <button class="recent-item" data-intent="about">About Rohan</button>
+        <button class="recent-item" data-intent="projects">Projects</button>
+        <button class="recent-item" data-intent="experience">Experience</button>
+        <button class="recent-item" data-intent="skills">Skills</button>
+        <button class="recent-item" data-intent="resume">Resume</button>
+        <button class="recent-item" data-intent="contact">Contact</button>
       </nav>
 
       <div class="sidebar-foot">
-        <button class="ghost-row" data-action="plain"><span>📄</span> Plain résumé view</button>
+        <button class="ghost-row" data-action="plain">Plain resume view</button>
         <div class="account"><span class="avatar sm"><img src="assets/rohan-avatar.jpg" alt="Rohan" onerror="this.parentNode.textContent='R'"></span> Rohan Pant</div>
       </div>
     </aside>
@@ -39,9 +39,9 @@
     <main class="main" id="chat-view">
       <header class="topbar">
         <button class="icon-btn only-mobile" data-action="open-sidebar" aria-label="Open menu">☰</button>
-        <div class="topbar-title">✦ Ask Rohan</div>
+        <div class="topbar-title">Ask Rohan</div>
         <div class="topbar-actions">
-          <button class="icon-btn" data-action="theme" aria-label="Toggle theme" id="theme-btn">🌙</button>
+          <button class="pill-btn" data-action="theme" aria-label="Toggle theme" id="theme-btn">Dark</button>
           <button class="pill-btn" data-action="plain">Plain view</button>
         </div>
       </header>
@@ -54,19 +54,19 @@
           <input id="input" type="text" placeholder="Ask anything about Rohan…" aria-label="Ask anything about Rohan" />
           <button type="submit" class="send" aria-label="Send">↑</button>
         </form>
-        <div class="composer-note">Scripted demo · built by Rohan Pant · <a href="https://github.com/rohan1402" target="_blank" rel="noopener">github.com/rohan1402</a></div>
+        <div class="composer-note">Scripted demo, built by Rohan Pant. <a href="https://github.com/rohan1402" target="_blank" rel="noopener">github.com/rohan1402</a></div>
       </div>
     </main>
 
-    <!-- Plain résumé view (hidden until toggled) -->
-    <section class="plain-view" id="plain-view" hidden aria-label="Résumé">
+    <!-- Plain resume view (hidden until toggled) -->
+    <section class="plain-view" id="plain-view" hidden aria-label="Resume">
       <button class="back-btn" data-action="chat">← Back to chat</button>
       <div id="plain-content"></div>
     </section>
   </div>
 
-  <script src="data.js?v=3"></script>
-  <script src="app.js?v=3"></script>
-  <script src="mascot.js?v=3"></script>
+  <script src="data.js?v=4"></script>
+  <script src="app.js?v=4"></script>
+  <script src="mascot.js?v=4"></script>
 </body>
 </html>

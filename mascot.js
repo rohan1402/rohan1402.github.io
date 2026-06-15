@@ -70,7 +70,10 @@
   restore.className = "mascot-restore";
   restore.setAttribute("aria-label", "Bring back the mascot");
   restore.title = "Bring back the mascot";
-  restore.textContent = "🐾";
+  restore.innerHTML =
+    '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">' +
+    '<circle cx="6.5" cy="10" r="1.9"/><circle cx="11" cy="8" r="2.1"/><circle cx="16" cy="9.5" r="1.9"/>' +
+    '<ellipse cx="11" cy="15.5" rx="3.6" ry="3"/></svg>';
   document.body.appendChild(host);
   document.body.appendChild(restore);
 

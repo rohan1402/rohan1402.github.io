@@ -8,38 +8,38 @@
 const ROHAN = {
   name: "Rohan Pant",
   title: "AI / ML Engineer",
-  tagline: "Building agentic AI systems, LLM-integrated backends & RAG pipelines.",
+  tagline: "Building agentic AI systems, LLM-integrated backends, and RAG pipelines.",
   location: "New Brunswick, NJ",
   summary:
-    "Software engineer specializing in agentic AI systems, LLM-integrated backends, and production Node.js/TypeScript services — building autonomous agents with Gemini and Claude (tool use, MCP-style integrations, RAG), plus ML automation and AWS-integrated systems.",
+    "Software engineer specializing in agentic AI systems, LLM-integrated backends, and production Node.js/TypeScript services. Builds autonomous agents with Gemini and Claude (tool use, MCP-style integrations, RAG), plus ML automation and AWS-integrated systems.",
   education: [
     {
       school: "Rutgers University",
       degree: "M.S. Data Science",
       detail: "CGPA 4.0",
-      when: "Sep 2025 – May 2027",
+      when: "Sep 2025 - May 2027",
       where: "New Brunswick, NJ",
     },
     {
       school: "University of Petroleum & Energy Studies",
       degree: "B.Tech, Computer Science & Engineering (Big Data)",
       detail: "",
-      when: "Aug 2018 – May 2022",
+      when: "Aug 2018 - May 2022",
       where: "India",
     },
   ],
   nowRoles: [
-    "Software Developer @ Rutgers University",
-    "M.S. Data Science @ Rutgers (May 2027)",
+    "Software Developer at Rutgers University",
+    "M.S. Data Science at Rutgers (May 2027)",
   ],
-  past: "Member of Technical Staff 2 @ Cohesity (2022–2025)",
+  past: "Member of Technical Staff 2 at Cohesity (2022-2025)",
   focus: [
     "Agentic AI, tool use & autonomous workflows",
     "RAG systems & LLM evaluation frameworks",
     "LLM-integrated backends (Node.js / TypeScript)",
   ],
   availability:
-    "Open to AI Engineer · ML Engineer · SWE internships (Summer/Fall 2026). F-1 OPT eligible.",
+    "Open to AI Engineer, ML Engineer, and SWE internships (Summer/Fall 2026). F-1 OPT eligible.",
   contact: {
     email: "rohan.pant14@gmail.com",
     altEmail: "rp1610@scarletmail.rutgers.edu",
@@ -50,37 +50,33 @@ const ROHAN = {
   projects: [
     {
       id: "patchwork",
-      icon: "🔧",
       name: "Patchwork",
       blurb:
-        "Autonomous agent that ingests a bug report, generates regression tests, runs them in an E2B sandbox, and opens a GitHub PR with passing tests — end-to-end, no human in the loop. Built at the Zero to Agent hackathon (Vercel × DeepMind).",
+        "Autonomous agent that ingests a bug report, generates regression tests, runs them in an E2B sandbox, and opens a GitHub PR with passing tests, end to end with no human in the loop. Built at the Zero to Agent hackathon (Vercel x DeepMind).",
       stack: ["Gemini", "E2B Sandbox", "GitHub API", "Next.js", "Tool Use"],
       url: "https://github.com/rohan1402/patchwork",
     },
     {
       id: "agentically",
-      icon: "🏥",
       name: "Agentically",
       blurb:
-        "AI compliance intelligence — healthcare staff search accreditation standards in plain English and get precise, cited answers without digging through PDFs.",
+        "AI compliance intelligence that lets healthcare staff search accreditation standards in plain English and get precise, cited answers without digging through PDFs.",
       stack: ["Claude Sonnet", "MongoDB Atlas", "Voyage AI", "Next.js", "Vercel"],
       url: "https://github.com/rohan1402/agentically",
     },
     {
       id: "llm",
-      icon: "📊",
       name: "Rutgers LLM Benchmarking",
       blurb:
-        "Local LLM evaluation pipeline — 4 GGUF Q4_K_M models, a custom RAG harness, and Groq-as-judge scoring. Built at Rutgers.",
+        "Local LLM evaluation pipeline running 4 GGUF Q4_K_M models through a custom RAG harness, with Groq-as-judge scoring. Built at Rutgers.",
       stack: ["llama-cpp-python", "LangChain", "Groq", "Python"],
       url: "https://github.com/rohan1402/llm-playground",
     },
     {
       id: "f1",
-      icon: "🏎️",
       name: "F1 Race Rewind",
       blurb:
-        "Interactive what-if race simulator — change pit-stop laps and watch downstream position changes in an animated lap-by-lap replay.",
+        "Interactive what-if race simulator that lets you change pit-stop laps and watch downstream position changes in an animated lap-by-lap replay.",
       stack: ["Python", "Streamlit", "FastF1", "Pandas"],
       url: "https://github.com/rohan1402/f1-race-simulator",
     },
@@ -88,20 +84,20 @@ const ROHAN = {
   experience: [
     {
       role: "Software Developer",
-      org: "Rutgers University — New Brunswick",
-      when: "Jan 2026 — Present",
+      org: "Rutgers University, New Brunswick",
+      when: "Jan 2026 - Present",
       points: [
         "Built an agentic AI chatbot from scratch (Node.js, TypeScript, Express, React), integrating LLM APIs with tool use and retrieval to deliver context-aware academic content across departments.",
-        "Designed a modular LLM evaluation framework supporting 4+ models with structured logging, latency tracking, and token-usage metrics — for benchmarking RAG quality and instruction-following.",
+        "Designed a modular LLM evaluation framework supporting 4+ models with structured logging, latency tracking, and token-usage metrics for benchmarking RAG quality and instruction-following.",
         "Implemented RAG to ground responses in structured academic content, enabling automated MCQ, programming, and essay-question generation mapped to learning objectives.",
       ],
     },
     {
       role: "Member of Technical Staff 2",
       org: "Cohesity",
-      when: "Jul 2022 — Jul 2025",
+      when: "Jul 2022 - Jul 2025",
       points: [
-        "Engineered a production Auto-Triage system (Python + ML) classifying defects across Product, Automation, and Environment — cutting debugging turnaround by 37%.",
+        "Engineered a production Auto-Triage system (Python and ML) classifying defects across Product, Automation, and Environment, cutting debugging turnaround by 37%.",
         "Built backend workflows processing 150k+ log events with NLP-based pattern detection for faster root-cause analysis across distributed systems.",
         "Owned a full Jenkins CI/CD pipeline and a Grafana monitoring dashboard, reducing manual QA effort by 20%.",
       ],
@@ -109,9 +105,9 @@ const ROHAN = {
     {
       role: "Data Science Intern",
       org: "Alpha AI",
-      when: "Jun 2021 — Jul 2021",
+      when: "Jun 2021 - Jul 2021",
       points: [
-        "Built Facial Expression and Speech Emotion Recognition pipelines (Keras, 27k 48×48 grayscale images).",
+        "Built Facial Expression and Speech Emotion Recognition pipelines (Keras, 27k 48x48 grayscale images).",
         "Used OpenCV for face detection and emotion prediction, reaching ~73% accuracy.",
       ],
     },
@@ -150,7 +146,7 @@ const pills = (arr) =>
 
 const projectCard = (p) => `
   <a class="card" href="${p.url}" target="_blank" rel="noopener">
-    <div class="card-title">${p.icon} ${esc(p.name)} <span class="card-link">↗</span></div>
+    <div class="card-title">${esc(p.name)} <span class="card-link">&#8599;</span></div>
     <div class="card-blurb">${esc(p.blurb)}</div>
     ${pills(p.stack)}
   </a>`;
@@ -165,9 +161,9 @@ const INTENTS = [
     keywords: ["about", "who", "yourself", "bio", "summary", "intro", "background"],
     answer: () => `
       <img class="about-photo" src="assets/rohan-photo.jpg" alt="Rohan Pant" onerror="this.style.display='none'">
-      <p><strong>${esc(ROHAN.name)}</strong> is an <strong>${esc(ROHAN.title)}</strong> ${esc(ROHAN.tagline)}</p>
+      <p><strong>${esc(ROHAN.name)}</strong> is an <strong>${esc(ROHAN.title)}</strong> who builds agentic AI systems, LLM-integrated backends, and RAG pipelines.</p>
       <p>He's currently a <strong>${esc(ROHAN.nowRoles[0])}</strong> while finishing his
-      <strong>${esc(ROHAN.education[0].degree)} @ ${esc(ROHAN.education[0].school)}</strong>
+      <strong>${esc(ROHAN.education[0].degree)} at ${esc(ROHAN.education[0].school)}</strong>
       (${esc(ROHAN.education[0].when)}). Before grad school he spent
       <strong>3 years at Cohesity as a Member of Technical Staff 2</strong>.</p>
       <p>What he loves building:</p>
@@ -179,7 +175,7 @@ const INTENTS = [
     label: "Projects",
     keywords: ["project", "projects", "built", "build", "work", "portfolio", "shipped", "made"],
     answer: () => `
-      <p>Here's what Rohan has shipped recently — tap any card to open the repo:</p>
+      <p>Here's what Rohan has shipped recently. Tap any card to open the repo:</p>
       <div class="cards">${ROHAN.projects.map(projectCard).join("")}</div>`,
     followups: ["patchwork", "agentically", "skills"],
   },
@@ -188,8 +184,8 @@ const INTENTS = [
     label: "Patchwork",
     keywords: ["patchwork", "hackathon", "deepmind", "regression", "github app"],
     answer: () => `<div class="cards">${projectCard(ROHAN.projects[0])}</div>
-      <p>It was built <strong>solo</strong> at the Zero to Agent hackathon (Vercel × Google DeepMind) —
-      an end-to-end agent: read a bug report, synthesize a failing regression test, and open a PR.</p>`,
+      <p>It was built <strong>solo</strong> at the Zero to Agent hackathon (Vercel x Google DeepMind).
+      It's an end-to-end agent: it reads a bug report, synthesizes a failing regression test, and opens a PR.</p>`,
     followups: ["agentically", "projects", "contact"],
   },
   {
@@ -197,7 +193,7 @@ const INTENTS = [
     label: "Agentically",
     keywords: ["agentically", "compliance", "healthcare", "accreditation", "rag agent", "cited"],
     answer: () => `<div class="cards">${projectCard(ROHAN.projects[1])}</div>
-      <p>A real RAG system with cited answers — built on Claude with MongoDB Atlas vector search and
+      <p>A real RAG system with cited answers, built on Claude with MongoDB Atlas vector search and
       Voyage AI embeddings, so compliance staff stop hunting through accreditation PDFs.</p>`,
     followups: ["patchwork", "llm", "skills"],
   },
@@ -206,7 +202,7 @@ const INTENTS = [
     label: "LLM Benchmarking",
     keywords: ["llm", "benchmark", "benchmarking", "eval", "evaluation", "rag", "playground", "groq", "gguf"],
     answer: () => `<div class="cards">${projectCard(ROHAN.projects[2])}</div>
-      <p>Rohan built this at Rutgers — a local evaluation pipeline running 4 quantized
+      <p>Rohan built this at Rutgers. It's a local evaluation pipeline running 4 quantized
       GGUF models through a custom RAG harness, with Groq-as-judge scoring.</p>`,
     followups: ["projects", "skills", "experience"],
   },
@@ -229,7 +225,7 @@ const INTENTS = [
         .map(
           (e) => `
         <div class="xp">
-          <div class="xp-head"><strong>${esc(e.role)}</strong> · ${esc(e.org)}
+          <div class="xp-head"><strong>${esc(e.role)}</strong>, ${esc(e.org)}
             <span class="xp-when">${esc(e.when)}</span></div>
           <ul>${e.points.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>
         </div>`
@@ -244,8 +240,8 @@ const INTENTS = [
     answer: () => `
       ${ROHAN.education
         .map(
-          (ed) => `<p><strong>${esc(ed.degree)}</strong> — ${esc(ed.school)}<br/>
-          ${esc(ed.when)}${ed.detail ? " · " + esc(ed.detail) : ""}</p>`
+          (ed) => `<p><strong>${esc(ed.degree)}</strong>, ${esc(ed.school)}<br/>
+          ${esc(ed.when)}${ed.detail ? ", " + esc(ed.detail) : ""}</p>`
         )
         .join("")}
       <p>Alongside the master's he works as a Software Developer at Rutgers, so the coursework
@@ -268,10 +264,10 @@ const INTENTS = [
     label: "Resume",
     keywords: ["resume", "cv", "download", "pdf"],
     answer: () => `
-      <p>You can grab the full résumé two ways:</p>
+      <p>You can grab the full resume two ways:</p>
       <p>
-        <a class="btn" href="assets/Rohan_Pant_Resume.pdf" target="_blank" rel="noopener">⬇ Download PDF</a>
-        <button class="btn btn-ghost" data-action="plain">📄 View as plain résumé</button>
+        <a class="btn" href="assets/Rohan_Pant_Resume.pdf" target="_blank" rel="noopener">Download PDF</a>
+        <button class="btn btn-ghost" data-action="plain">View as plain resume</button>
       </p>`,
     followups: ["experience", "skills", "contact"],
   },
@@ -280,7 +276,7 @@ const INTENTS = [
     label: "Availability",
     keywords: ["available", "availability", "open to", "looking", "internship", "intern", "opt", "visa", "sponsor", "hiring", "hire", "roles", "opportunity"],
     answer: () => `
-      <p><strong>Yes — actively looking.</strong></p>
+      <p><strong>Yes, actively looking.</strong></p>
       <p>${esc(ROHAN.availability)}</p>
       <p>If you're building with agents, LLMs, or developer tooling, he'd love to talk.</p>`,
     followups: ["contact", "projects", "resume"],
@@ -292,10 +288,10 @@ const INTENTS = [
     answer: () => `
       <p>Easiest ways to reach Rohan:</p>
       <ul class="contact-list">
-        <li>📧 <a href="mailto:${ROHAN.contact.email}">${esc(ROHAN.contact.email)}</a></li>
-        <li>💼 <a href="${ROHAN.contact.linkedin}" target="_blank" rel="noopener">linkedin.com/in/rohan1402</a></li>
-        <li>🐙 <a href="${ROHAN.contact.github}" target="_blank" rel="noopener">github.com/rohan1402</a></li>
-        <li>📱 ${esc(ROHAN.contact.phone)}</li>
+        <li>Email: <a href="mailto:${ROHAN.contact.email}">${esc(ROHAN.contact.email)}</a></li>
+        <li>LinkedIn: <a href="${ROHAN.contact.linkedin}" target="_blank" rel="noopener">linkedin.com/in/rohan1402</a></li>
+        <li>GitHub: <a href="${ROHAN.contact.github}" target="_blank" rel="noopener">github.com/rohan1402</a></li>
+        <li>Phone: ${esc(ROHAN.contact.phone)}</li>
       </ul>`,
     followups: ["availability", "resume", "projects"],
   },
@@ -304,17 +300,17 @@ const INTENTS = [
     label: "Are you really AI?",
     keywords: ["are you ai", "are you real", "real ai", "human", "bot", "robot", "chatgpt", "claude", "who are you really", "fake", "actually ai"],
     answer: () => `
-      <p>Caught me 🙂 — right now I'm a lightweight scripted assistant (no model behind me yet), so I'm
+      <p>Caught me. Right now I'm a lightweight scripted assistant (no model behind me yet), so I'm
       fast, free, and work even offline.</p>
-      <p>Rohan built me this way on purpose — but he also builds the real thing: production RAG agents
+      <p>Rohan built me this way on purpose, but he also builds the real thing: production RAG agents
       on Claude and Gemini. Ask him to wire a live model behind this and he absolutely can.</p>`,
     followups: ["projects", "skills", "contact"],
   },
 ];
 
 const GREETING = `
-  <p>Hi! I'm an AI assistant trained on everything about <strong>${esc(ROHAN.name)}</strong> —
-  an ${esc(ROHAN.title.toLowerCase())} who ${esc(ROHAN.tagline.toLowerCase())}</p>
-  <p>Ask me anything, or tap a suggestion below. 👇</p>`;
+  <p>Hi, I'm an AI assistant trained on everything about <strong>${esc(ROHAN.name)}</strong>,
+  an AI / ML Engineer building agentic AI systems, LLM-integrated backends, and RAG pipelines.</p>
+  <p>Ask me anything, or tap a suggestion below.</p>`;
 
 const INITIAL_CHIPS = ["about", "projects", "skills", "contact"];
