@@ -95,6 +95,7 @@
   function triggerIntent(id) {
     const intent = intentById(id);
     if (!intent) return;
+    if (window.askRohanTrack) window.askRohanTrack.topic(id);
     respond(PROMPTS[id] || intent.label, intent);
   }
 
@@ -260,6 +261,7 @@
     const text = input.value.trim();
     if (!text) return;
     input.value = "";
+    if (window.askRohanTrack) window.askRohanTrack.question(text);
     respond(text, matchIntent(text));
   });
 
