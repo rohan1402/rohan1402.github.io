@@ -267,7 +267,7 @@ const INTENTS = [
       <p>You can grab the full resume two ways:</p>
       <p>
         <a class="btn" href="assets/Rohan_Pant_Resume.pdf" target="_blank" rel="noopener">Download PDF</a>
-        <button class="btn btn-ghost" data-action="plain">View as plain resume</button>
+        <button class="btn btn-ghost" data-action="plain">View full resume</button>
       </p>`,
     followups: ["experience", "skills", "contact"],
   },

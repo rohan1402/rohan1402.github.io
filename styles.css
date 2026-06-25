@@ -129,13 +129,18 @@ a:hover { text-decoration: underline; }
 .recent-item:hover { background: var(--bubble-hover); }
 
 .sidebar-foot { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
-.ghost-row {
+.side-resume {
   display: flex; align-items: center; gap: 8px;
-  background: transparent; border: none; color: var(--text-muted);
-  font-family: inherit; font-size: 13px; cursor: pointer;
-  padding: 8px 10px; border-radius: var(--radius-sm); text-align: left;
+  width: 100%; text-align: left;
+  background: transparent;
+  border: 0.5px solid var(--border-strong);
+  color: var(--text);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  font-family: inherit; font-size: 13.5px; cursor: pointer;
 }
-.ghost-row:hover { background: var(--bubble-hover); color: var(--text); }
+.side-resume:hover { background: var(--bubble-hover); }
+.side-resume svg { flex: none; color: var(--text-muted); }
 .account {
   display: flex; align-items: center; gap: 8px;
   font-size: 13.5px; padding: 8px 10px;
