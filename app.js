@@ -105,7 +105,7 @@
     const finish = () => {
       if (called) return;
       called = true;
-      document.body.classList.remove("welcome");
+      document.body.classList.remove("welcome-mode");
       messages.innerHTML = "";
       if (done) done();
     };
@@ -146,7 +146,7 @@
 
   function respond(userText, intent) {
     // From the hero: animate it away first, then start the conversation.
-    if (document.body.classList.contains("welcome")) {
+    if (document.body.classList.contains("welcome-mode")) {
       exitWelcome(() => beginExchange(userText, intent));
     } else {
       beginExchange(userText, intent);
@@ -203,7 +203,7 @@
   }
 
   function newChat() {
-    document.body.classList.add("welcome");
+    document.body.classList.add("welcome-mode");
     renderWelcome();
     setChips(INITIAL_CHIPS);
     input.focus();

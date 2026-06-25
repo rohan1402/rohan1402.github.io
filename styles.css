@@ -329,7 +329,7 @@ a:hover { text-decoration: underline; }
 .welcome-q-go { color: var(--text-faint); font-size: 20px; line-height: 1; }
 /* In the hero state the cards already are the suggestions, so hide the
    duplicate chip row above the composer. */
-body.welcome .chips { display: none; }
+body.welcome-mode .chips { display: none; }
 
 /* ----------------------------- Plain view -------------------------------- */
 .plain-view {
