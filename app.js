@@ -80,16 +80,31 @@
         addBot(intent.answer());
         setChips(intent.followups);
       } else {
-        addBot(fallbackHTML());
+        addBot(fallbackHTML(userText));
         setChips(["about", "projects", "skills", "contact"]);
       }
     }, delay);
   }
 
-  function fallbackHTML() {
-    return `<p>I'm not totally sure what you meant, but I know plenty about Rohan. Try one of these:</p>
-      <p>his <strong>projects</strong>, <strong>experience</strong>, <strong>skills</strong>,
-      <strong>education</strong>, <strong>availability</strong>, or how to <strong>contact</strong> him.</p>`;
+  function fallbackHTML(question) {
+    const c = ROHAN.contact;
+    // Pre-fill an email with the visitor's actual question so reaching Rohan
+    // is a single click. Falls back to a plain greeting if there's no text.
+    const q = String(question || "").trim();
+    const subject = encodeURIComponent("Question from your website");
+    const body = encodeURIComponent(
+      q
+        ? `Hi Rohan,\n\nI was on your site and wanted to ask:\n"${q}"\n\n`
+        : "Hi Rohan,\n\nI had a question for you:\n\n"
+    );
+    const mailto = `mailto:${c.email}?subject=${subject}&body=${body}`;
+    return `<p>That's a good question, and one I don't have scripted yet. I'm a lightweight assistant, so I can't answer everything on my own.</p>
+      <p><strong>The fastest way to get a real answer is to ask Rohan directly.</strong> He usually replies quickly.</p>
+      <p>
+        <a class="btn" href="${mailto}">Email Rohan</a>
+        <a class="btn btn-ghost" href="${esc(c.linkedin)}" target="_blank" rel="noopener">Message on LinkedIn</a>
+      </p>
+      <p style="color:var(--text-muted)">Or explore what I do know: his <strong>projects</strong>, <strong>experience</strong>, <strong>skills</strong>, <strong>education</strong>, <strong>availability</strong>, or how to <strong>contact</strong> him.</p>`;
   }
 
   function triggerIntent(id) {
