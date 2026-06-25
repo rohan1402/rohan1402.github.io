@@ -192,6 +192,7 @@ a:hover { text-decoration: underline; }
 .msg.bot .avatar { margin-top: 2px; }
 .msg .text { font-size: 15px; }
 .msg.bot .text { animation: rise 0.32s ease both; }
+.msg.user .text { animation: rise 0.3s ease both; }
 @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 .text p { margin: 0 0 10px; }

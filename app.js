@@ -97,17 +97,38 @@
       </div>`;
   }
 
-  // Leave the hero state (if active) so the conversation can begin.
-  function exitWelcome() {
-    if (document.body.classList.contains("welcome")) {
+  // Smoothly slide the hero up and out, then run `done`. Falls back to an
+  // instant swap when reduced motion is requested or the hero isn't present.
+  function exitWelcome(done) {
+    const hero = messages.querySelector(".welcome");
+    let called = false;
+    const finish = () => {
+      if (called) return;
+      called = true;
       document.body.classList.remove("welcome");
       messages.innerHTML = "";
-    }
+      if (done) done();
+    };
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Drive the fade with the Web Animations API. A CSS class + transition is
+    // unreliable here: the click's own style invalidation gets batched into a
+    // single recalc, so the transition never arms. animate() is deterministic.
+    if (!hero || reduce || typeof hero.animate !== "function") { finish(); return; }
+    const anim = hero.animate(
+      [
+        { opacity: 1, transform: "translateY(0)" },
+        { opacity: 0, transform: "translateY(-22px)" },
+      ],
+      { duration: 280, easing: "ease", fill: "forwards" }
+    );
+    anim.onfinish = finish;
+    anim.oncancel = finish;
+    setTimeout(finish, 360); // safety net if the animation never resolves
   }
 
   /* --------------------------- Conversation ------------------------------ */
-  function respond(userText, intent) {
-    exitWelcome();
+  // The actual user -> bot exchange, with no welcome-state handling.
+  function beginExchange(userText, intent) {
     addUser(userText);
     const typing = showTyping();
     const delay = 480 + Math.min(700, userText.length * 14);
@@ -121,6 +142,15 @@
         setChips(["about", "projects", "skills", "contact"]);
       }
     }, delay);
+  }
+
+  function respond(userText, intent) {
+    // From the hero: animate it away first, then start the conversation.
+    if (document.body.classList.contains("welcome")) {
+      exitWelcome(() => beginExchange(userText, intent));
+    } else {
+      beginExchange(userText, intent);
+    }
   }
 
   function fallbackHTML(question) {
