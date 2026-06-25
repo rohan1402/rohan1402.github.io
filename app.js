@@ -69,8 +69,45 @@
       .join("");
   }
 
+  /* ----------------------------- Welcome --------------------------------- */
+  // Centered hero shown on a fresh chat: avatar, tagline, availability badge,
+  // and a few big suggested questions. Collapses into the normal chat the
+  // moment the visitor asks something or taps a suggestion.
+  const WELCOME_QS = [
+    { id: "about", q: "Who is Rohan?" },
+    { id: "projects", q: "What projects is he most proud of?" },
+    { id: "skills", q: "What's his tech stack?" },
+    { id: "availability", q: "Is he open to work?" },
+  ];
+
+  function renderWelcome() {
+    const cards = WELCOME_QS.map(
+      (s) =>
+        `<button class="welcome-q" data-intent="${s.id}">
+           <span>${esc(s.q)}</span><span class="welcome-q-go" aria-hidden="true">&rsaquo;</span>
+         </button>`
+    ).join("");
+    messages.innerHTML = `
+      <div class="welcome">
+        <span class="welcome-avatar"><img src="assets/rohan-avatar.jpg" alt="Rohan Pant" onerror="this.parentNode.textContent='R'"></span>
+        <h1 class="welcome-title">Hi, I'm Rohan's AI twin</h1>
+        <p class="welcome-sub">Ask me anything about his projects, experience, and skills.</p>
+        <div class="welcome-badge"><span class="welcome-dot"></span> Available for internships</div>
+        <div class="welcome-qs">${cards}</div>
+      </div>`;
+  }
+
+  // Leave the hero state (if active) so the conversation can begin.
+  function exitWelcome() {
+    if (document.body.classList.contains("welcome")) {
+      document.body.classList.remove("welcome");
+      messages.innerHTML = "";
+    }
+  }
+
   /* --------------------------- Conversation ------------------------------ */
   function respond(userText, intent) {
+    exitWelcome();
     addUser(userText);
     const typing = showTyping();
     const delay = 480 + Math.min(700, userText.length * 14);
@@ -136,8 +173,8 @@
   }
 
   function newChat() {
-    messages.innerHTML = "";
-    addBot(GREETING);
+    document.body.classList.add("welcome");
+    renderWelcome();
     setChips(INITIAL_CHIPS);
     input.focus();
   }
