@@ -181,7 +181,12 @@ a:hover { text-decoration: underline; }
 }
 
 /* -------------------------------- Main ----------------------------------- */
-.main { flex: 1; display: flex; flex-direction: column; min-width: 0; background: var(--bg); }
+.main {
+  flex: 1; display: flex; flex-direction: column; min-width: 0;
+  /* Semi-transparent so the fluid background shows through the whole chat, not
+     just the hero. On devices without the fluid this resolves to the solid bg. */
+  background: color-mix(in srgb, var(--bg) 64%, transparent);
+}
 .topbar {
   display: flex; align-items: center; gap: 10px;
   padding: 10px 16px;
@@ -403,12 +408,6 @@ a:hover { text-decoration: underline; }
 .fluid-canvas {
   position: fixed; inset: 0; width: 100%; height: 100%;
   z-index: 0; pointer-events: none;
-}
-/* In the landing state, let the fluid show through the chat column. A
-   semi-transparent (not fully clear) main keeps the greeting readable over the
-   glowing trails. */
-.app.landing .main {
-  background: color-mix(in srgb, var(--bg) 62%, transparent);
 }
 
 /* ------------------------------ Landing hero ----------------------------- */

@@ -297,7 +297,7 @@ export function ChatApp() {
   /* ----------------------------- Render -------------------------------- */
   return (
     <>
-      {enableFluid && landing && <FluidCursor />}
+      {enableFluid && <FluidCursor />}
       <div className={appClass}>
       <aside className="sidebar" aria-label="Navigation">
         <div className="brand">{"Ask Rohan"}</div>
