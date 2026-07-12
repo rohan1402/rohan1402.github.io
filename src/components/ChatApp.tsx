@@ -28,6 +28,7 @@ import { BotAvatar } from "./BotAvatar";
 import { Greeting, Fallback, IntentAnswer } from "./Answers";
 import { ToolRenderer } from "./ToolRenderer";
 import { QuestionsDrawer } from "./QuestionsDrawer";
+import { HeroLanding } from "./HeroLanding";
 
 // Lazy, client-only: the fluid sim touches window/document at import.
 const FluidCursor = dynamic(() => import("./FluidCursor"), { ssr: false });
@@ -42,13 +43,6 @@ const SIDEBAR_TOPICS: IntentId[] = [
 ];
 
 type ScriptedKind = "greeting" | "fallback" | "intent";
-
-// A stable initial greeting so it server-renders and hydrates without a flash.
-const GREETING_MESSAGE = {
-  id: "greeting",
-  role: "assistant",
-  parts: [{ type: "data-scripted", data: { kind: "greeting" as ScriptedKind } }],
-} as unknown as UIMessage;
 
 function userMessage(text: string): UIMessage {
   return {
@@ -141,8 +135,10 @@ export function ChatApp() {
     []
   );
 
+  // Start empty: the landing hero stands in for the greeting until the first
+  // question, then the transcript takes over.
   const { messages, sendMessage, setMessages, status, error, clearError } =
-    useChat({ messages: [GREETING_MESSAGE], transport });
+    useChat({ transport });
 
   const [chips, setChips] = useState<IntentId[]>(INITIAL_CHIPS);
   const [input, setInput] = useState("");
@@ -235,15 +231,17 @@ export function ChatApp() {
   }, []);
 
   /* --------------------------- Conversation ---------------------------- */
-  // Zero-API scripted answer for a chip or sidebar topic.
-  function triggerIntent(id: IntentId) {
+  // Zero-API scripted answer for a chip, sidebar topic, or hero card.
+  // displayText overrides the echoed user message (used by the hero cards).
+  function triggerIntent(id: IntentId, displayText?: string) {
     const intent = INTENT_BY_ID[id];
     if (!intent) return;
+    const shown = displayText ?? intent.prompt;
     track("chip-click", id);
     closeSidebar();
-    setMessages((prev) => [...prev, userMessage(intent.prompt)]);
+    setMessages((prev) => [...prev, userMessage(shown)]);
     setScriptedTyping(true);
-    const delay = 480 + Math.min(700, intent.prompt.length * 14);
+    const delay = 480 + Math.min(700, shown.length * 14);
     if (scriptedTimer.current) clearTimeout(scriptedTimer.current);
     scriptedTimer.current = setTimeout(() => {
       setScriptedTyping(false);
@@ -276,7 +274,7 @@ export function ChatApp() {
     setScriptedTyping(false);
     setScriptedMode(false);
     if (error) clearError();
-    setMessages([GREETING_MESSAGE]);
+    setMessages([]);
     setChips(INITIAL_CHIPS);
     closeSidebar();
     inputRef.current?.focus();
@@ -286,9 +284,9 @@ export function ChatApp() {
   const closeSidebar = () => setSidebarOpen(false);
 
   const showTyping = scriptedTyping || status === "submitted";
-  // The hero state: only the greeting is shown and nothing is in flight.
+  // The hero state: empty transcript, nothing in flight.
   const landing =
-    messages.length <= 1 &&
+    messages.length === 0 &&
     !scriptedTyping &&
     status !== "submitted" &&
     status !== "streaming";
@@ -359,6 +357,7 @@ export function ChatApp() {
         </header>
 
         <div className="messages" ref={messagesRef} aria-live="polite">
+          {landing && <HeroLanding onPick={triggerIntent} />}
           {messages.map((m) =>
             m.role === "user" ? (
               <div className="msg user" key={m.id}>
@@ -393,20 +392,24 @@ export function ChatApp() {
               Running in scripted mode right now.
             </div>
           )}
-          <div className="composer-actions">
-            <QuestionsDrawer onPick={submitText} />
-          </div>
-          <div className="chips">
-            {chips.map((id) => (
-              <button
-                key={id}
-                className="chip"
-                onClick={() => triggerIntent(id)}
-              >
-                {INTENT_BY_ID[id].prompt}
-              </button>
-            ))}
-          </div>
+          {!landing && (
+            <div className="composer-actions">
+              <QuestionsDrawer onPick={submitText} />
+            </div>
+          )}
+          {!landing && (
+            <div className="chips">
+              {chips.map((id) => (
+                <button
+                  key={id}
+                  className="chip"
+                  onClick={() => triggerIntent(id)}
+                >
+                  {INTENT_BY_ID[id].prompt}
+                </button>
+              ))}
+            </div>
+          )}
           <form className="input-row" autoComplete="off" onSubmit={onSubmit}>
             <input
               ref={inputRef}
