@@ -13,6 +13,7 @@ import type { IntentId } from "@/lib/scripted";
 import { track } from "@/lib/analytics";
 import { Pills } from "./Pills";
 import { ProjectCard } from "./ProjectCard";
+import { ProjectsCarousel } from "./ProjectsCarousel";
 
 export function Greeting() {
   return (
@@ -81,16 +82,8 @@ function About() {
 function Projects() {
   return (
     <>
-      <p>Here&apos;s what Rohan has shipped recently. Tap any card to open the repo:</p>
-      <div className="cards">
-        {ROHAN.projects.map((p) => (
-          <ProjectCard
-            key={p.id}
-            project={p}
-            onOutbound={() => track("outbound-click", p.id)}
-          />
-        ))}
-      </div>
+      <p>Here&apos;s what Rohan has shipped recently. Tap a card to expand it:</p>
+      <ProjectsCarousel projects={ROHAN.projects} />
     </>
   );
 }

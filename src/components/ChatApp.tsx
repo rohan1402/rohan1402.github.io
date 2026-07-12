@@ -13,6 +13,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, generateId, type UIMessage } from "ai";
 import {
@@ -26,6 +27,10 @@ import { track } from "@/lib/analytics";
 import { BotAvatar } from "./BotAvatar";
 import { Greeting, Fallback, IntentAnswer } from "./Answers";
 import { ToolRenderer } from "./ToolRenderer";
+import { QuestionsDrawer } from "./QuestionsDrawer";
+
+// Lazy, client-only: the fluid sim touches window/document at import.
+const FluidCursor = dynamic(() => import("./FluidCursor"), { ssr: false });
 
 const SIDEBAR_TOPICS: IntentId[] = [
   "about",
@@ -145,6 +150,7 @@ export function ChatApp() {
   const [scriptedTyping, setScriptedTyping] = useState(false);
   const [scriptedMode, setScriptedMode] = useState(false);
   const [themeLabel, setThemeLabel] = useState("Dark");
+  const [enableFluid, setEnableFluid] = useState(false);
 
   const lastQueryRef = useRef<string>("");
   const scriptedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -161,6 +167,17 @@ export function ChatApp() {
     return () => {
       if (scriptedTimer.current) clearTimeout(scriptedTimer.current);
     };
+  }, []);
+
+  // Enable the fluid hero only on non-touch, non-reduced-motion devices, and
+  // lazy-mount it after first paint.
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const touch =
+      window.matchMedia("(pointer: coarse)").matches || "ontouchstart" in window;
+    if (reduced || touch) return;
+    const t = setTimeout(() => setEnableFluid(true), 400);
+    return () => clearTimeout(t);
   }, []);
 
   // Silent fallback: when the route errors, serve the scripted engine for the
@@ -235,17 +252,23 @@ export function ChatApp() {
     }, delay);
   }
 
-  // Typed question: ask the live model (falls back to scripted on error).
-  function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const text = input.trim().slice(0, 400);
+  // Ask the live model (falls back to scripted on error). Shared by the
+  // composer form and the questions drawer.
+  function submitText(raw: string) {
+    const text = raw.trim().slice(0, 400);
     if (!text) return;
-    setInput("");
     track("question-asked");
     lastQueryRef.current = text;
     setChips(INITIAL_CHIPS);
     if (error) clearError();
     sendMessage({ text });
+  }
+
+  function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!input.trim()) return;
+    submitText(input);
+    setInput("");
   }
 
   function newChat() {
@@ -263,10 +286,21 @@ export function ChatApp() {
   const closeSidebar = () => setSidebarOpen(false);
 
   const showTyping = scriptedTyping || status === "submitted";
+  // The hero state: only the greeting is shown and nothing is in flight.
+  const landing =
+    messages.length <= 1 &&
+    !scriptedTyping &&
+    status !== "submitted" &&
+    status !== "streaming";
+
+  const appClass =
+    "app" + (sidebarOpen ? " sidebar-open" : "") + (landing ? " landing" : "");
 
   /* ----------------------------- Render -------------------------------- */
   return (
-    <div className={sidebarOpen ? "app sidebar-open" : "app"}>
+    <>
+      {enableFluid && landing && <FluidCursor />}
+      <div className={appClass}>
       <aside className="sidebar" aria-label="Navigation">
         <div className="brand">{"Ask Rohan"}</div>
         <button className="new-chat" onClick={newChat}>
@@ -359,6 +393,9 @@ export function ChatApp() {
               Running in scripted mode right now.
             </div>
           )}
+          <div className="composer-actions">
+            <QuestionsDrawer onPick={submitText} />
+          </div>
           <div className="chips">
             {chips.map((id) => (
               <button
@@ -396,6 +433,7 @@ export function ChatApp() {
           </div>
         </div>
       </main>
-    </div>
+      </div>
+    </>
   );
 }

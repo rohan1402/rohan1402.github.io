@@ -14,9 +14,12 @@
     "@upstash/ratelimit": "^2.0.8",
     "@upstash/redis": "^1.38.0",
     "ai": "^7.0.22",
+    "motion": "^12.42.2",
     "next": "^15.5.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "vaul": "^1.1.2",
+    "webgl-fluid": "^0.4.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
