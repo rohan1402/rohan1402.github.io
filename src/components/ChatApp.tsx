@@ -1,25 +1,31 @@
 "use client";
 
 /**
- * ChatApp: the interactive shell (sidebar, chat, composer) wired to the
- * scripted engine. Ported from app.js. Rendered from a server page, so its
- * initial output (greeting + chips + sidebar + composer) is server-rendered
- * and meaningful without JS; interaction hydrates on the client.
+ * ChatApp (Phase 2): the interactive shell wired to the live model via useChat,
+ * with the scripted engine as a zero-cost fallback.
+ *
+ * - Typed questions call /api/chat and stream text plus tool-rendered cards.
+ * - The initial chips and sidebar topics render pre-baked scripted answers with
+ *   zero API calls.
+ * - If the route degrades (no key, rate limit, error) useChat surfaces an error
+ *   and we silently serve the scripted engine for that question.
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport, generateId, type UIMessage } from "ai";
 import {
   INTENT_BY_ID,
   INITIAL_CHIPS,
   FALLBACK_CHIPS,
   matchIntent,
-  type Intent,
   type IntentId,
 } from "@/lib/scripted";
 import { track } from "@/lib/analytics";
 import { BotAvatar } from "./BotAvatar";
 import { Greeting, Fallback, IntentAnswer } from "./Answers";
+import { ToolRenderer } from "./ToolRenderer";
 
 const SIDEBAR_TOPICS: IntentId[] = [
   "about",
@@ -30,40 +36,149 @@ const SIDEBAR_TOPICS: IntentId[] = [
   "contact",
 ];
 
-type Message =
-  | { id: number; role: "user"; text: string }
-  | { id: number; role: "bot"; content: "greeting" | "fallback" | "intent"; intentId?: IntentId };
+type ScriptedKind = "greeting" | "fallback" | "intent";
 
-// Omit that distributes over the union so each branch keeps its own fields.
-type DistributiveOmit<T, K extends PropertyKey> = T extends unknown ? Omit<T, K> : never;
+// A stable initial greeting so it server-renders and hydrates without a flash.
+const GREETING_MESSAGE = {
+  id: "greeting",
+  role: "assistant",
+  parts: [{ type: "data-scripted", data: { kind: "greeting" as ScriptedKind } }],
+} as unknown as UIMessage;
+
+function userMessage(text: string): UIMessage {
+  return {
+    id: generateId(),
+    role: "user",
+    parts: [{ type: "text", text }],
+  } as unknown as UIMessage;
+}
+
+function scriptedMessage(kind: ScriptedKind, intentId?: IntentId): UIMessage {
+  return {
+    id: generateId(),
+    role: "assistant",
+    parts: [{ type: "data-scripted", data: { kind, intentId } }],
+  } as unknown as UIMessage;
+}
+
+/** Render streamed model text as paragraphs. */
+function TextBlock({ text }: { text: string }) {
+  const paras = text.split(/\n{2,}/).filter((p) => p.trim().length > 0);
+  if (paras.length === 0) return null;
+  return (
+    <>
+      {paras.map((p, i) => (
+        <p key={i}>{p}</p>
+      ))}
+    </>
+  );
+}
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+function AssistantParts({ message }: { message: UIMessage }) {
+  const parts = (message.parts ?? []) as any[];
+  return (
+    <>
+      {parts.map((part, i) => {
+        const type: string = part.type;
+        if (type === "text") {
+          return <TextBlock key={i} text={part.text ?? ""} />;
+        }
+        if (type === "data-scripted") {
+          const d = part.data as { kind: ScriptedKind; intentId?: IntentId };
+          if (d.kind === "greeting") return <Greeting key={i} />;
+          if (d.kind === "fallback") return <Fallback key={i} />;
+          if (d.kind === "intent" && d.intentId)
+            return <IntentAnswer key={i} id={d.intentId} />;
+          return null;
+        }
+        if (type.startsWith("tool-")) {
+          const state: string = part.state;
+          if (state === "input-available" || state === "output-available") {
+            return (
+              <ToolRenderer key={i} toolName={type.slice(5)} input={part.input} />
+            );
+          }
+          return null;
+        }
+        return null;
+      })}
+    </>
+  );
+}
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
+function messageText(message: UIMessage): string {
+  return (message.parts ?? [])
+    .filter((p): p is { type: "text"; text: string } => p.type === "text")
+    .map((p) => p.text)
+    .join("");
+}
 
 export function ChatApp() {
-  const [messages, setMessages] = useState<Message[]>([
-    { id: 0, role: "bot", content: "greeting" },
-  ]);
+  const transport = useMemo(
+    () =>
+      new DefaultChatTransport({
+        api: "/api/chat",
+        // Send only real text turns (drop greeting/scripted/tool UI parts) and
+        // cap at the last 3 turns, matching the server-side slice.
+        prepareSendMessagesRequest: ({ messages }) => {
+          const cleaned = messages
+            .map((m) => ({
+              ...m,
+              parts: m.parts.filter((p) => p.type === "text"),
+            }))
+            .filter((m) => m.parts.length > 0)
+            .slice(-6);
+          return { body: { messages: cleaned } };
+        },
+      }),
+    []
+  );
+
+  const { messages, sendMessage, setMessages, status, error, clearError } =
+    useChat({ messages: [GREETING_MESSAGE], transport });
+
   const [chips, setChips] = useState<IntentId[]>(INITIAL_CHIPS);
-  const [typing, setTyping] = useState(false);
   const [input, setInput] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [scriptedTyping, setScriptedTyping] = useState(false);
   const [themeLabel, setThemeLabel] = useState("Dark");
 
-  const nextId = useRef(1);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastQueryRef = useRef<string>("");
+  const scriptedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const messagesRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Keep the transcript scrolled to the newest message.
+  // Keep the transcript pinned to the newest message.
   useEffect(() => {
     const el = messagesRef.current;
     if (el) el.scrollTop = el.scrollHeight;
-  }, [messages, typing]);
+  }, [messages, scriptedTyping, status]);
 
-  // Clear any pending typing timer on unmount.
   useEffect(() => {
     return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
+      if (scriptedTimer.current) clearTimeout(scriptedTimer.current);
     };
   }, []);
+
+  // Silent fallback: when the route errors, serve the scripted engine for the
+  // last question, then clear the error so the chat keeps working.
+  useEffect(() => {
+    if (!error) return;
+    const text = lastQueryRef.current;
+    const intent = text ? matchIntent(text) : null;
+    if (intent) {
+      setMessages((prev) => [...prev, scriptedMessage("intent", intent.id)]);
+      setChips(intent.followups);
+    } else {
+      setMessages((prev) => [...prev, scriptedMessage("fallback")]);
+      setChips(FALLBACK_CHIPS);
+      track("fallback-served");
+    }
+    clearError();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error]);
 
   /* ------------------------------ Theme -------------------------------- */
   function computeIsDark(theme: string | null) {
@@ -90,7 +205,6 @@ export function ChatApp() {
     }
     applyTheme(next);
   }
-  // Sync the toggle label to the theme the anti-FOUC script already applied.
   useEffect(() => {
     let saved: string | null = null;
     try {
@@ -102,50 +216,41 @@ export function ChatApp() {
   }, []);
 
   /* --------------------------- Conversation ---------------------------- */
-  function pushMessage(msg: DistributiveOmit<Message, "id">) {
-    setMessages((prev) => [...prev, { ...msg, id: nextId.current++ } as Message]);
-  }
-
-  function respond(userText: string, intent: Intent | null) {
-    pushMessage({ role: "user", text: userText });
-    setTyping(true);
-    const delay = 480 + Math.min(700, userText.length * 14);
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => {
-      setTyping(false);
-      if (intent) {
-        pushMessage({ role: "bot", content: "intent", intentId: intent.id });
-        setChips(intent.followups);
-      } else {
-        pushMessage({ role: "bot", content: "fallback" });
-        setChips(FALLBACK_CHIPS);
-        track("fallback-served");
-      }
-    }, delay);
-  }
-
+  // Zero-API scripted answer for a chip or sidebar topic.
   function triggerIntent(id: IntentId) {
     const intent = INTENT_BY_ID[id];
     if (!intent) return;
     track("chip-click", id);
-    respond(intent.prompt, intent);
     closeSidebar();
+    setMessages((prev) => [...prev, userMessage(intent.prompt)]);
+    setScriptedTyping(true);
+    const delay = 480 + Math.min(700, intent.prompt.length * 14);
+    if (scriptedTimer.current) clearTimeout(scriptedTimer.current);
+    scriptedTimer.current = setTimeout(() => {
+      setScriptedTyping(false);
+      setMessages((prev) => [...prev, scriptedMessage("intent", id)]);
+      setChips(intent.followups);
+    }, delay);
   }
 
+  // Typed question: ask the live model (falls back to scripted on error).
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     const text = input.trim();
     if (!text) return;
     setInput("");
     track("question-asked");
-    respond(text, matchIntent(text));
+    lastQueryRef.current = text;
+    setChips(INITIAL_CHIPS);
+    if (error) clearError();
+    sendMessage({ text });
   }
 
   function newChat() {
-    if (timerRef.current) clearTimeout(timerRef.current);
-    setTyping(false);
-    nextId.current = 1;
-    setMessages([{ id: 0, role: "bot", content: "greeting" }]);
+    if (scriptedTimer.current) clearTimeout(scriptedTimer.current);
+    setScriptedTyping(false);
+    if (error) clearError();
+    setMessages([GREETING_MESSAGE]);
     setChips(INITIAL_CHIPS);
     closeSidebar();
     inputRef.current?.focus();
@@ -154,18 +259,13 @@ export function ChatApp() {
   const openSidebar = () => setSidebarOpen(true);
   const closeSidebar = () => setSidebarOpen(false);
 
-  /* ----------------------------- Render -------------------------------- */
-  function BotContent({ m }: { m: Extract<Message, { role: "bot" }> }) {
-    if (m.content === "greeting") return <Greeting />;
-    if (m.content === "fallback") return <Fallback />;
-    if (m.content === "intent" && m.intentId) return <IntentAnswer id={m.intentId} />;
-    return null;
-  }
+  const showTyping = scriptedTyping || status === "submitted";
 
+  /* ----------------------------- Render -------------------------------- */
   return (
     <div className={sidebarOpen ? "app sidebar-open" : "app"}>
       <aside className="sidebar" aria-label="Navigation">
-        <div className="brand">{"Ask Rohan"}</div>
+        <div className="brand">{"Ask Rohan"}</div>
         <button className="new-chat" onClick={newChat}>
           ＋ New chat
         </button>
@@ -225,18 +325,18 @@ export function ChatApp() {
           {messages.map((m) =>
             m.role === "user" ? (
               <div className="msg user" key={m.id}>
-                <div className="text">{m.text}</div>
+                <div className="text">{messageText(m)}</div>
               </div>
             ) : (
               <div className="msg bot" key={m.id}>
                 <BotAvatar />
                 <div className="text">
-                  <BotContent m={m} />
+                  <AssistantParts message={m} />
                 </div>
               </div>
             )
           )}
-          {typing && (
+          {showTyping && (
             <div className="msg bot typing-msg">
               <BotAvatar />
               <div className="text">
@@ -276,7 +376,7 @@ export function ChatApp() {
             </button>
           </form>
           <div className="composer-note">
-            Scripted demo, built by Rohan Pant.{" "}
+            Built by Rohan Pant.{" "}
             <a
               href="https://github.com/rohan1402"
               target="_blank"
