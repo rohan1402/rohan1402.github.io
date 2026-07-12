@@ -304,6 +304,10 @@ a:hover { text-decoration: underline; }
   max-width: var(--maxw); margin: 8px auto 0;
   text-align: center; font-size: 11.5px; color: var(--text-faint);
 }
+.scripted-notice {
+  max-width: var(--maxw); margin: 0 auto 8px;
+  text-align: center; font-size: 11.5px; color: var(--text-faint);
+}
 
 /* ----------------------------- Plain resume ------------------------------ */
 .plain-page {

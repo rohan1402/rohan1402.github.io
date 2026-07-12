@@ -143,6 +143,7 @@ export function ChatApp() {
   const [input, setInput] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [scriptedTyping, setScriptedTyping] = useState(false);
+  const [scriptedMode, setScriptedMode] = useState(false);
   const [themeLabel, setThemeLabel] = useState("Dark");
 
   const lastQueryRef = useRef<string>("");
@@ -174,8 +175,9 @@ export function ChatApp() {
     } else {
       setMessages((prev) => [...prev, scriptedMessage("fallback")]);
       setChips(FALLBACK_CHIPS);
-      track("fallback-served");
     }
+    track("fallback-served");
+    setScriptedMode(true);
     clearError();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
@@ -236,7 +238,7 @@ export function ChatApp() {
   // Typed question: ask the live model (falls back to scripted on error).
   function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const text = input.trim();
+    const text = input.trim().slice(0, 400);
     if (!text) return;
     setInput("");
     track("question-asked");
@@ -249,6 +251,7 @@ export function ChatApp() {
   function newChat() {
     if (scriptedTimer.current) clearTimeout(scriptedTimer.current);
     setScriptedTyping(false);
+    setScriptedMode(false);
     if (error) clearError();
     setMessages([GREETING_MESSAGE]);
     setChips(INITIAL_CHIPS);
@@ -351,6 +354,11 @@ export function ChatApp() {
         </div>
 
         <div className="composer">
+          {scriptedMode && (
+            <div className="scripted-notice" role="status">
+              Running in scripted mode right now.
+            </div>
+          )}
           <div className="chips">
             {chips.map((id) => (
               <button
@@ -368,6 +376,7 @@ export function ChatApp() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
+              maxLength={400}
               placeholder="Ask anything about Rohan…"
               aria-label="Ask anything about Rohan"
             />
