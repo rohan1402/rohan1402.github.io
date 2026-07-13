@@ -24,4 +24,3 @@ next-env.d.ts
 # legacy source originals that were gitignored before the migration
 legacy/assets/rohan.jpg
 legacy/assets/IMG_*.jpg
-avatar-candidates/

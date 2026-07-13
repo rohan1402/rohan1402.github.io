@@ -18,12 +18,6 @@ export const metadata: Metadata = {
     url: "https://www.rohanpant.com",
     siteName: "Ask Rohan",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Ask Rohan - Rohan Pant",
-    description:
-      "Chat with an AI version of Rohan Pant: projects, experience, skills, and contact.",
-  },
 };
 
 // Runs before paint to stamp the saved theme on <html>, avoiding a flash.

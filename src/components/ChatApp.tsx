@@ -24,7 +24,7 @@ import {
   type IntentId,
 } from "@/lib/scripted";
 import { track } from "@/lib/analytics";
-import { BotAvatar, EXPRESSIONS, avatarSrc, type Expression } from "./BotAvatar";
+import { BotAvatar } from "./BotAvatar";
 import { Greeting, Fallback, IntentAnswer } from "./Answers";
 import { ToolRenderer } from "./ToolRenderer";
 import { QuestionsDrawer } from "./QuestionsDrawer";
@@ -147,8 +147,6 @@ export function ChatApp() {
   const [scriptedMode, setScriptedMode] = useState(false);
   const [themeLabel, setThemeLabel] = useState("Dark");
   const [enableFluid, setEnableFluid] = useState(false);
-  const [inputFocused, setInputFocused] = useState(false);
-  const [dozing, setDozing] = useState(false);
 
   const lastQueryRef = useRef<string>("");
   const scriptedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -177,21 +175,6 @@ export function ChatApp() {
     const t = setTimeout(() => setEnableFluid(true), 400);
     return () => clearTimeout(t);
   }, []);
-
-  // Preload the avatar expression frames so state switches never flash.
-  useEffect(() => {
-    EXPRESSIONS.forEach((e) => {
-      const img = new Image();
-      img.src = avatarSrc(e);
-    });
-  }, []);
-
-  // The avatar dozes after 60s without activity; any interaction wakes it.
-  useEffect(() => {
-    setDozing(false);
-    const t = setTimeout(() => setDozing(true), 60_000);
-    return () => clearTimeout(t);
-  }, [input, messages, inputFocused, status]);
 
   // Silent fallback: when the route errors, serve the scripted engine for the
   // last question, then clear the error so the chat keeps working.
@@ -311,26 +294,6 @@ export function ChatApp() {
   const appClass =
     "app" + (sidebarOpen ? " sidebar-open" : "") + (landing ? " landing" : "");
 
-  // The hero avatar reacts to the visitor: listening on input focus, dozing
-  // after idle, neutral otherwise.
-  const heroExpression: Expression = inputFocused
-    ? "listening"
-    : dozing
-      ? "dozing"
-      : "neutral";
-
-  // Per-message avatar expression: talking while that message streams in,
-  // apologetic on the scripted fallback, neutral otherwise.
-  function messageExpression(m: UIMessage, isLast: boolean): Expression {
-    if (isLast && status === "streaming") return "talking";
-    const isFallback = (m.parts ?? []).some(
-      (p) =>
-        p.type === "data-scripted" &&
-        (p as { data?: { kind?: string } }).data?.kind === "fallback"
-    );
-    return isFallback ? "oops" : "neutral";
-  }
-
   /* ----------------------------- Render -------------------------------- */
   return (
     <>
@@ -394,19 +357,15 @@ export function ChatApp() {
         </header>
 
         <div className="messages" ref={messagesRef} aria-live="polite">
-          {landing && (
-            <HeroLanding onPick={triggerIntent} expression={heroExpression} />
-          )}
-          {messages.map((m, i) =>
+          {landing && <HeroLanding onPick={triggerIntent} />}
+          {messages.map((m) =>
             m.role === "user" ? (
               <div className="msg user" key={m.id}>
                 <div className="text">{messageText(m)}</div>
               </div>
             ) : (
               <div className="msg bot" key={m.id}>
-                <BotAvatar
-                  expression={messageExpression(m, i === messages.length - 1)}
-                />
+                <BotAvatar />
                 <div className="text">
                   <AssistantParts message={m} />
                 </div>
@@ -415,7 +374,7 @@ export function ChatApp() {
           )}
           {showTyping && (
             <div className="msg bot typing-msg">
-              <BotAvatar expression="thinking" />
+              <BotAvatar />
               <div className="text">
                 <div className="typing">
                   <span />
@@ -457,8 +416,6 @@ export function ChatApp() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onFocus={() => setInputFocused(true)}
-              onBlur={() => setInputFocused(false)}
               maxLength={400}
               placeholder="Ask anything about Rohan…"
               aria-label="Ask anything about Rohan"

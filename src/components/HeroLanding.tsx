@@ -8,7 +8,6 @@
  */
 
 import type { IntentId } from "@/lib/scripted";
-import { avatarSrc, type Expression } from "./BotAvatar";
 
 const HERO_QUESTIONS: { id: IntentId; label: string }[] = [
   { id: "about", label: "Who is Rohan?" },
@@ -19,16 +18,14 @@ const HERO_QUESTIONS: { id: IntentId; label: string }[] = [
 
 export function HeroLanding({
   onPick,
-  expression = "neutral",
 }: {
   onPick: (id: IntentId, displayText: string) => void;
-  expression?: Expression;
 }) {
   return (
     <div className="hero">
       <span className="hero-avatar">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={avatarSrc(expression)} alt="Rohan's AI twin" />
+        <img src="/assets/rohan-photo.jpg" alt="Rohan Pant" />
       </span>
       <h2 className="hero-title">Hi, I&apos;m Rohan&apos;s AI twin</h2>
       <p className="hero-sub">
