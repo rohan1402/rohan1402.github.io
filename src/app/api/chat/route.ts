@@ -77,7 +77,12 @@ export async function POST(req: Request) {
       maxOutputTokens: 350,
       stopWhen: stepCountIs(5),
     });
-    return result.toUIMessageStreamResponse();
+    return result.toUIMessageStreamResponse({
+      onError: (error) => {
+        console.error("chat stream error:", error);
+        return error instanceof Error ? error.message : String(error);
+      },
+    });
   } catch (err) {
     console.error("chat route error:", err);
     return Response.json({ fallback: true, reason: "error" }, { status: 503 });
