@@ -75,8 +75,9 @@ export async function POST(req: Request) {
     });
     return result.toUIMessageStreamResponse({
       onError: (error) => {
+        // Log the real error for debugging; the client falls back to scripted.
         console.error("chat stream error:", error);
-        return error instanceof Error ? error.message : String(error);
+        return "The assistant hit a snag. Please try again in a moment.";
       },
     });
   } catch (err) {
