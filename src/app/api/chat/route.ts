@@ -65,14 +65,10 @@ export async function POST(req: Request) {
     const modelMessages = await convertToModelMessages(recent);
     const result = streamText({
       model: anthropic("claude-haiku-4-5"),
-      messages: [
-        {
-          role: "system",
-          content: SYSTEM,
-          providerOptions: { anthropic: { cacheControl: { type: "ephemeral" } } },
-        },
-        ...modelMessages,
-      ],
+      // AI SDK v7: the system prompt goes through `instructions`, not a system
+      // message in the messages array (which v7 rejects).
+      instructions: SYSTEM,
+      messages: modelMessages,
       tools,
       maxOutputTokens: 350,
       stopWhen: stepCountIs(5),
