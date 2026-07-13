@@ -1,7 +1,10 @@
+@import "tailwindcss";
+
 /* ============================================================================
-   styles.css: "Ask Rohan" ChatGPT/Claude-style theme.
-   Light + dark (auto via prefers-color-scheme, override via [data-theme]).
-   No external fonts or libraries, instant load on any device.
+   globals.css: the "Ask Rohan" design system, ported from the original
+   styles.css. Same tokens, same class names, same light + dark themes.
+   The tokens are also exposed to Tailwind's theme via @theme inline below,
+   so utilities like bg-bg / text-muted follow the runtime theme.
    ============================================================================ */
 
 :root {
@@ -61,6 +64,27 @@
   --pill-text: #cfcfd4;
 }
 
+/* Expose the design tokens to Tailwind utilities (bg-bg, text-muted, etc.). */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-side: var(--bg-side);
+  --color-bg-elev: var(--bg-elev);
+  --color-bubble-user: var(--bubble-user);
+  --color-bubble-hover: var(--bubble-hover);
+  --color-text: var(--text);
+  --color-muted: var(--text-muted);
+  --color-faint: var(--text-faint);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-pill-bg: var(--pill-bg);
+  --color-pill-text: var(--pill-text);
+  --radius-token: var(--radius);
+  --radius-sm-token: var(--radius-sm);
+  --font-sans: var(--font);
+}
+
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 body {
@@ -75,7 +99,7 @@ body {
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-.app { display: flex; height: 100vh; height: 100dvh; overflow: hidden; }
+.app { display: flex; height: 100vh; height: 100dvh; overflow: hidden; position: relative; z-index: 1; }
 
 /* ------------------------------- Sidebar --------------------------------- */
 .sidebar {
@@ -129,18 +153,13 @@ a:hover { text-decoration: underline; }
 .recent-item:hover { background: var(--bubble-hover); }
 
 .sidebar-foot { margin-top: auto; display: flex; flex-direction: column; gap: 6px; }
-.side-resume {
+.ghost-row {
   display: flex; align-items: center; gap: 8px;
-  width: 100%; text-align: left;
-  background: transparent;
-  border: 0.5px solid var(--border-strong);
-  color: var(--text);
-  border-radius: var(--radius-sm);
-  padding: 9px 12px;
-  font-family: inherit; font-size: 13.5px; cursor: pointer;
+  background: transparent; border: none; color: var(--text-muted);
+  font-family: inherit; font-size: 13px; cursor: pointer;
+  padding: 8px 10px; border-radius: var(--radius-sm); text-align: left;
 }
-.side-resume:hover { background: var(--bubble-hover); }
-.side-resume svg { flex: none; color: var(--text-muted); }
+.ghost-row:hover { background: var(--bubble-hover); color: var(--text); }
 .account {
   display: flex; align-items: center; gap: 8px;
   font-size: 13.5px; padding: 8px 10px;
@@ -162,7 +181,12 @@ a:hover { text-decoration: underline; }
 }
 
 /* -------------------------------- Main ----------------------------------- */
-.main { flex: 1; display: flex; flex-direction: column; min-width: 0; background: var(--bg); }
+.main {
+  flex: 1; display: flex; flex-direction: column; min-width: 0;
+  /* Semi-transparent so the fluid background shows through the whole chat, not
+     just the hero. On devices without the fluid this resolves to the solid bg. */
+  background: color-mix(in srgb, var(--bg) 64%, transparent);
+}
 .topbar {
   display: flex; align-items: center; gap: 10px;
   padding: 10px 16px;
@@ -197,12 +221,11 @@ a:hover { text-decoration: underline; }
 .msg.bot .avatar { margin-top: 2px; }
 .msg .text { font-size: 15px; }
 .msg.bot .text { animation: rise 0.32s ease both; }
-.msg.user .text { animation: rise 0.3s ease both; }
 @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 .text p { margin: 0 0 10px; }
 .text p:last-child { margin-bottom: 0; }
-.text ul { margin: 6px 0 10px; padding-left: 20px; }
+.text ul { margin: 6px 0 10px; padding-left: 20px; list-style: disc; }
 .text li { margin: 3px 0; }
 
 /* Typing dots */
@@ -272,7 +295,7 @@ a:hover { text-decoration: underline; }
   padding: 6px 6px 6px 18px; background: var(--bg-elev);
 }
 .input-row:focus-within { border-color: var(--accent); }
-#input {
+.input-row input {
   flex: 1; border: none; background: transparent; color: var(--text);
   font-size: 15px; font-family: inherit; padding: 8px 0; outline: none;
 }
@@ -286,64 +309,19 @@ a:hover { text-decoration: underline; }
   max-width: var(--maxw); margin: 8px auto 0;
   text-align: center; font-size: 11.5px; color: var(--text-faint);
 }
+.scripted-notice {
+  max-width: var(--maxw); margin: 0 auto 8px;
+  text-align: center; font-size: 11.5px; color: var(--text-faint);
+}
 
-/* ------------------------------ Welcome ---------------------------------- */
-.welcome {
-  min-height: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 14px;
-  padding: 16px 0 28px;
-}
-.welcome-avatar {
-  width: 96px; height: 96px; border-radius: 50%;
-  background: var(--avatar); color: var(--bg);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 34px; font-weight: 600; overflow: hidden;
-  border: 0.5px solid var(--border);
-  animation: rise 0.4s ease both;
-}
-.welcome-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
-.welcome-title { font-size: 26px; font-weight: 700; margin: 4px 0 0; }
-.welcome-sub { color: var(--text-muted); margin: 0; font-size: 15px; max-width: 420px; }
-.welcome-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  border: 0.5px solid var(--border-strong); border-radius: 20px;
-  padding: 6px 14px; font-size: 13px; color: var(--text);
-  background: var(--bg-elev);
-}
-.welcome-dot {
-  width: 8px; height: 8px; border-radius: 50%; background: #22c55e; flex: none;
-  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.18);
-}
-.welcome-qs { width: 100%; display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
-.welcome-q {
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  width: 100%; text-align: left;
-  background: var(--bg-elev); border: 0.5px solid var(--border);
-  border-radius: var(--radius); padding: 14px 16px;
-  font-size: 15px; color: var(--text); font-family: inherit; cursor: pointer;
-  transition: border-color 0.15s, transform 0.15s;
-}
-.welcome-q:hover { border-color: var(--accent); transform: translateY(-1px); }
-.welcome-q-go { color: var(--text-faint); font-size: 20px; line-height: 1; }
-/* In the hero state the cards already are the suggestions, so hide the
-   duplicate chip row above the composer. */
-body.welcome-mode .chips { display: none; }
-
-/* ----------------------------- Plain view -------------------------------- */
-.plain-view {
-  position: absolute; inset: 0; background: var(--bg);
-  overflow-y: auto; padding: 28px 20px 60px; z-index: 10;
+/* ----------------------------- Plain resume ------------------------------ */
+.plain-page {
+  min-height: 100dvh; background: var(--bg);
+  overflow-y: auto; padding: 28px 20px 60px;
 }
 .plain-wrap { max-width: 760px; margin: 0 auto; }
 .back-btn {
-  position: sticky; top: 0; margin-bottom: 14px;
+  display: inline-block; margin-bottom: 14px;
   background: var(--bg-elev); border: 0.5px solid var(--border-strong);
   color: var(--text); border-radius: 20px; padding: 7px 14px;
   font-size: 13px; cursor: pointer; font-family: inherit;
@@ -364,13 +342,10 @@ body.welcome-mode .chips { display: none; }
 .r-item-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .r-item-head strong { font-size: 15px; }
 .r-item-when { color: var(--text-faint); font-size: 13px; }
-.r-item ul { margin: 6px 0 0; padding-left: 20px; }
+.r-item ul { margin: 6px 0 0; padding-left: 20px; list-style: disc; }
 .r-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
 /* ------------------------------ Responsive ------------------------------- */
-body.plain-mode .main { display: none; }
-body:not(.plain-mode) .plain-view { display: none; }
-
 @media (max-width: 720px) {
   .only-mobile { display: inline-block; }
   .sidebar {
@@ -378,13 +353,10 @@ body:not(.plain-mode) .plain-view { display: none; }
     transform: translateX(-100%);
     box-shadow: 2px 0 18px rgba(0, 0, 0, 0.18);
   }
-  body.sidebar-open .sidebar { transform: none; }
+  .app.sidebar-open .sidebar { transform: none; }
   .topbar-title { display: none; }
   .r-grid { grid-template-columns: 1fr; }
   .msg.user .text { max-width: 88%; }
-  .welcome-avatar { width: 80px; height: 80px; font-size: 28px; }
-  .welcome-title { font-size: 22px; }
-  .welcome-q { padding: 13px 14px; font-size: 14.5px; }
 }
 
 /* -------------------------------- Mascot --------------------------------- */
@@ -404,6 +376,7 @@ body:not(.plain-mode) .plain-view { display: none; }
   position: fixed; right: 18px; bottom: 18px; width: 42px; height: 42px; border-radius: 50%;
   border: 0.5px solid var(--border-strong); background: var(--bg-elev); cursor: pointer;
   font-size: 18px; display: none; align-items: center; justify-content: center; z-index: 50;
+  color: var(--text);
 }
 .m-fx { position: fixed; pointer-events: none; font-size: 18px; z-index: 51; animation: m-fly 1s ease-out forwards; }
 
@@ -430,3 +403,140 @@ body:not(.plain-mode) .plain-view { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .mascot-fig, .eyes, .mascot-inner, .a-wave .paw { animation: none !important; }
 }
+
+/* -------------------------- Fluid hero (Phase 4) ------------------------- */
+.fluid-canvas {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  z-index: 0; pointer-events: none;
+}
+
+/* ------------------------------ Landing hero ----------------------------- */
+.hero {
+  max-width: 620px; margin: 0 auto; min-height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 24px 16px 12px;
+}
+.hero-avatar {
+  width: 116px; height: 116px; border-radius: 50%; overflow: hidden;
+  border: 1px solid var(--border-strong); margin-bottom: 18px; display: block;
+}
+.hero-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-title { font-size: 30px; font-weight: 700; margin: 0 0 8px; letter-spacing: -0.2px; }
+.hero-sub { color: var(--text-muted); font-size: 15.5px; margin: 0 0 16px; }
+.hero-avail {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 0.5px solid var(--border-strong); border-radius: 20px;
+  padding: 6px 14px; font-size: 13px; color: var(--text); margin-bottom: 26px;
+}
+.hero-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: #35c46a;
+  box-shadow: 0 0 0 3px rgba(53, 196, 106, 0.18);
+}
+.hero-cards { width: 100%; display: flex; flex-direction: column; gap: 12px; }
+.hero-card {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; background: var(--bg-elev); color: var(--text);
+  border: 0.5px solid var(--border-strong); border-radius: 14px;
+  padding: 16px 18px; font-size: 15px; font-family: inherit; cursor: pointer;
+  text-align: left; transition: border-color 0.15s, transform 0.15s, background 0.15s;
+}
+.hero-card:hover {
+  border-color: var(--accent); transform: translateY(-1px); background: var(--bubble-hover);
+}
+.hero-chevron { color: var(--text-faint); font-size: 20px; line-height: 1; }
+
+/* ------------------------ Projects carousel (Phase 4) -------------------- */
+.carousel {
+  display: flex; gap: 12px; overflow-x: auto;
+  padding: 4px 2px 12px; margin: 4px 0 2px;
+  scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+}
+.carousel-card {
+  flex: 0 0 auto; width: 190px; height: 258px;
+  border: none; border-radius: 18px; cursor: pointer;
+  padding: 16px; display: flex; flex-direction: column; gap: 6px;
+  color: #fff; text-align: left; scroll-snap-align: start;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.16);
+  font-family: inherit;
+}
+.carousel-cat {
+  font-size: 12px; font-weight: 600; opacity: 0.9; letter-spacing: 0.2px;
+}
+.carousel-title {
+  margin-top: auto; font-size: 20px; font-weight: 700; line-height: 1.2;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+}
+
+.carousel-modal-root {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center; padding: 20px;
+}
+.carousel-overlay {
+  position: absolute; inset: 0; background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(2px);
+}
+.carousel-modal {
+  position: relative; z-index: 1;
+  width: min(560px, 94vw); max-height: 86vh; overflow-y: auto;
+  border-radius: 22px; padding: 26px; color: #fff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+.carousel-modal-title {
+  display: block; font-size: 30px; font-weight: 700; margin: 4px 0 14px;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.25);
+}
+.carousel-modal-body { color: #fff; }
+.carousel-modal-body p { margin: 0 0 14px; font-size: 15px; line-height: 1.55; }
+.carousel-modal-body .pills { margin-bottom: 16px; }
+.carousel-modal-body .pill {
+  background: rgba(255, 255, 255, 0.2); color: #fff;
+}
+.carousel-repo {
+  background: rgba(255, 255, 255, 0.95); color: #1d1d1f; margin: 0;
+}
+.carousel-repo:hover { opacity: 1; background: #fff; }
+.carousel-close {
+  position: absolute; top: 14px; right: 14px;
+  width: 30px; height: 30px; border-radius: 50%; border: none;
+  background: rgba(0, 0, 0, 0.35); color: #fff; font-size: 18px; line-height: 1;
+  cursor: pointer;
+}
+.carousel-close:hover { background: rgba(0, 0, 0, 0.55); }
+
+/* ----------------------- Questions drawer (Phase 4) ---------------------- */
+.composer-actions {
+  max-width: var(--maxw); margin: 0 auto 8px;
+  display: flex; justify-content: flex-start;
+}
+.questions-trigger {
+  background: transparent; border: 0.5px solid var(--border-strong);
+  color: var(--text-muted); font-family: inherit; font-size: 12.5px;
+  padding: 5px 12px; border-radius: 16px; cursor: pointer;
+}
+.questions-trigger:hover { background: var(--bubble-hover); color: var(--text); }
+
+.drawer-overlay {
+  position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 120;
+}
+.drawer-content {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 121;
+  background: var(--bg-elev); color: var(--text);
+  border-top-left-radius: 18px; border-top-right-radius: 18px;
+  border: 0.5px solid var(--border);
+  padding: 8px 16px 26px; max-height: 82vh; overflow-y: auto;
+  outline: none;
+}
+.drawer-handle {
+  width: 40px; height: 4px; border-radius: 2px;
+  background: var(--border-strong); margin: 8px auto 14px;
+}
+.drawer-title { font-size: 15px; font-weight: 600; margin: 0 0 14px; text-align: center; }
+.drawer-groups {
+  display: flex; flex-direction: column; gap: 14px;
+  max-width: var(--maxw); margin: 0 auto;
+}
+.drawer-group-label {
+  font-size: 10.5px; letter-spacing: 1px; text-transform: uppercase;
+  color: var(--text-faint); margin-bottom: 7px;
+}
+.drawer-qs { display: flex; flex-wrap: wrap; gap: 8px; }
