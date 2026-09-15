@@ -34,11 +34,6 @@ export interface Contact {
   github: string;
 }
 
-export interface ProofPoint {
-  value: string;
-  label: string;
-}
-
 export interface Rohan {
   name: string;
   title: string;
@@ -49,7 +44,6 @@ export interface Rohan {
   nowRoles: string[];
   past: string;
   focus: string[];
-  proofPoints: ProofPoint[];
   availabilityShort: string;
   availability: string;
   contact: Contact;
@@ -91,11 +85,6 @@ export const ROHAN: Rohan = {
     "Agentic AI, tool use & autonomous workflows",
     "RAG systems & LLM evaluation frameworks",
     "LLM-integrated backends (Node.js / TypeScript)",
-  ],
-  proofPoints: [
-    { value: "150K+", label: "log events analyzed" },
-    { value: "37%", label: "faster debugging" },
-    { value: "20%", label: "less manual QA" },
   ],
   availabilityShort: "Open to 2027 internships",
   availability:

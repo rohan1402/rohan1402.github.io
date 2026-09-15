@@ -12,7 +12,7 @@ import { ROHAN } from "@/data/rohan";
 import { track } from "@/lib/analytics";
 
 const HERO_QUESTIONS: { id: IntentId; label: string }[] = [
-  { id: "experience", label: "How did Rohan cut debugging time by 37%?" },
+  { id: "experience", label: "What impact did Rohan have at Cohesity?" },
   { id: "patchwork", label: "Show me the agent that opens GitHub PRs" },
   { id: "skills", label: "What does Rohan build with?" },
   { id: "availability", label: "Is Rohan open to 2027 internships?" },
@@ -54,14 +54,6 @@ export function HeroLanding({
           Download Resume
         </a>
       </div>
-      <ul className="hero-proof" aria-label="Selected impact">
-        {ROHAN.proofPoints.map((point) => (
-          <li key={point.label}>
-            <strong>{point.value}</strong>
-            <span>{point.label}</span>
-          </li>
-        ))}
-      </ul>
       <p className="hero-ai-label">Or explore my work with my AI assistant</p>
       <div className="hero-cards">
         {HERO_QUESTIONS.map((q) => (
