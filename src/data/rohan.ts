@@ -30,9 +30,13 @@ export interface Experience {
 export interface Contact {
   email: string;
   altEmail: string;
-  phone: string;
   linkedin: string;
   github: string;
+}
+
+export interface ProofPoint {
+  value: string;
+  label: string;
 }
 
 export interface Rohan {
@@ -45,6 +49,8 @@ export interface Rohan {
   nowRoles: string[];
   past: string;
   focus: string[];
+  proofPoints: ProofPoint[];
+  availabilityShort: string;
   availability: string;
   contact: Contact;
   projects: Project[];
@@ -54,7 +60,7 @@ export interface Rohan {
 
 export const ROHAN: Rohan = {
   name: "Rohan Pant",
-  title: "AI / ML Engineer",
+  title: "AI/ML Engineer",
   tagline:
     "Building agentic AI systems, LLM-integrated backends, and RAG pipelines.",
   location: "New Brunswick, NJ",
@@ -86,12 +92,17 @@ export const ROHAN: Rohan = {
     "RAG systems & LLM evaluation frameworks",
     "LLM-integrated backends (Node.js / TypeScript)",
   ],
+  proofPoints: [
+    { value: "150K+", label: "log events analyzed" },
+    { value: "37%", label: "faster debugging" },
+    { value: "20%", label: "less manual QA" },
+  ],
+  availabilityShort: "Open to 2027 internships",
   availability:
-    "Open to AI Engineer, ML Engineer, and SWE internships (Summer/Fall 2026). F-1 OPT eligible.",
+    "Open to AI Engineer, ML Engineer, and Software Engineering internships in 2027. F-1 OPT eligible.",
   contact: {
     email: "rohan.pant14@gmail.com",
     altEmail: "rp1610@scarletmail.rutgers.edu",
-    phone: "(908) 801-0976",
     linkedin: "https://www.linkedin.com/in/rohan1402",
     github: "https://github.com/rohan1402",
   },

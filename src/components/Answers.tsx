@@ -20,7 +20,7 @@ export function Greeting() {
     <>
       <p>
         Hi, I&apos;m an AI assistant trained on everything about{" "}
-        <strong>{ROHAN.name}</strong>, an AI / ML Engineer building agentic AI
+        <strong>{ROHAN.name}</strong>, an AI/ML Engineer building agentic AI
         systems, LLM-integrated backends, and RAG pipelines.
       </p>
       <p>Ask me anything, or tap a suggestion below.</p>
@@ -169,7 +169,7 @@ function Resume() {
           Download PDF
         </a>
         <Link className="btn btn-ghost" href="/resume">
-          View as plain resume
+          View resume online
         </Link>
       </p>
     </>
@@ -225,7 +225,6 @@ function Contact() {
             github.com/rohan1402
           </a>
         </li>
-        <li>Phone: {c.phone}</li>
       </ul>
     </>
   );

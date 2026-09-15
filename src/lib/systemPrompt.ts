@@ -55,5 +55,5 @@ ${education}
 Skills:
 ${skills}
 
-Contact: email ${ROHAN.contact.email}, LinkedIn ${ROHAN.contact.linkedin}, GitHub ${ROHAN.contact.github}, phone ${ROHAN.contact.phone}.`;
+Contact: email ${ROHAN.contact.email}, LinkedIn ${ROHAN.contact.linkedin}, GitHub ${ROHAN.contact.github}.`;
 }

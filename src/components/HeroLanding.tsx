@@ -8,12 +8,14 @@
  */
 
 import type { IntentId } from "@/lib/scripted";
+import { ROHAN } from "@/data/rohan";
+import { track } from "@/lib/analytics";
 
 const HERO_QUESTIONS: { id: IntentId; label: string }[] = [
-  { id: "about", label: "Who is Rohan?" },
-  { id: "projects", label: "What projects is he most proud of?" },
-  { id: "skills", label: "What's his tech stack?" },
-  { id: "availability", label: "Is he open to work?" },
+  { id: "experience", label: "How did Rohan cut debugging time by 37%?" },
+  { id: "patchwork", label: "Show me the agent that opens GitHub PRs" },
+  { id: "skills", label: "What does Rohan build with?" },
+  { id: "availability", label: "Is Rohan open to 2027 internships?" },
 ];
 
 export function HeroLanding({
@@ -27,14 +29,40 @@ export function HeroLanding({
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/assets/rohan-photo.jpg" alt="Rohan Pant" />
       </span>
-      <h2 className="hero-title">Hi, I&apos;m Rohan&apos;s AI twin</h2>
-      <p className="hero-sub">
-        Ask me anything about his projects, experience, and skills.
-      </p>
+      <h1 className="hero-name">{ROHAN.name}</h1>
+      <p className="hero-title">{ROHAN.title}</p>
+      <p className="hero-sub">{ROHAN.tagline}</p>
       <div className="hero-avail">
         <span className="hero-dot" aria-hidden="true" />
-        Available for internships
+        {ROHAN.availabilityShort}
       </div>
+      <div className="hero-actions" aria-label="Portfolio actions">
+        <button
+          type="button"
+          className="hero-action hero-action-primary"
+          onClick={() => onPick("projects", "Show me Rohan's projects")}
+        >
+          View Projects
+        </button>
+        <a
+          className="hero-action hero-action-secondary"
+          href="/assets/Rohan_Pant_Resume.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => track("resume-download")}
+        >
+          Download Resume
+        </a>
+      </div>
+      <ul className="hero-proof" aria-label="Selected impact">
+        {ROHAN.proofPoints.map((point) => (
+          <li key={point.label}>
+            <strong>{point.value}</strong>
+            <span>{point.label}</span>
+          </li>
+        ))}
+      </ul>
+      <p className="hero-ai-label">Or explore my work with my AI assistant</p>
       <div className="hero-cards">
         {HERO_QUESTIONS.map((q) => (
           <button

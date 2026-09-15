@@ -5,9 +5,9 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.rohanpant.com"),
-  title: "Ask Rohan - Rohan Pant, AI / ML Engineer",
+  title: "Ask Rohan - Rohan Pant, AI/ML Engineer",
   description:
-    "Chat with an AI assistant about Rohan Pant, an AI / ML Engineer building agentic AI systems, RAG pipelines, and LLM-integrated backends. Open to AI, ML, and SWE internships.",
+    "Explore the work of Rohan Pant, an AI/ML Engineer building agentic AI systems, RAG pipelines, and LLM-integrated backends. Open to 2027 internships.",
   icons: { icon: "/assets/favicon.svg" },
   alternates: { canonical: "/" },
   openGraph: {

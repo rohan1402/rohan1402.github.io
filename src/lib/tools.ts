@@ -53,7 +53,7 @@ export const tools = {
     execute: async () => ({ available: true }),
   }),
   getContact: tool({
-    description: "Show Rohan's contact card (email, LinkedIn, GitHub, phone).",
+    description: "Show Rohan's contact card (email, LinkedIn, GitHub).",
     inputSchema: noInput,
     execute: async () => ({ contact: ROHAN.contact }),
   }),

@@ -320,7 +320,7 @@ export function ChatApp() {
 
         <div className="sidebar-foot">
           <Link className="ghost-row" href="/resume">
-            Plain resume view
+            View resume
           </Link>
           <div className="account">
             <BotAvatar sm /> Rohan Pant
@@ -351,7 +351,7 @@ export function ChatApp() {
               {themeLabel}
             </button>
             <Link className="pill-btn" href="/resume">
-              Plain view
+              Resume
             </Link>
           </div>
         </header>

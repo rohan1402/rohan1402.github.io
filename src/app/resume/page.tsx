@@ -4,7 +4,7 @@ import { ROHAN } from "@/data/rohan";
 import { Pills } from "@/components/Pills";
 
 export const metadata: Metadata = {
-  title: "Resume - Rohan Pant, AI / ML Engineer",
+  title: "Resume - Rohan Pant, AI/ML Engineer",
   description:
     "Rohan Pant's resume: summary, experience, education, projects, and skills.",
   alternates: { canonical: "/resume" },
@@ -53,7 +53,6 @@ export default function ResumePage() {
               <a href={c.github} target="_blank" rel="noopener noreferrer">
                 GitHub
               </a>
-              <span>{c.phone}</span>
             </div>
           </div>
         </div>
