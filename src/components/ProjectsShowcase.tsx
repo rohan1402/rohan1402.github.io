@@ -4,10 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
-  type MotionStyle,
-  useMotionValue,
   useReducedMotion,
-  useSpring,
 } from "motion/react";
 import { ROHAN, type Project } from "@/data/rohan";
 import { track } from "@/lib/analytics";
@@ -32,16 +29,8 @@ export function ProjectsShowcase({
     []
   );
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const reduceMotion = useReducedMotion();
-  const pointerX = useMotionValue(0);
-  const pointerY = useMotionValue(0);
-  const previewX = useSpring(pointerX, { stiffness: 260, damping: 30 });
-  const previewY = useSpring(pointerY, { stiffness: 260, damping: 30 });
-
-  const hoveredProject = projects.find((project) => project.id === hoveredId);
-  const hoveredIndex = projects.findIndex((project) => project.id === hoveredId);
 
   useEffect(() => {
     if (!open) return;
@@ -63,14 +52,8 @@ export function ProjectsShowcase({
     };
   }, [open, onClose]);
 
-  function movePreview(event: React.PointerEvent) {
-    pointerX.set(event.clientX + 24);
-    pointerY.set(event.clientY - 92);
-  }
-
   function toggleProject(project: FeaturedProject) {
     setExpandedId((current) => (current === project.id ? null : project.id));
-    setHoveredId(null);
     track("project-showcase-select", project.id);
   }
 
@@ -102,7 +85,7 @@ export function ProjectsShowcase({
               <div>
                 <span className="project-showcase-kicker">Selected work</span>
                 <h2 id="project-showcase-title">Projects built around real workflows</h2>
-                <p>Hover to preview. Select a project to see the full story.</p>
+                <p>Select a project to see the full story.</p>
               </div>
               <button
                 ref={closeRef}
@@ -115,11 +98,7 @@ export function ProjectsShowcase({
               </button>
             </header>
 
-            <div
-              className="project-index"
-              onPointerMove={movePreview}
-              onPointerLeave={() => setHoveredId(null)}
-            >
+            <div className="project-index">
               {projects.map((project, index) => {
                 const expanded = expandedId === project.id;
                 const accent = PROJECT_ACCENTS[index % PROJECT_ACCENTS.length];
@@ -135,9 +114,6 @@ export function ProjectsShowcase({
                       className="project-index-trigger"
                       aria-expanded={expanded}
                       aria-controls={`project-detail-${project.id}`}
-                      onPointerEnter={() => setHoveredId(project.id)}
-                      onFocus={() => setHoveredId(project.id)}
-                      onBlur={() => setHoveredId(null)}
                       onClick={() => toggleProject(project)}
                     >
                       <span className="project-index-number">0{index + 1}</span>
@@ -216,40 +192,6 @@ export function ProjectsShowcase({
               })}
             </div>
           </motion.section>
-
-          <AnimatePresence>
-            {hoveredProject && !reduceMotion && (
-              <motion.aside
-                className="project-hover-preview"
-                style={
-                  {
-                    x: previewX,
-                    y: previewY,
-                    "--project-accent":
-                      PROJECT_ACCENTS[hoveredIndex % PROJECT_ACCENTS.length],
-                  } as MotionStyle
-                }
-                initial={{ opacity: 0, scale: 0.94 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.16 }}
-                aria-hidden="true"
-              >
-                <span>{hoveredProject.category}</span>
-                <strong>{hoveredProject.name}</strong>
-                <div className="project-hover-flow">
-                  {hoveredProject.story.previewSteps.map((step, index) => (
-                    <div key={step}>
-                      <b>{step}</b>
-                      {index < hoveredProject.story.previewSteps.length - 1 && (
-                        <i>→</i>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </motion.aside>
-            )}
-          </AnimatePresence>
         </div>
       )}
     </AnimatePresence>
