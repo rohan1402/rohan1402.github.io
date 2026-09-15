@@ -15,9 +15,16 @@ export interface Education {
 export interface Project {
   id: string;
   name: string;
+  category: string;
   blurb: string;
   stack: string[];
   url: string;
+  story?: {
+    problem: string;
+    build: string;
+    result: string;
+    previewSteps: string[];
+  };
 }
 
 export interface Experience {
@@ -97,32 +104,109 @@ export const ROHAN: Rohan = {
   },
   projects: [
     {
+      id: "whyzr",
+      name: "Whyzr",
+      category: "Safe Socratic learning agent",
+      blurb:
+        "A Socratic thinking companion for children that asks one guiding question at a time, enforces tool safety in code, and records each child's learning journey in a private git-backed growth journal.",
+      stack: ["gitagent", "Claude", "Gemini", "Node.js", "Git"],
+      url: "https://github.com/rohan1402/Whyzr",
+      story: {
+        problem:
+          "AI can help children reach answers while quietly replacing the thinking process that produces real learning.",
+        build:
+          "A constitution-driven tutor with fail-closed tool guards, per-child git memory, a voice interface, and separate runtime and behavioral evaluation layers.",
+        result:
+          "The machinery and security suite passes 89 of 89 checks, while committed behavioral runs score 17 to 21 out of 21 without leaking direct answers.",
+        previewSteps: [
+          "Child's question",
+          "Socratic guidance",
+          "Safety guard",
+          "Growth journal",
+        ],
+      },
+    },
+    {
+      id: "scail",
+      name: "SCAIL",
+      category: "AI visibility automation platform",
+      blurb:
+        "An AI-visibility audit and outreach engine that measures whether major assistants recommend a business, identifies the gaps, and turns the analysis into reports, rewrites, and CRM-ready outreach.",
+      stack: ["Python", "OpenAI", "Claude", "Gemini", "FastAPI", "Supabase"],
+      url: "https://github.com/rohan1402/scail",
+      story: {
+        problem:
+          "Businesses have little visibility into whether AI assistants recommend them or what changes could improve their presence in generated answers.",
+        build:
+          "A multi-step Python pipeline that gathers search and citation evidence, compares multiple AI platforms, generates a branded deliverable bundle, and automates prospect enrichment and outreach preparation.",
+        result:
+          "One system carries an audit from raw business queries to an actionable report, page rewrites, an AI scorecard, and a CRM-ready lead record.",
+        previewSteps: [
+          "Business queries",
+          "Multi-model audit",
+          "Deliverable bundle",
+          "Outreach pipeline",
+        ],
+      },
+    },
+    {
       id: "patchwork",
       name: "Patchwork",
+      category: "Autonomous engineering agent",
       blurb:
         "Autonomous agent that ingests a bug report, generates regression tests, runs them in an E2B sandbox, and opens a GitHub PR with passing tests, end to end with no human in the loop. Built at the Zero to Agent hackathon (Vercel x DeepMind).",
       stack: ["Gemini", "E2B Sandbox", "GitHub API", "Next.js", "Tool Use"],
       url: "https://github.com/rohan1402/patchwork",
+      story: {
+        problem:
+          "A bug report rarely arrives with the regression test and validated fix a maintainer needs.",
+        build:
+          "A Gemini-powered workflow that writes the test, runs it inside E2B, iterates in the sandbox, and opens a GitHub pull request.",
+        result:
+          "A solo-built, end-to-end agent that completes the workflow without a human in the loop.",
+        previewSteps: ["Bug report", "Regression test", "E2B sandbox", "GitHub PR"],
+      },
     },
     {
       id: "agentically",
       name: "Agentically",
+      category: "Healthcare compliance RAG",
       blurb:
         "AI compliance intelligence that lets healthcare staff search accreditation standards in plain English and get precise, cited answers without digging through PDFs.",
       stack: ["Claude Sonnet", "MongoDB Atlas", "Voyage AI", "Next.js", "Vercel"],
       url: "https://github.com/rohan1402/agentically",
+      story: {
+        problem:
+          "Accreditation standards live across long documents, making precise answers slow to find and difficult to verify.",
+        build:
+          "A retrieval system using Claude Sonnet, MongoDB Atlas vector search, and Voyage AI embeddings.",
+        result:
+          "Healthcare staff can search in plain English and receive focused answers with supporting citations.",
+        previewSteps: ["Question", "Vector search", "Claude", "Cited answer"],
+      },
     },
     {
       id: "llm",
       name: "Rutgers LLM Benchmarking",
+      category: "Local model evaluation",
       blurb:
         "Local LLM evaluation pipeline running 4 GGUF Q4_K_M models through a custom RAG harness, with Groq-as-judge scoring. Built at Rutgers.",
       stack: ["llama-cpp-python", "LangChain", "Groq", "Python"],
       url: "https://github.com/rohan1402/llm-playground",
+      story: {
+        problem:
+          "Local language models need a consistent retrieval and scoring setup before their quality can be compared fairly.",
+        build:
+          "A custom RAG harness that runs four quantized GGUF models locally and uses Groq as the evaluation judge.",
+        result:
+          "A repeatable pipeline for comparing model behavior through the same retrieval and scoring workflow.",
+        previewSteps: ["4 local models", "RAG harness", "Groq judge", "Benchmark"],
+      },
     },
     {
       id: "f1",
       name: "F1 Race Rewind",
+      category: "Interactive race simulation",
       blurb:
         "Interactive what-if race simulator that lets you change pit-stop laps and watch downstream position changes in an animated lap-by-lap replay.",
       stack: ["Python", "Streamlit", "FastF1", "Pandas"],

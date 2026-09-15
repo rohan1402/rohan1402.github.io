@@ -11,7 +11,9 @@ export type AnalyticsEvent =
   | "chip-click"
   | "resume-download"
   | "outbound-click"
-  | "fallback-served";
+  | "fallback-served"
+  | "project-showcase-open"
+  | "project-showcase-select";
 
 interface GoatCounter {
   count?: (opts: { path: string; title?: string; event?: boolean }) => void;

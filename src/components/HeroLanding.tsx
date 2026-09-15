@@ -7,9 +7,11 @@
  * the hero into the chat transcript.
  */
 
+import { useState } from "react";
 import type { IntentId } from "@/lib/scripted";
 import { ROHAN } from "@/data/rohan";
 import { track } from "@/lib/analytics";
+import { ProjectsShowcase } from "./ProjectsShowcase";
 
 const HERO_QUESTIONS: { id: IntentId; label: string }[] = [
   { id: "experience", label: "What impact did Rohan have at Cohesity?" },
@@ -23,53 +25,64 @@ export function HeroLanding({
 }: {
   onPick: (id: IntentId, displayText: string) => void;
 }) {
+  const [showProjects, setShowProjects] = useState(false);
+
   return (
-    <div className="hero">
-      <span className="hero-avatar">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/assets/rohan-photo.jpg" alt="Rohan Pant" />
-      </span>
-      <h1 className="hero-name">{ROHAN.name}</h1>
-      <p className="hero-title">{ROHAN.title}</p>
-      <p className="hero-sub">{ROHAN.tagline}</p>
-      <div className="hero-avail">
-        <span className="hero-dot" aria-hidden="true" />
-        {ROHAN.availabilityShort}
-      </div>
-      <div className="hero-actions" aria-label="Portfolio actions">
-        <button
-          type="button"
-          className="hero-action hero-action-primary"
-          onClick={() => onPick("projects", "Show me Rohan's projects")}
-        >
-          View Projects
-        </button>
-        <a
-          className="hero-action hero-action-secondary"
-          href="/assets/Rohan_Pant_Resume.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => track("resume-download")}
-        >
-          Download Resume
-        </a>
-      </div>
-      <p className="hero-ai-label">Or explore my work with my AI assistant</p>
-      <div className="hero-cards">
-        {HERO_QUESTIONS.map((q) => (
+    <>
+      <div className="hero">
+        <span className="hero-avatar">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/assets/rohan-photo.jpg" alt="Rohan Pant" />
+        </span>
+        <h1 className="hero-name">{ROHAN.name}</h1>
+        <p className="hero-title">{ROHAN.title}</p>
+        <p className="hero-sub">{ROHAN.tagline}</p>
+        <div className="hero-avail">
+          <span className="hero-dot" aria-hidden="true" />
+          {ROHAN.availabilityShort}
+        </div>
+        <div className="hero-actions" aria-label="Portfolio actions">
           <button
-            key={q.id}
             type="button"
-            className="hero-card"
-            onClick={() => onPick(q.id, q.label)}
+            className="hero-action hero-action-primary"
+            onClick={() => {
+              track("project-showcase-open");
+              setShowProjects(true);
+            }}
           >
-            <span>{q.label}</span>
-            <span className="hero-chevron" aria-hidden="true">
-              ›
-            </span>
+            View Projects
           </button>
-        ))}
+          <a
+            className="hero-action hero-action-secondary"
+            href="/assets/Rohan_Pant_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => track("resume-download")}
+          >
+            Download Resume
+          </a>
+        </div>
+        <p className="hero-ai-label">Or explore my work with my AI assistant</p>
+        <div className="hero-cards">
+          {HERO_QUESTIONS.map((q) => (
+            <button
+              key={q.id}
+              type="button"
+              className="hero-card"
+              onClick={() => onPick(q.id, q.label)}
+            >
+              <span>{q.label}</span>
+              <span className="hero-chevron" aria-hidden="true">
+                ›
+              </span>
+            </button>
+          ))}
+        </div>
       </div>
-    </div>
+      <ProjectsShowcase
+        open={showProjects}
+        onClose={() => setShowProjects(false)}
+      />
+    </>
   );
 }

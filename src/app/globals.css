@@ -457,6 +457,140 @@ a:hover { text-decoration: underline; }
 }
 .hero-chevron { color: var(--text-faint); font-size: 20px; line-height: 1; }
 
+/* -------------------------- Projects showcase --------------------------- */
+.project-showcase-root {
+  position: fixed; inset: 0; z-index: 140;
+  display: flex; align-items: center; justify-content: center;
+  padding: 28px;
+}
+.project-showcase-overlay {
+  position: absolute; inset: 0; border: 0; cursor: default;
+  background: rgba(8, 8, 12, 0.72); backdrop-filter: blur(8px);
+}
+.project-showcase {
+  position: relative; z-index: 1; width: min(960px, 100%); max-height: min(820px, 92dvh);
+  overflow-y: auto; border: 0.5px solid var(--border-strong); border-radius: 24px;
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.38);
+}
+.project-showcase-header {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 24px;
+  padding: 24px 26px 20px; border-bottom: 0.5px solid var(--border);
+}
+.project-showcase-kicker {
+  display: block; margin-bottom: 3px; color: var(--accent); font-size: 12px;
+  font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.project-showcase-header h2 { margin: 0; font-size: 27px; line-height: 1.2; letter-spacing: -0.4px; }
+.project-showcase-header p { margin: 5px 0 0; color: var(--text-muted); font-size: 14px; }
+.project-showcase-close {
+  width: 38px; height: 38px; flex: none; border-radius: 50%;
+  border: 0.5px solid var(--border-strong); background: var(--bg-elev); color: var(--text);
+  font: 22px/1 var(--font); cursor: pointer;
+}
+.project-showcase-close:hover { background: var(--bubble-hover); }
+.project-showcase-close:focus-visible,
+.project-index-trigger:focus-visible,
+.project-showcase-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.project-index { padding: 0 26px 24px; }
+.project-index-item {
+  --project-accent: var(--accent);
+  border-bottom: 0.5px solid var(--border-strong);
+}
+.project-index-item:first-child { border-top: 0.5px solid var(--border-strong); }
+.project-index-trigger {
+  width: 100%; min-height: 112px; display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) auto 26px;
+  align-items: center; gap: 14px; padding: 18px 0;
+  border: 0; background: transparent; color: var(--text);
+  font-family: inherit; text-align: left; cursor: pointer;
+}
+.project-index-number {
+  align-self: start; padding-top: 7px; color: var(--project-accent);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+}
+.project-index-copy strong {
+  display: block; font-size: clamp(27px, 4.2vw, 46px); line-height: 1;
+  letter-spacing: -0.04em; transition: transform 0.18s ease;
+}
+.project-index-copy small {
+  display: block; margin-top: 8px; color: var(--text-muted);
+  font-size: 13px; letter-spacing: 0.01em;
+}
+.project-index-action {
+  color: var(--text-muted); font-size: 12px; font-weight: 650;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.project-index-symbol {
+  display: grid; place-items: center; width: 26px; height: 26px;
+  border: 0.5px solid var(--border-strong); border-radius: 50%;
+  color: var(--project-accent); font-size: 17px; line-height: 1;
+}
+.project-index-trigger:hover .project-index-copy strong,
+.project-index-item.expanded .project-index-copy strong { transform: translateX(7px); }
+.project-index-detail { overflow: hidden; }
+.project-detail-inner { padding: 0 0 26px 60px; }
+.project-workflow-inline {
+  display: flex; align-items: stretch; gap: 7px; margin: 2px 0 20px;
+  overflow-x: auto; padding-bottom: 3px;
+}
+.project-workflow-step { display: flex; align-items: center; gap: 7px; flex: 0 0 auto; }
+.project-workflow-step span {
+  display: inline-flex; min-height: 35px; align-items: center;
+  padding: 7px 11px; border: 0.5px solid color-mix(in srgb, var(--project-accent) 45%, var(--border));
+  border-radius: 10px; background: color-mix(in srgb, var(--project-accent) 8%, var(--bg-elev));
+  font-size: 12px; font-weight: 600;
+}
+.project-workflow-step i { color: var(--project-accent); font-size: 14px; font-style: normal; }
+.project-story-grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;
+  margin: 0 0 24px;
+}
+.project-story-grid section {
+  min-height: 160px; padding: 17px; border: 0.5px solid var(--border);
+  border-radius: 15px; background: var(--bg-elev);
+}
+.project-story-grid span {
+  display: block; margin-bottom: 9px; color: var(--project-accent);
+  font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.project-story-grid p { margin: 0; font-size: 14px; line-height: 1.55; }
+.project-showcase-footer {
+  display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;
+  padding-top: 20px; border-top: 0.5px solid var(--border);
+}
+.project-showcase-link {
+  flex: none; display: inline-flex; align-items: center; gap: 7px;
+  border-radius: 20px; padding: 9px 16px; background: var(--project-accent); color: #fff;
+  font-size: 13.5px; font-weight: 650;
+}
+.project-showcase-link:hover { text-decoration: none; opacity: 0.92; }
+.project-hover-preview {
+  --project-accent: var(--accent);
+  position: fixed; top: 0; left: 0; z-index: 3; width: 278px;
+  padding: 17px; pointer-events: none; border: 0.5px solid var(--border-strong);
+  border-radius: 16px; background: color-mix(in srgb, var(--bg-elev) 96%, transparent);
+  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.28); backdrop-filter: blur(12px);
+}
+.project-hover-preview::before {
+  content: ""; display: block; width: 42px; height: 3px; margin-bottom: 14px;
+  border-radius: 2px; background: var(--project-accent);
+}
+.project-hover-preview > span {
+  display: block; color: var(--text-muted); font-size: 10px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.project-hover-preview > strong { display: block; margin: 5px 0 16px; font-size: 22px; }
+.project-hover-flow { display: grid; gap: 6px; }
+.project-hover-flow > div { display: flex; align-items: center; gap: 6px; }
+.project-hover-flow b {
+  flex: 1; padding: 7px 8px; border-radius: 8px;
+  background: color-mix(in srgb, var(--project-accent) 9%, var(--bg));
+  font-size: 10.5px; font-weight: 600; text-align: center;
+}
+.project-hover-flow i { color: var(--project-accent); font-size: 11px; font-style: normal; }
+
 @media (max-width: 620px) {
   .hero { justify-content: flex-start; padding-top: 20px; }
   .hero-avatar { width: 84px; height: 84px; }
@@ -464,6 +598,29 @@ a:hover { text-decoration: underline; }
   .hero-sub { max-width: 34rem; }
   .hero-cards { grid-template-columns: 1fr; gap: 8px; }
   .hero-card { min-height: 50px; padding: 11px 14px; }
+  .project-showcase-root { padding: 0; align-items: flex-end; }
+  .project-showcase { width: 100%; max-height: 94dvh; border-radius: 22px 22px 0 0; }
+  .project-showcase-header { padding: 20px 18px 16px; }
+  .project-showcase-header h2 { font-size: 23px; }
+  .project-showcase-header p { max-width: 16rem; }
+  .project-index { padding: 0 18px 20px; }
+  .project-index-trigger {
+    min-height: 94px; grid-template-columns: 34px minmax(0, 1fr) 28px;
+    gap: 9px; padding: 14px 0;
+  }
+  .project-index-copy strong { font-size: clamp(25px, 9vw, 36px); }
+  .project-index-copy small { margin-top: 6px; }
+  .project-index-action { display: none; }
+  .project-detail-inner { padding: 0 0 24px; }
+  .project-workflow-inline { margin-bottom: 16px; }
+  .project-story-grid { grid-template-columns: 1fr; margin: 0 0 20px; }
+  .project-story-grid section { min-height: 0; }
+  .project-showcase-footer { align-items: flex-start; }
+  .project-hover-preview { display: none; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .project-hover-preview { display: none; }
 }
 
 /* ------------------------ Projects carousel (Phase 4) -------------------- */
