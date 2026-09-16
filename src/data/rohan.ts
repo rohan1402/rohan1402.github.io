@@ -19,6 +19,8 @@ export interface Project {
   blurb: string;
   stack: string[];
   url: string;
+  image: string;
+  imageAlt: string;
   story?: {
     problem: string;
     build: string;
@@ -111,6 +113,8 @@ export const ROHAN: Rohan = {
         "A Socratic thinking companion for children that asks one guiding question at a time, enforces tool safety in code, and records each child's learning journey in a private git-backed growth journal.",
       stack: ["gitagent", "Claude", "Gemini", "Node.js", "Git"],
       url: "https://github.com/rohan1402/Whyzr",
+      image: "/assets/projects/whyzr.jpg",
+      imageAlt: "Illustration of a protected question path leading to a learning journal",
       story: {
         problem:
           "AI can help children reach answers while quietly replacing the thinking process that produces real learning.",
@@ -134,6 +138,8 @@ export const ROHAN: Rohan = {
         "An AI-visibility audit and outreach engine that measures whether major assistants recommend a business, identifies the gaps, and turns the analysis into reports, rewrites, and CRM-ready outreach.",
       stack: ["Python", "OpenAI", "Claude", "Gemini", "FastAPI", "Supabase"],
       url: "https://github.com/rohan1402/scail",
+      image: "/assets/projects/scail.jpg",
+      imageAlt: "Illustration of AI visibility analysis flowing into reports and outreach",
       story: {
         problem:
           "Businesses have little visibility into whether AI assistants recommend them or what changes could improve their presence in generated answers.",
@@ -154,17 +160,19 @@ export const ROHAN: Rohan = {
       name: "Patchwork",
       category: "Autonomous engineering agent",
       blurb:
-        "Autonomous agent that ingests a bug report, generates regression tests, runs them in an E2B sandbox, and opens a GitHub PR with passing tests, end to end with no human in the loop. Built at the Zero to Agent hackathon (Vercel x DeepMind).",
-      stack: ["Gemini", "E2B Sandbox", "GitHub API", "Next.js", "Tool Use"],
+        "GitHub App that turns a bug report into a targeted regression-test pull request. It reads the repository's existing test patterns, uses Gemini 2.5 Pro to write a test that fails before the fix and passes after it, then creates the branch, commit, and PR. Built solo at the Zero to Agent hackathon.",
+      stack: ["Gemini 2.5 Pro", "Next.js", "Octokit", "Supabase", "Vercel"],
       url: "https://github.com/rohan1402/patchwork",
+      image: "/assets/projects/patchwork.jpg",
+      imageAlt: "Illustration of an agent converting a software bug into a tested pull request",
       story: {
         problem:
-          "A bug report rarely arrives with the regression test and validated fix a maintainer needs.",
+          "When a bug is fixed, the regression test that would prevent it from returning is often skipped.",
         build:
-          "A Gemini-powered workflow that writes the test, runs it inside E2B, iterates in the sandbox, and opens a GitHub pull request.",
+          "A GitHub App that receives an issue webhook, reads the repository's test files, generates a targeted regression test with Gemini, and creates the branch, commit, and pull request through Octokit.",
         result:
-          "A solo-built, end-to-end agent that completes the workflow without a human in the loop.",
-        previewSteps: ["Bug report", "Regression test", "E2B sandbox", "GitHub PR"],
+          "A reviewable test-only pull request that raises coverage without allowing the agent to change production code.",
+        previewSteps: ["GitHub issue", "Read test patterns", "Generate test", "Open PR"],
       },
     },
     {
@@ -175,13 +183,15 @@ export const ROHAN: Rohan = {
         "AI compliance intelligence that lets healthcare staff search accreditation standards in plain English and get precise, cited answers without digging through PDFs.",
       stack: ["Claude Sonnet", "MongoDB Atlas", "Voyage AI", "Next.js", "Vercel"],
       url: "https://github.com/rohan1402/agentically",
+      image: "/assets/projects/agentically.jpg",
+      imageAlt: "Illustration of healthcare standards becoming a grounded cited answer",
       story: {
         problem:
           "Accreditation standards live across long documents, making precise answers slow to find and difficult to verify.",
         build:
           "A retrieval system using Claude Sonnet, MongoDB Atlas vector search, and Voyage AI embeddings.",
         result:
-          "Healthcare staff can search in plain English and receive focused answers with supporting citations.",
+          "The system indexes 1,919 standards chunks and passed 13 of 13 test queries across semantic, exact-citation, browse, and hybrid retrieval modes.",
         previewSteps: ["Question", "Vector search", "Claude", "Cited answer"],
       },
     },
@@ -190,17 +200,19 @@ export const ROHAN: Rohan = {
       name: "Rutgers LLM Benchmarking",
       category: "Local model evaluation",
       blurb:
-        "Local LLM evaluation pipeline running 4 GGUF Q4_K_M models through a custom RAG harness, with Groq-as-judge scoring. Built at Rutgers.",
-      stack: ["llama-cpp-python", "LangChain", "Groq", "Python"],
+        "Two-phase evaluation platform that benchmarks four local GGUF models across 14 prompts and nine capability categories, then compares them in a PDF RAG pipeline using retrieval, citation-validity, and latency metrics.",
+      stack: ["TypeScript", "llama-cpp-python", "React", "Express", "Groq"],
       url: "https://github.com/rohan1402/llm-playground",
+      image: "/assets/projects/llm-benchmarking.jpg",
+      imageAlt: "Illustration of four language models passing through a shared evaluation harness",
       story: {
         problem:
           "Local language models need a consistent retrieval and scoring setup before their quality can be compared fairly.",
         build:
-          "A custom RAG harness that runs four quantized GGUF models locally and uses Groq as the evaluation judge.",
+          "A TypeScript evaluation and RAG harness that serves one quantized model at a time through llama-cpp-python and supports deterministic and LLM-judge scoring.",
         result:
-          "A repeatable pipeline for comparing model behavior through the same retrieval and scoring workflow.",
-        previewSteps: ["4 local models", "RAG harness", "Groq judge", "Benchmark"],
+          "Reproducible comparisons across accuracy, latency, retrieval hit rate, and citation validity for local models and a Groq cloud baseline.",
+        previewSteps: ["4 local models", "Shared eval suite", "PDF RAG", "Compare results"],
       },
     },
     {
@@ -208,9 +220,11 @@ export const ROHAN: Rohan = {
       name: "F1 Race Rewind",
       category: "Interactive race simulation",
       blurb:
-        "Interactive what-if race simulator that lets you change pit-stop laps and watch downstream position changes in an animated lap-by-lap replay.",
-      stack: ["Python", "Streamlit", "FastF1", "Pandas"],
+        "ML-powered what-if simulator for six historical Formula 1 races. Change a pit-stop lap or tyre compound, then compare the actual race with a lap-by-lap replay driven by predicted lap times.",
+      stack: ["Python", "Streamlit", "FastF1", "scikit-learn", "Pandas"],
       url: "https://github.com/rohan1402/f1-race-simulator",
+      image: "/assets/projects/f1-race-rewind.jpg",
+      imageAlt: "Illustration of actual and alternative race strategies diverging at a pit stop",
     },
   ],
   experience: [

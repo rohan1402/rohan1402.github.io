@@ -8,7 +8,7 @@
  */
 
 import Link from "next/link";
-import { ROHAN } from "@/data/rohan";
+import { ROHAN, type Project } from "@/data/rohan";
 import type { IntentId } from "@/lib/scripted";
 import { track } from "@/lib/analytics";
 import { Pills } from "./Pills";
@@ -88,8 +88,9 @@ function Projects() {
   );
 }
 
-function OneProject({ index, children }: { index: number; children: React.ReactNode }) {
-  const p = ROHAN.projects[index];
+function OneProject({ id, children }: { id: Project["id"]; children: React.ReactNode }) {
+  const p = ROHAN.projects.find((project) => project.id === id);
+  if (!p) return null;
   return (
     <>
       <div className="cards">
@@ -253,43 +254,64 @@ export function IntentAnswer({ id }: { id: IntentId }) {
       return <About />;
     case "projects":
       return <Projects />;
+    case "whyzr":
+      return (
+        <OneProject id="whyzr">
+          <p>
+            Whyzr uses a constitution, code-enforced tool guards, per-child git
+            memory, and a two-layer evaluation suite to keep the tutor focused
+            on guided thinking rather than direct answers.
+          </p>
+        </OneProject>
+      );
+    case "scail":
+      return (
+        <OneProject id="scail">
+          <p>
+            SCAIL measures how businesses appear across AI assistants, then
+            turns the evidence into audit reports, page rewrites, scorecards,
+            and CRM-ready outreach.
+          </p>
+        </OneProject>
+      );
     case "patchwork":
       return (
-        <OneProject index={0}>
+        <OneProject id="patchwork">
           <p>
             It was built <strong>solo</strong> at the Zero to Agent hackathon
-            (Vercel x Google DeepMind). It&apos;s an end-to-end agent: it reads a
-            bug report, synthesizes a failing regression test, and opens a PR.
+            (Vercel x Google DeepMind). It reads a bug report and the
+            repository&apos;s existing test patterns, writes a failing regression
+            test, and opens a reviewable test-only pull request.
           </p>
         </OneProject>
       );
     case "agentically":
       return (
-        <OneProject index={1}>
+        <OneProject id="agentically">
           <p>
-            A real RAG system with cited answers, built on Claude with MongoDB
-            Atlas vector search and Voyage AI embeddings, so compliance staff
-            stop hunting through accreditation PDFs.
+            It routes semantic, exact-citation, browse, and hybrid questions
+            through the appropriate retrieval path. Its 1,919 indexed
+            standards chunks passed 13 of 13 test queries.
           </p>
         </OneProject>
       );
     case "llm":
       return (
-        <OneProject index={2}>
+        <OneProject id="llm">
           <p>
-            Rohan built this at Rutgers. It&apos;s a local evaluation pipeline
-            running 4 quantized GGUF models through a custom RAG harness, with
-            Groq-as-judge scoring.
+            It benchmarks four local GGUF models with one shared prompt suite,
+            then compares their PDF RAG performance using retrieval,
+            citation-validity, and latency metrics.
           </p>
         </OneProject>
       );
     case "f1":
       return (
-        <OneProject index={3}>
+        <OneProject id="f1">
           <p>
-            A what-if race simulator: change a pit-stop lap and watch the
-            downstream finishing order replay lap-by-lap. Powered by the FastF1
-            telemetry dataset.
+            Change a pit-stop lap or tyre compound across six historical races,
+            then compare the actual result with an ML-powered lap-by-lap replay
+            on the real circuit map.
           </p>
         </OneProject>
       );

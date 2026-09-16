@@ -250,6 +250,10 @@ a:hover { text-decoration: underline; }
   transition: border-color 0.15s, transform 0.15s;
 }
 .card:hover { border-color: var(--accent); text-decoration: none; transform: translateY(-1px); }
+.card-project-image {
+  display: block; width: 100%; height: 160px; margin: 0 0 12px;
+  border-radius: calc(var(--radius) - 5px); object-fit: cover;
+}
 .card-title { font-weight: 600; font-size: 14.5px; }
 .card-link { color: var(--text-faint); font-weight: 400; }
 .card-blurb { font-size: 13px; color: var(--text-muted); margin: 4px 0 8px; }
@@ -605,10 +609,20 @@ a:hover { text-decoration: underline; }
   padding: 16px; display: flex; flex-direction: column; gap: 6px;
   color: #fff; text-align: left; scroll-snap-align: start;
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.16);
-  font-family: inherit;
+  font-family: inherit; position: relative; overflow: hidden; isolation: isolate;
+}
+.carousel-image {
+  position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%;
+  object-fit: cover; transition: transform 0.3s ease;
+}
+.carousel-card:hover .carousel-image { transform: scale(1.035); }
+.carousel-scrim {
+  position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(180deg, rgba(5, 8, 20, 0.2) 15%, rgba(5, 8, 20, 0.32) 48%, rgba(5, 8, 20, 0.92) 100%);
 }
 .carousel-cat {
   font-size: 12px; font-weight: 600; opacity: 0.9; letter-spacing: 0.2px;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.55);
 }
 .carousel-title {
   margin-top: auto; font-size: 20px; font-weight: 700; line-height: 1.2;
@@ -628,6 +642,11 @@ a:hover { text-decoration: underline; }
   width: min(560px, 94vw); max-height: 86vh; overflow-y: auto;
   border-radius: 22px; padding: 26px; color: #fff;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+.carousel-modal-image {
+  display: block; width: 100%; height: min(310px, 36vh); object-fit: cover;
+  margin-bottom: 18px; border-radius: 15px;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.24);
 }
 .carousel-modal-title {
   display: block; font-size: 30px; font-weight: 700; margin: 4px 0 14px;

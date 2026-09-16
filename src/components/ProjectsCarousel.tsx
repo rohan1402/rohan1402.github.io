@@ -8,8 +8,9 @@
  * (keyed by useId) so multiple carousels in the transcript never cross-morph.
  */
 
-import { useEffect, useId, useRef, useState } from "react";
-import { AnimatePresence, LayoutGroup, motion } from "motion/react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { createPortal } from "react-dom";
 import type { Project } from "@/data/rohan";
 import { Pills } from "./Pills";
 import { track } from "@/lib/analytics";
@@ -43,7 +44,6 @@ function useDismiss(open: boolean, onClose: () => void, ref: React.RefObject<HTM
 }
 
 export function ProjectsCarousel({ projects }: { projects: Project[] }) {
-  const groupId = useId().replace(/:/g, "");
   const [openId, setOpenId] = useState<string | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -54,11 +54,10 @@ export function ProjectsCarousel({ projects }: { projects: Project[] }) {
   const grad = (i: number) => GRADIENTS[i % GRADIENTS.length];
 
   return (
-    <LayoutGroup id={groupId}>
+    <>
       <div className="carousel" role="list">
         {projects.map((p, i) => (
           <motion.button
-            layoutId={`card-${groupId}-${p.id}`}
             key={p.id}
             type="button"
             className="carousel-card"
@@ -67,63 +66,74 @@ export function ProjectsCarousel({ projects }: { projects: Project[] }) {
             role="listitem"
             aria-label={`Open ${p.name}`}
           >
-            <motion.span layoutId={`cat-${groupId}-${p.id}`} className="carousel-cat">
+            <img
+              className="carousel-image"
+              src={p.image}
+              alt=""
+              loading="lazy"
+              draggable={false}
+            />
+            <span className="carousel-scrim" aria-hidden="true" />
+            <span className="carousel-cat">
               {p.stack[0]}
-            </motion.span>
-            <motion.span layoutId={`title-${groupId}-${p.id}`} className="carousel-title">
+            </span>
+            <span className="carousel-title">
               {p.name}
-            </motion.span>
+            </span>
           </motion.button>
         ))}
       </div>
 
-      <AnimatePresence>
-        {open && (
-          <div className="carousel-modal-root">
-            <div className="carousel-overlay" />
-            <motion.div
-              layoutId={`card-${groupId}-${open.id}`}
-              className="carousel-modal"
-              ref={modalRef}
-              style={{ backgroundImage: grad(openIndex) }}
-            >
-              <button
-                type="button"
-                className="carousel-close"
-                onClick={() => setOpenId(null)}
-                aria-label="Close"
-              >
-                ×
-              </button>
-              <motion.span
-                layoutId={`cat-${groupId}-${open.id}`}
-                className="carousel-cat"
-              >
-                {open.stack[0]}
-              </motion.span>
-              <motion.span
-                layoutId={`title-${groupId}-${open.id}`}
-                className="carousel-modal-title"
-              >
-                {open.name}
-              </motion.span>
-              <div className="carousel-modal-body">
-                <p>{open.blurb}</p>
-                <Pills items={open.stack} />
-                <a
-                  className="btn carousel-repo"
-                  href={open.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => track("outbound-click", open.id)}
+      {typeof document !== "undefined" &&
+        createPortal(
+          <AnimatePresence>
+            {open && (
+              <div className="carousel-modal-root">
+                <div className="carousel-overlay" />
+                <motion.div
+                  className="carousel-modal"
+                  ref={modalRef}
+                  style={{ backgroundImage: grad(openIndex) }}
+                  initial={{ opacity: 0, scale: 0.96, y: 12 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.97, y: 8 }}
+                  transition={{ duration: 0.2, ease: "easeOut" }}
                 >
-                  View repo ↗
-                </a>
+                  <button
+                    type="button"
+                    className="carousel-close"
+                    onClick={() => setOpenId(null)}
+                    aria-label="Close"
+                  >
+                    ×
+                  </button>
+                  <img
+                    className="carousel-modal-image"
+                    src={open.image}
+                    alt={open.imageAlt}
+                    draggable={false}
+                  />
+                  <span className="carousel-cat">{open.stack[0]}</span>
+                  <span className="carousel-modal-title">{open.name}</span>
+                  <div className="carousel-modal-body">
+                    <p>{open.blurb}</p>
+                    <Pills items={open.stack} />
+                    <a
+                      className="btn carousel-repo"
+                      href={open.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => track("outbound-click", open.id)}
+                    >
+                      View repo ↗
+                    </a>
+                  </div>
+                </motion.div>
               </div>
-            </motion.div>
-          </div>
+            )}
+          </AnimatePresence>,
+          document.body
         )}
-      </AnimatePresence>
-    </LayoutGroup>
+    </>
   );
 }

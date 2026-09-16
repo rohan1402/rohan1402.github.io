@@ -17,6 +17,8 @@ export function ProjectCard({
       rel="noopener noreferrer"
       onClick={onOutbound}
     >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img className="card-project-image" src={project.image} alt={project.imageAlt} />
       <div className="card-title">
         {project.name} <span className="card-link">↗</span>
       </div>

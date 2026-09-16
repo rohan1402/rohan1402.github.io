@@ -11,6 +11,8 @@
 export type IntentId =
   | "about"
   | "projects"
+  | "whyzr"
+  | "scail"
   | "patchwork"
   | "agentically"
   | "llm"
@@ -52,7 +54,21 @@ export const INTENTS: Intent[] = [
     label: "Projects",
     prompt: "Show me his projects",
     keywords: ["project", "projects", "built", "build", "work", "portfolio", "shipped", "made"],
-    followups: ["patchwork", "agentically", "skills"],
+    followups: ["whyzr", "scail", "patchwork"],
+  },
+  {
+    id: "whyzr",
+    label: "Whyzr",
+    prompt: "Tell me about Whyzr",
+    keywords: ["whyzr", "socratic", "thinking buddy", "learning agent", "gitagent"],
+    followups: ["scail", "patchwork", "projects"],
+  },
+  {
+    id: "scail",
+    label: "SCAIL",
+    prompt: "Tell me about SCAIL",
+    keywords: ["scail", "ai visibility", "visibility audit", "seo audit", "outreach engine"],
+    followups: ["whyzr", "patchwork", "projects"],
   },
   {
     id: "patchwork",

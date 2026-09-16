@@ -10,7 +10,14 @@ import { ROHAN } from "@/data/rohan";
 
 const noInput = z.object({});
 
-export const PROJECT_IDS = ["patchwork", "agentically", "llm", "f1"] as const;
+export const PROJECT_IDS = [
+  "whyzr",
+  "scail",
+  "patchwork",
+  "agentically",
+  "llm",
+  "f1",
+] as const;
 
 export const tools = {
   getPresentation: tool({
