@@ -220,7 +220,7 @@ a:hover { text-decoration: underline; }
 }
 .msg.bot .avatar { margin-top: 2px; }
 .msg .text { font-size: 15px; }
-.msg.bot .text { animation: rise 0.32s ease both; }
+.msg.bot .text { min-width: 0; flex: 1; animation: rise 0.32s ease both; }
 @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
 .text p { margin: 0 0 10px; }
@@ -664,11 +664,34 @@ a:hover { text-decoration: underline; }
 .carousel-repo:hover { opacity: 1; background: #fff; }
 .carousel-close {
   position: absolute; top: 14px; right: 14px;
-  width: 30px; height: 30px; border-radius: 50%; border: none;
+  width: 36px; height: 36px; border-radius: 50%; border: none;
   background: rgba(0, 0, 0, 0.35); color: #fff; font-size: 18px; line-height: 1;
   cursor: pointer;
 }
 .carousel-close:hover { background: rgba(0, 0, 0, 0.55); }
+
+@media (max-width: 900px) {
+  body:has(.carousel, .carousel-modal-root, .project-showcase-root, .card-project-image) .mascot-host,
+  body:has(.carousel, .carousel-modal-root, .project-showcase-root, .card-project-image) .mascot-restore {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-modal-root { padding: 12px; }
+  .carousel-modal {
+    width: 100%; max-height: calc(100dvh - 24px);
+    border-radius: 18px; padding: 20px;
+  }
+  .carousel-modal-image {
+    height: min(250px, 34dvh); margin-bottom: 14px; border-radius: 13px;
+  }
+  .carousel-modal-title { font-size: 27px; margin-bottom: 10px; }
+  .carousel-close {
+    position: sticky; top: 0; right: auto; z-index: 2;
+    display: block; margin: 0 0 -36px auto;
+  }
+}
 
 /* ----------------------- Questions drawer (Phase 4) ---------------------- */
 .composer-actions {
