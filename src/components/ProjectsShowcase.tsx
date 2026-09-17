@@ -145,6 +145,27 @@ export function ProjectsShowcase({
                           transition={{ duration: reduceMotion ? 0 : 0.24 }}
                         >
                           <div className="project-detail-inner">
+                            <div className="project-case-overview">
+                              <div className="project-case-image-wrap">
+                                <img
+                                  className="project-case-image"
+                                  src={project.image}
+                                  alt={project.imageAlt}
+                                  loading="lazy"
+                                />
+                              </div>
+                              <div className="project-case-summary">
+                                <span className="project-case-label">Project overview</span>
+                                <p>{project.blurb}</p>
+                                <div className="project-proof-strip" aria-label={`${project.name} proof points`}>
+                                  {project.story.proof.map((item) => (
+                                    <span key={item}>{item}</span>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+
+                            <span className="project-case-label">System flow</span>
                             <div
                               className="project-workflow-inline"
                               aria-label={`${project.name} workflow`}
@@ -165,28 +186,47 @@ export function ProjectsShowcase({
                                 <p>{project.story.problem}</p>
                               </section>
                               <section>
-                                <span>What I built</span>
+                                <span>My contribution</span>
                                 <p>{project.story.build}</p>
                               </section>
                               <section>
-                                <span>Result</span>
+                                <span>Key decision</span>
+                                <p>{project.story.decision}</p>
+                              </section>
+                              <section>
+                                <span>Outcome</span>
                                 <p>{project.story.result}</p>
                               </section>
                             </div>
 
                             <div className="project-showcase-footer">
                               <Pills items={project.stack} />
-                              <a
-                                className="project-showcase-link"
-                                href={project.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={() =>
-                                  track("outbound-click", `showcase-${project.id}`)
-                                }
-                              >
-                                View repository <span aria-hidden="true">↗</span>
-                              </a>
+                              <div className="project-showcase-links">
+                                {project.demoUrl && (
+                                  <a
+                                    className="project-showcase-link secondary"
+                                    href={project.demoUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    onClick={() =>
+                                      track("outbound-click", `showcase-${project.id}-demo`)
+                                    }
+                                  >
+                                    {project.demoLabel ?? "Open live demo"} <span aria-hidden="true">↗</span>
+                                  </a>
+                                )}
+                                <a
+                                  className="project-showcase-link"
+                                  href={project.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  onClick={() =>
+                                    track("outbound-click", `showcase-${project.id}`)
+                                  }
+                                >
+                                  View repository <span aria-hidden="true">↗</span>
+                                </a>
+                              </div>
                             </div>
                           </div>
                         </motion.div>

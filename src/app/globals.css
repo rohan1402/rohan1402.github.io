@@ -543,8 +543,39 @@ a:hover { text-decoration: underline; }
 .project-index-item.expanded .project-index-copy strong { transform: translateX(7px); }
 .project-index-detail { overflow: hidden; }
 .project-detail-inner { padding: 0 0 26px 60px; }
+.project-case-overview {
+  display: grid; grid-template-columns: minmax(220px, 0.82fr) minmax(0, 1.18fr);
+  gap: 20px; align-items: stretch; margin: 2px 0 22px;
+}
+.project-case-image-wrap {
+  min-height: 230px; overflow: hidden; border-radius: 16px;
+  border: 0.5px solid var(--border); background: var(--bg-elev);
+}
+.project-case-image {
+  width: 100%; height: 100%; min-height: 230px; display: block;
+  object-fit: cover; transition: transform 0.3s ease;
+}
+.project-index-item.expanded .project-case-image { transform: scale(1.015); }
+.project-case-summary {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 18px 2px;
+}
+.project-case-summary > p {
+  margin: 7px 0 18px; font-size: 15px; line-height: 1.62;
+}
+.project-case-label {
+  display: block; color: var(--project-accent); font-size: 11px;
+  font-weight: 750; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.project-proof-strip { display: flex; flex-wrap: wrap; gap: 8px; }
+.project-proof-strip span {
+  display: inline-flex; align-items: center; min-height: 31px; padding: 6px 10px;
+  border: 0.5px solid color-mix(in srgb, var(--project-accent) 42%, var(--border));
+  border-radius: 999px; background: color-mix(in srgb, var(--project-accent) 9%, var(--bg-elev));
+  font-size: 11.5px; font-weight: 650;
+}
 .project-workflow-inline {
-  display: flex; align-items: stretch; gap: 7px; margin: 2px 0 20px;
+  display: flex; align-items: stretch; gap: 7px; margin: 8px 0 20px;
   overflow-x: auto; padding-bottom: 3px;
 }
 .project-workflow-step { display: flex; align-items: center; gap: 7px; flex: 0 0 auto; }
@@ -556,11 +587,11 @@ a:hover { text-decoration: underline; }
 }
 .project-workflow-step i { color: var(--project-accent); font-size: 14px; font-style: normal; }
 .project-story-grid {
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;
   margin: 0 0 24px;
 }
 .project-story-grid section {
-  min-height: 160px; padding: 17px; border: 0.5px solid var(--border);
+  min-height: 154px; padding: 17px; border: 0.5px solid var(--border);
   border-radius: 15px; background: var(--bg-elev);
 }
 .project-story-grid span {
@@ -578,6 +609,14 @@ a:hover { text-decoration: underline; }
   font-size: 13.5px; font-weight: 650;
 }
 .project-showcase-link:hover { text-decoration: none; opacity: 0.92; }
+.project-showcase-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.project-showcase-link.secondary {
+  border: 0.5px solid color-mix(in srgb, var(--project-accent) 55%, var(--border));
+  background: transparent; color: var(--text);
+}
+.project-showcase-link.secondary:hover {
+  background: color-mix(in srgb, var(--project-accent) 10%, var(--bg-elev));
+}
 @media (max-width: 620px) {
   .hero { justify-content: flex-start; padding-top: 20px; }
   .hero-avatar { width: 84px; height: 84px; }
@@ -599,10 +638,16 @@ a:hover { text-decoration: underline; }
   .project-index-copy small { margin-top: 6px; }
   .project-index-action { display: none; }
   .project-detail-inner { padding: 0 0 24px; }
+  .project-case-overview { grid-template-columns: 1fr; gap: 12px; }
+  .project-case-image-wrap, .project-case-image { min-height: 190px; }
+  .project-case-image-wrap { height: 190px; }
+  .project-case-summary { padding: 4px 0; }
+  .project-case-summary > p { margin-bottom: 14px; font-size: 14px; }
   .project-workflow-inline { margin-bottom: 16px; }
   .project-story-grid { grid-template-columns: 1fr; margin: 0 0 20px; }
   .project-story-grid section { min-height: 0; }
   .project-showcase-footer { align-items: flex-start; }
+  .project-showcase-links { width: 100%; }
 }
 
 /* ------------------------ Projects carousel (Phase 4) -------------------- */
@@ -666,10 +711,35 @@ a:hover { text-decoration: underline; }
 .carousel-modal-body .pill {
   background: rgba(255, 255, 255, 0.2); color: #fff;
 }
+.carousel-case-study { margin: 18px 0 20px; }
+.carousel-proof-strip { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; }
+.carousel-proof-strip span {
+  display: inline-flex; padding: 6px 9px; border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.13); font-size: 11px; font-weight: 650;
+  backdrop-filter: blur(8px);
+}
+.carousel-case-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.carousel-case-grid section {
+  min-height: 138px; padding: 13px; border-radius: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(8, 8, 16, 0.2);
+  backdrop-filter: blur(10px);
+}
+.carousel-case-grid section > span {
+  display: block; margin-bottom: 7px; font-size: 10.5px; font-weight: 750;
+  letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.78;
+}
+.carousel-modal-body .carousel-case-grid p { margin: 0; font-size: 12.5px; line-height: 1.48; }
+.carousel-modal-links { display: flex; flex-wrap: wrap; gap: 8px; }
 .carousel-repo {
   background: rgba(255, 255, 255, 0.95); color: #1d1d1f; margin: 0;
 }
 .carousel-repo:hover { opacity: 1; background: #fff; }
+.carousel-demo {
+  margin: 0; border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(0, 0, 0, 0.18); color: #fff;
+}
+.carousel-demo:hover { background: rgba(0, 0, 0, 0.3); text-decoration: none; }
 .carousel-close {
   position: absolute; top: 14px; right: 14px;
   width: 36px; height: 36px; border-radius: 50%; border: none;
@@ -695,6 +765,8 @@ a:hover { text-decoration: underline; }
     height: min(250px, 34dvh); margin-bottom: 14px; border-radius: 13px;
   }
   .carousel-modal-title { font-size: 27px; margin-bottom: 10px; }
+  .carousel-case-grid { grid-template-columns: 1fr; }
+  .carousel-case-grid section { min-height: 0; }
   .carousel-close {
     position: sticky; top: 0; right: auto; z-index: 2;
     display: block; margin: 0 0 -36px auto;

@@ -131,16 +131,56 @@ export function ProjectsCarousel({ projects }: { projects: Project[] }) {
                   <span className="carousel-modal-title">{open.name}</span>
                   <div className="carousel-modal-body">
                     <p>{open.blurb}</p>
+                    {open.story && (
+                      <div className="carousel-case-study">
+                        <div className="carousel-proof-strip" aria-label={`${open.name} proof points`}>
+                          {open.story.proof.map((item) => (
+                            <span key={item}>{item}</span>
+                          ))}
+                        </div>
+                        <div className="carousel-case-grid">
+                          <section>
+                            <span>Problem</span>
+                            <p>{open.story.problem}</p>
+                          </section>
+                          <section>
+                            <span>My contribution</span>
+                            <p>{open.story.build}</p>
+                          </section>
+                          <section>
+                            <span>Key decision</span>
+                            <p>{open.story.decision}</p>
+                          </section>
+                          <section>
+                            <span>Outcome</span>
+                            <p>{open.story.result}</p>
+                          </section>
+                        </div>
+                      </div>
+                    )}
                     <Pills items={open.stack} />
-                    <a
-                      className="btn carousel-repo"
-                      href={open.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => track("outbound-click", open.id)}
-                    >
-                      View repo ↗
-                    </a>
+                    <div className="carousel-modal-links">
+                      {open.demoUrl && (
+                        <a
+                          className="btn carousel-demo"
+                          href={open.demoUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => track("outbound-click", `${open.id}-demo`)}
+                        >
+                          {open.demoLabel ?? "Open live demo"} ↗
+                        </a>
+                      )}
+                      <a
+                        className="btn carousel-repo"
+                        href={open.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => track("outbound-click", open.id)}
+                      >
+                        View repo ↗
+                      </a>
+                    </div>
                   </div>
                 </motion.div>
               </div>

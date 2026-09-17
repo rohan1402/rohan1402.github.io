@@ -19,12 +19,16 @@ export interface Project {
   blurb: string;
   stack: string[];
   url: string;
+  demoUrl?: string;
+  demoLabel?: string;
   image: string;
   imageAlt: string;
   story?: {
     problem: string;
     build: string;
+    decision: string;
     result: string;
+    proof: string[];
     previewSteps: string[];
   };
 }
@@ -120,8 +124,11 @@ export const ROHAN: Rohan = {
           "AI can help children reach answers while quietly replacing the thinking process that produces real learning.",
         build:
           "A constitution-driven tutor with fail-closed tool guards, per-child git memory, a voice interface, and separate runtime and behavioral evaluation layers.",
+        decision:
+          "Safety-critical limits live in a fail-closed pre-tool hook instead of relying on prompts, while each child's learning history gets an isolated git branch and worktree.",
         result:
           "The machinery and security suite passes 89 of 89 checks, while committed behavioral runs score 17 to 21 out of 21 without leaking direct answers.",
+        proof: ["89/89 machinery checks", "17-21/21 behavior scores", "Zero direct-answer leaks"],
         previewSteps: [
           "Child's question",
           "Socratic guidance",
@@ -144,9 +151,12 @@ export const ROHAN: Rohan = {
         problem:
           "Businesses have little visibility into whether AI assistants recommend them or what changes could improve their presence in generated answers.",
         build:
-          "A multi-step Python pipeline that gathers search and citation evidence, compares multiple AI platforms, generates a branded deliverable bundle, and automates prospect enrichment and outreach preparation.",
+          "I designed and built the Python audit engine, external-data collectors, deliverable assembly, FastAPI control panel, and CRM-ready prospecting flow.",
+        decision:
+          "Every collector can resolve to a live API or a deterministic offline fallback, so the full workflow remains testable even when a third-party integration is unavailable.",
         result:
           "One system carries an audit from raw business queries to an actionable report, page rewrites, an AI scorecard, and a CRM-ready lead record.",
+        proof: ["Step 0-27 audit pipeline", "ChatGPT, Claude, Gemini", "5-part audit bundle"],
         previewSteps: [
           "Business queries",
           "Multi-model audit",
@@ -163,15 +173,20 @@ export const ROHAN: Rohan = {
         "GitHub App that turns a bug report into a targeted regression-test pull request. It reads the repository's existing test patterns, uses Gemini 2.5 Pro to write a test that fails before the fix and passes after it, then creates the branch, commit, and PR. Built solo at the Zero to Agent hackathon.",
       stack: ["Gemini 2.5 Pro", "Next.js", "Octokit", "Supabase", "Vercel"],
       url: "https://github.com/rohan1402/patchwork",
+      demoUrl: "https://pensive-jang.vercel.app",
+      demoLabel: "Open live dashboard",
       image: "/assets/projects/patchwork.jpg",
       imageAlt: "Illustration of an agent converting a software bug into a tested pull request",
       story: {
         problem:
           "When a bug is fixed, the regression test that would prevent it from returning is often skipped.",
         build:
-          "A GitHub App that receives an issue webhook, reads the repository's test files, generates a targeted regression test with Gemini, and creates the branch, commit, and pull request through Octokit.",
+          "I built the GitHub App end to end: webhook handling, repository analysis, Gemini test generation, branch and commit creation, pull-request automation, and the activity dashboard.",
+        decision:
+          "The agent is deliberately limited to test-only changes. That keeps every action reviewable and avoids trusting generated code to modify production behavior.",
         result:
           "A reviewable test-only pull request that raises coverage without allowing the agent to change production code.",
+        proof: ["Issue-to-PR automation", "Test-only changes", "Solo hackathon build"],
         previewSteps: ["GitHub issue", "Read test patterns", "Generate test", "Open PR"],
       },
     },
@@ -183,15 +198,20 @@ export const ROHAN: Rohan = {
         "AI compliance intelligence that lets healthcare staff search accreditation standards in plain English and get precise, cited answers without digging through PDFs.",
       stack: ["Claude Sonnet", "MongoDB Atlas", "Voyage AI", "Next.js", "Vercel"],
       url: "https://github.com/rohan1402/agentically",
+      demoUrl: "https://agentically-webui.vercel.app",
+      demoLabel: "View product site",
       image: "/assets/projects/agentically.jpg",
       imageAlt: "Illustration of healthcare standards becoming a grounded cited answer",
       story: {
         problem:
           "Accreditation standards live across long documents, making precise answers slow to find and difficult to verify.",
         build:
-          "A retrieval system using Claude Sonnet, MongoDB Atlas vector search, and Voyage AI embeddings.",
+          "I built the document-ingestion pipeline, Voyage embedding flow, MongoDB Atlas search tools, Claude agent, evaluation set, and Next.js interface.",
+        decision:
+          "The agent routes each request through semantic, exact-citation, browse, or hybrid retrieval instead of forcing every question through one vector-search path.",
         result:
           "The system indexes 1,919 standards chunks and passed 13 of 13 test queries across semantic, exact-citation, browse, and hybrid retrieval modes.",
+        proof: ["1,919 indexed chunks", "13/13 eval queries", "3-8 second responses"],
         previewSteps: ["Question", "Vector search", "Claude", "Cited answer"],
       },
     },
@@ -209,9 +229,12 @@ export const ROHAN: Rohan = {
         problem:
           "Local language models need a consistent retrieval and scoring setup before their quality can be compared fairly.",
         build:
-          "A TypeScript evaluation and RAG harness that serves one quantized model at a time through llama-cpp-python and supports deterministic and LLM-judge scoring.",
+          "I built the two-phase TypeScript benchmark and PDF RAG harness, including model adapters, deterministic scoring, LLM-judge comparison, and temperature analysis.",
+        decision:
+          "Only one quantized GGUF is served at a time through llama-cpp-python, preventing same-model-different-label artifacts and keeping comparisons reproducible.",
         result:
-          "Reproducible comparisons across accuracy, latency, retrieval hit rate, and citation validity for local models and a Groq cloud baseline.",
+          "Llama 3.1 8B was the most consistent local model, while Phi-3.5 and Qwen each reached 100% citation validity in the shared RAG evaluation.",
+        proof: ["4 local models", "14 prompts / 9 categories", "10-question RAG eval"],
         previewSteps: ["4 local models", "Shared eval suite", "PDF RAG", "Compare results"],
       },
     },
