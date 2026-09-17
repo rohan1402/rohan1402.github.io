@@ -14,6 +14,7 @@ import { createPortal } from "react-dom";
 import type { Project } from "@/data/rohan";
 import { Pills } from "./Pills";
 import { track } from "@/lib/analytics";
+import { cueAvatar } from "@/lib/avatar";
 
 const GRADIENTS = [
   "linear-gradient(160deg, #4f46e5, #7c3aed)",
@@ -49,7 +50,14 @@ export function ProjectsCarousel({ projects }: { projects: Project[] }) {
 
   const openIndex = projects.findIndex((p) => p.id === openId);
   const open = openIndex >= 0 ? projects[openIndex] : null;
-  useDismiss(!!open, () => setOpenId(null), modalRef);
+  useDismiss(
+    !!open,
+    () => {
+      setOpenId(null);
+      cueAvatar("idle");
+    },
+    modalRef
+  );
 
   const grad = (i: number) => GRADIENTS[i % GRADIENTS.length];
 
@@ -62,7 +70,10 @@ export function ProjectsCarousel({ projects }: { projects: Project[] }) {
             type="button"
             className="carousel-card"
             style={{ backgroundImage: grad(i) }}
-            onClick={() => setOpenId(p.id)}
+            onClick={() => {
+              setOpenId(p.id);
+              cueAvatar("presenting");
+            }}
             role="listitem"
             aria-label={`Open ${p.name}`}
           >
@@ -102,7 +113,10 @@ export function ProjectsCarousel({ projects }: { projects: Project[] }) {
                   <button
                     type="button"
                     className="carousel-close"
-                    onClick={() => setOpenId(null)}
+                    onClick={() => {
+                      setOpenId(null);
+                      cueAvatar("idle");
+                    }}
                     aria-label="Close"
                   >
                     ×

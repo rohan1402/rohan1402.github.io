@@ -24,6 +24,7 @@ import {
   type IntentId,
 } from "@/lib/scripted";
 import { track } from "@/lib/analytics";
+import { cueAvatar } from "@/lib/avatar";
 import { BotAvatar } from "./BotAvatar";
 import { Greeting, Fallback, IntentAnswer } from "./Answers";
 import { ToolRenderer } from "./ToolRenderer";
@@ -160,6 +161,16 @@ export function ChatApp() {
   }, [messages, scriptedTyping, status]);
 
   useEffect(() => {
+    if (scriptedTyping || status === "submitted") {
+      cueAvatar("thinking");
+    } else if (status === "streaming") {
+      cueAvatar("explaining");
+    } else if (messages.length > 0) {
+      cueAvatar("explaining", 2000);
+    }
+  }, [messages.length, scriptedTyping, status]);
+
+  useEffect(() => {
     return () => {
       if (scriptedTimer.current) clearTimeout(scriptedTimer.current);
     };
@@ -190,6 +201,7 @@ export function ChatApp() {
       setChips(FALLBACK_CHIPS);
     }
     track("fallback-served");
+    cueAvatar("explaining", 2200);
     setScriptedMode(true);
     clearError();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -238,6 +250,7 @@ export function ChatApp() {
     if (!intent) return;
     const shown = displayText ?? intent.prompt;
     track("chip-click", id);
+    cueAvatar("thinking");
     closeSidebar();
     setMessages((prev) => [...prev, userMessage(shown)]);
     setScriptedTyping(true);
@@ -256,6 +269,7 @@ export function ChatApp() {
     const text = raw.trim().slice(0, 400);
     if (!text) return;
     track("question-asked");
+    cueAvatar("thinking");
     lastQueryRef.current = text;
     setChips(INITIAL_CHIPS);
     if (error) clearError();
@@ -276,6 +290,7 @@ export function ChatApp() {
     if (error) clearError();
     setMessages([]);
     setChips(INITIAL_CHIPS);
+    cueAvatar("idle");
     closeSidebar();
     inputRef.current?.focus();
   }
@@ -319,7 +334,11 @@ export function ChatApp() {
         </nav>
 
         <div className="sidebar-foot">
-          <Link className="ghost-row" href="/resume">
+          <Link
+            className="ghost-row"
+            href="/resume"
+            onClick={() => cueAvatar("presenting", 1800)}
+          >
             View resume
           </Link>
           <div className="account">
@@ -350,7 +369,11 @@ export function ChatApp() {
             >
               {themeLabel}
             </button>
-            <Link className="pill-btn" href="/resume">
+            <Link
+              className="pill-btn"
+              href="/resume"
+              onClick={() => cueAvatar("presenting", 1800)}
+            >
               Resume
             </Link>
           </div>
@@ -419,6 +442,12 @@ export function ChatApp() {
               maxLength={400}
               placeholder="Ask anything about Rohan…"
               aria-label="Ask anything about Rohan"
+              onFocus={() => cueAvatar("listening")}
+              onBlur={() => {
+                if (status !== "submitted" && status !== "streaming") {
+                  cueAvatar("idle");
+                }
+              }}
             />
             <button type="submit" className="send" aria-label="Send">
               ↑

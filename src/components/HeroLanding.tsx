@@ -11,6 +11,7 @@ import { useState } from "react";
 import type { IntentId } from "@/lib/scripted";
 import { ROHAN } from "@/data/rohan";
 import { track } from "@/lib/analytics";
+import { cueAvatar } from "@/lib/avatar";
 import { ProjectsShowcase } from "./ProjectsShowcase";
 
 const HERO_QUESTIONS: { id: IntentId; label: string }[] = [
@@ -47,6 +48,7 @@ export function HeroLanding({
             className="hero-action hero-action-primary"
             onClick={() => {
               track("project-showcase-open");
+              cueAvatar("presenting");
               setShowProjects(true);
             }}
           >
@@ -57,7 +59,10 @@ export function HeroLanding({
             href="/assets/Rohan_Pant_Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            onClick={() => track("resume-download")}
+            onClick={() => {
+              track("resume-download");
+              cueAvatar("presenting", 1800);
+            }}
           >
             Download Resume
           </a>
@@ -81,7 +86,10 @@ export function HeroLanding({
       </div>
       <ProjectsShowcase
         open={showProjects}
-        onClose={() => setShowProjects(false)}
+        onClose={() => {
+          setShowProjects(false);
+          cueAvatar("idle");
+        }}
       />
     </>
   );

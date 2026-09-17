@@ -9,6 +9,7 @@ import {
 } from "motion/react";
 import { ROHAN, type Project } from "@/data/rohan";
 import { track } from "@/lib/analytics";
+import { cueAvatar } from "@/lib/avatar";
 import { Pills } from "./Pills";
 
 const PROJECT_ACCENTS = ["#7c7cf0", "#2da9b2", "#c66bd6"];
@@ -54,6 +55,7 @@ export function ProjectsShowcase({
   }, [open, onClose]);
 
   function toggleProject(project: FeaturedProject) {
+    cueAvatar(expandedId === project.id ? "presenting" : "explaining");
     setExpandedId((current) => (current === project.id ? null : project.id));
     track("project-showcase-select", project.id);
   }
