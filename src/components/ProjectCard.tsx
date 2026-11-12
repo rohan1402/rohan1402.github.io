@@ -12,7 +12,7 @@ export function ProjectCard({
   return (
     <a
       className="card"
-      href={project.url}
+      href={project.url ?? project.demoUrl}
       target="_blank"
       rel="noopener noreferrer"
       onClick={onOutbound}

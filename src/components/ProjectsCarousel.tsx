@@ -171,15 +171,17 @@ export function ProjectsCarousel({ projects }: { projects: Project[] }) {
                           {open.demoLabel ?? "Open live demo"} ↗
                         </a>
                       )}
-                      <a
-                        className="btn carousel-repo"
-                        href={open.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={() => track("outbound-click", open.id)}
-                      >
-                        View repo ↗
-                      </a>
+                      {open.url && (
+                        <a
+                          className="btn carousel-repo"
+                          href={open.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => track("outbound-click", open.id)}
+                        >
+                          View repo ↗
+                        </a>
+                      )}
                     </div>
                   </div>
                 </motion.div>

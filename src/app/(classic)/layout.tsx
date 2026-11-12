@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Mascot } from "@/components/Mascot";
 import { Analytics } from "@/components/Analytics";
-import "./globals.css";
+import "../globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.rohanpant.com"),
@@ -9,7 +9,6 @@ export const metadata: Metadata = {
   description:
     "Explore the work of Rohan Pant, an AI/ML Engineer building agentic AI systems, RAG pipelines, and LLM-integrated backends. Open to 2027 internships.",
   icons: { icon: "/assets/favicon.svg" },
-  alternates: { canonical: "/" },
   openGraph: {
     title: "Ask Rohan - Rohan Pant",
     description:
@@ -23,6 +22,11 @@ export const metadata: Metadata = {
 // Runs before paint to stamp the saved theme on <html>, avoiding a flash.
 const themeScript = `(function(){try{var t=localStorage.getItem('ask-rohan-theme');if(t==='dark'||t==='light'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();`;
 
+/**
+ * Root layout for the classic pages: the full-screen chat at /chat and the plain resume at
+ * /resume. The home page has its own root layout in (home), so the two designs never share
+ * styles.
+ */
 export default function RootLayout({
   children,
 }: {

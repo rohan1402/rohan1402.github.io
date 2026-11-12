@@ -7,7 +7,7 @@
  * identical.
  */
 
-import type { IntentId } from "@/lib/scripted";
+import { INTENT_BY_ID, type IntentId } from "@/lib/scripted";
 import { PROJECT_IDS } from "@/lib/tools";
 import { IntentAnswer } from "./Answers";
 
@@ -30,7 +30,7 @@ export function ToolRenderer({
 }) {
   if (toolName === "getProject") {
     const id = (input as { id?: string } | undefined)?.id;
-    if (id && (PROJECT_IDS as readonly string[]).includes(id)) {
+    if (id && (PROJECT_IDS as readonly string[]).includes(id) && id in INTENT_BY_ID) {
       return <IntentAnswer id={id as IntentId} />;
     }
     // If the id is missing/invalid, fall back to showing all projects.
