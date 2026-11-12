@@ -1884,7 +1884,7 @@ addEventListener('hashchange', function onHash() {
 
 /* Ask me: a scripted router over the same facts the live chat uses */
 const INTENTS = {
-  experience: { 'experience': 3, 'cohesity': 3, 'rutgers': 2, 'peregrine': 3, 'worked': 2, 'work history': 3, 'job': 2, 'jobs': 2, 'impact': 2, 'intern': 1, 'alpha ai': 3, 'career': 2, 'company': 1, 'companies': 1 },
+  experience: { 'experience': 3, 'where did you work': 4, 'where have you worked': 4, 'work before': 3, 'cohesity': 3, 'rutgers': 2, 'peregrine': 3, 'worked': 2, 'work history': 3, 'job': 2, 'jobs': 2, 'impact': 2, 'intern': 1, 'alpha ai': 3, 'career': 2, 'company': 1, 'companies': 1 },
   skills: { 'skill': 3, 'skills': 3, 'stack': 2, 'build with': 3, 'tech': 2, 'technologies': 3, 'languages': 3, 'tools': 2, 'aws': 2, 'python': 1, 'typescript': 1, 'frameworks': 2 },
   resume: { 'resume': 4, 'cv': 4, 'résumé': 4 },
   availability: { 'available': 3, 'availability': 3, 'open to': 3, 'internship': 3, 'internships': 3, 'full-time': 3, 'full time': 3, 'opt': 3, 'visa': 3, 'graduat*': 2, 'hiring': 2, 'start': 1, 'sponsor*': 3, 'roles': 1 },
@@ -2455,14 +2455,21 @@ async function actWork(ri, ok, ctx) {
   if (!(await closeFirst(ok))) return;
   await scrollToFrac(li, small() ? 0.12 : 0.22); if (!ok()) return;
   want('idle');
-  await agJump(onTopOf(btn, 0.5)); if (!ok()) return;
-  narrate(ctx, 'Opening the details.');
-  if (!(await stomp(btn, ok))) return;
-  if (btn.getAttribute('aria-expanded') !== 'true') btn.click();
-  await wait(260); if (!ok()) return;
-  await keepAboveCard(li); if (!ok()) return;
-  // Down onto the row's line, then a walk to its end, and he points back at it
-  await agJump(() => { const L = li.getBoundingClientRect(); return { x: btn.getBoundingClientRect().left + btn.getBoundingClientRect().width / 2, y: L.bottom - 1 }; }, { h: 30 }); if (!ok()) return;
+  if (small()) {
+    /* On a phone the open role is taller than the room above the card, so the details stay closed
+       and he lands on the role's line, where his hand is level with the summary he marks. */
+    if (btn.getAttribute('aria-expanded') === 'true') { btn.click(); await wait(260); if (!ok()) return; }
+    await agJump(onLineOf(li, 0.5)); if (!ok()) return;
+  } else {
+    await agJump(onTopOf(btn, 0.5)); if (!ok()) return;
+    narrate(ctx, 'Opening the details.');
+    if (!(await stomp(btn, ok))) return;
+    if (btn.getAttribute('aria-expanded') !== 'true') btn.click();
+    await wait(260); if (!ok()) return;
+    await keepAboveCard(li); if (!ok()) return;
+    // Down onto the row's line, then a walk to its end, and he points back at it
+    await agJump(() => { const L = li.getBoundingClientRect(); return { x: btn.getBoundingClientRect().left + btn.getBoundingClientRect().width / 2, y: L.bottom - 1 }; }, { h: 30 }); if (!ok()) return;
+  }
   await agWalk(onLineOf(li, 1, small() ? -26 : -48)); if (!ok()) return;
   want('point', -1); setPose('presenting', 2500);
   markLine(li, MARK[ROLES[ri].org]);
