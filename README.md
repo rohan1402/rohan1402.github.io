@@ -11,12 +11,35 @@ This is the `next-migration` branch. The original vanilla HTML/CSS/JS site lives
 in `legacy/` for reference and still serves from `main` via GitHub Pages until
 the DNS cutover.
 
-## Architecture
+## Pages
+
+| Route | What it is | Code |
+| --- | --- | --- |
+| `/` | The home page: a drifting project strip with covers drawn live in canvas, experience, education, contact, and a small animated Rohan who acts out each answer on the page (opens the project, highlights the role, presses the button). | `src/app/(home)`, `src/home` |
+| `/chat` | The full ChatGPT-style chat described below. | `src/app/(classic)/chat` |
+| `/resume` | The web resume. | `src/app/(classic)/resume` |
+
+`(home)` and `(classic)` are route groups with their own root layouts, so the home
+page's stylesheet and the Tailwind theme never load together.
+
+The home page shares the chat's backend. Typed questions go to `/api/chat` through
+`useChat`, and each tool call the model makes (`getProject`, `getExperience`,
+`getContact`, ...) becomes an action on the page. The suggestion chips answer from
+the scripted engine with zero API calls, and any non-2xx response falls back to it,
+so the page works with no key. The page itself is server-rendered markup
+(`src/home/markup.ts`) that a plain JavaScript engine (`src/home/engine.ts`) takes
+over on load; React never re-renders that markup.
+
+Pose images for the animated Rohan live in `public/assets/avatar/mini`. They are all
+exported at one scale (a standing pose is 440px tall), and `MINI_META` in the engine
+records each pose's size and where its feet are, so new poses line up.
+
+## Architecture (the chat)
 
 ```
 Browser
   |
-  |  page.tsx (Server Component) renders the SSR shell (sidebar, greeting, chips)
+  |  chat/page.tsx (Server Component) renders the SSR shell (sidebar, greeting, chips)
   v
 ChatApp.tsx  ("use client")  ------------------------------------------------.
   |  - useChat() from @ai-sdk/react drives the transcript                     |

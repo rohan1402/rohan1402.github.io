@@ -18,7 +18,8 @@ export interface Project {
   category: string;
   blurb: string;
   stack: string[];
-  url: string;
+  /** Public repo. Absent for private or proprietary work. */
+  url?: string;
   demoUrl?: string;
   demoLabel?: string;
   image: string;
@@ -191,6 +192,28 @@ export const ROHAN: Rohan = {
       },
     },
     {
+      id: "rutgers-apps",
+      name: "Rutgers Production Apps",
+      category: "Two web apps live at Rutgers",
+      blurb:
+        "Two web apps I build and run in production at Rutgers. Medical residents use the Resident Survival Guide to search and read clinical guides. The SEL App helps educators find social-emotional learning resources curated by the Rutgers Psychology Department.",
+      stack: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "AWS", "Docker", "GitLab CI/CD"],
+      demoUrl: "https://selapp.psych.rutgers.edu",
+      demoLabel: "Open the SEL App",
+      image: "/assets/projects/rutgers-apps.jpg",
+      imageAlt: "The SEL App's library of social-emotional learning resources",
+    },
+    {
+      id: "auto-triage",
+      name: "Cohesity Auto-Triage",
+      category: "Production ML at Cohesity",
+      blurb:
+        "A production system that automatically classifies defects as product, automation, or environment issues, cutting debugging turnaround by 37%. Built at Cohesity; details stay general because the system is proprietary.",
+      stack: ["Python", "Machine learning", "NLP", "Jenkins", "Grafana"],
+      image: "/assets/projects/auto-triage.jpg",
+      imageAlt: "Test logs flowing into product, automation and environment failure classes",
+    },
+    {
       id: "agentically",
       name: "Agentically",
       category: "Healthcare compliance RAG",
@@ -256,9 +279,21 @@ export const ROHAN: Rohan = {
       org: "Rutgers University, New Brunswick",
       when: "Jan 2026 - Present",
       points: [
+        "Took two web apps to production for Rutgers: the Resident Survival Guide for medical residents and the SEL App for the Psychology Department (Next.js, TypeScript, PostgreSQL, AWS).",
+        "Shipped features and fixes across both apps, from sign-in and S3 file storage to tier-aware resource lists, and wrote the Resident Survival Guide's first automated test suite (39 unit, schema and API integration cases in CI).",
         "Built an agentic AI chatbot from scratch (Node.js, TypeScript, Express, React), integrating LLM APIs with tool use and retrieval to deliver context-aware academic content across departments.",
         "Designed a modular LLM evaluation framework supporting 4+ models with structured logging, latency tracking, and token-usage metrics for benchmarking RAG quality and instruction-following.",
         "Implemented RAG to ground responses in structured academic content, enabling automated MCQ, programming, and essay-question generation mapped to learning objectives.",
+      ],
+    },
+    {
+      role: "AI Engineering Intern",
+      org: "Peregrine",
+      when: "May 2026 - Aug 2026",
+      points: [
+        "Built Scail, an AI search visibility audit engine in Python: a 28-step pipeline with dependency-ordered execution, per-step persistence to Supabase, exponential-backoff retries, and resume-on-retry that skips completed steps.",
+        "Engineered concurrent fan-out of 30 queries across 5 AI platforms (ChatGPT, Claude, Gemini, Perplexity, Google AI Overviews) with ThreadPoolExecutor, using Claude Sonnet to write queries and Gemini Flash to parse answers via OpenRouter.",
+        "Developed LeadGenAgent, an idempotent multi-step agent chaining prospect discovery, contact enrichment, email verification, scorecard generation, and Netlify deployment across the Google Maps, Apollo, and MillionVerifier APIs.",
       ],
     },
     {
@@ -300,6 +335,6 @@ export const ROHAN: Rohan = {
     ],
     AWS: ["Lambda", "Bedrock", "S3", "EC2"],
     Languages: ["Python", "Node.js", "TypeScript", "Java", "SQL"],
-    "Backend & DevOps": ["Express", "REST APIs", "Jenkins CI/CD", "Git", "Docker"],
+    "Backend & DevOps": ["Express", "Next.js", "PostgreSQL", "REST APIs", "Jenkins and GitLab CI/CD", "Git", "Docker"],
   },
 };

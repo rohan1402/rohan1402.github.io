@@ -21,7 +21,7 @@ export default function ResumePage() {
       <div className="plain-wrap">
         <div className="flex items-center gap-3 flex-wrap">
           <Link className="back-btn" href="/">
-            ← Back to chat
+            ← Back to home
           </Link>
           <a
             className="btn"
@@ -106,14 +106,16 @@ export default function ResumePage() {
             <div className="r-item" key={p.id}>
               <div className="r-item-head">
                 <strong>{p.name}</strong>
-                <a
-                  className="r-item-when"
-                  href={p.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  repo ↗
-                </a>
+                {(p.url ?? p.demoUrl) && (
+                  <a
+                    className="r-item-when"
+                    href={p.url ?? p.demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {p.url ? "repo" : "live"} ↗
+                  </a>
+                )}
               </div>
               <div>{p.blurb}</div>
               <Pills items={p.stack} />

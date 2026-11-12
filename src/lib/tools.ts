@@ -3,9 +3,11 @@ import { z } from "zod";
 import { ROHAN } from "@/data/rohan";
 
 /**
- * Chat tools. Each returns data straight from rohan.ts; the client maps each
- * tool name to a React component (see ToolRenderer) and renders it inline in
- * the stream. The model calls these instead of restating data as plain text.
+ * Chat tools. Each returns data straight from rohan.ts. In the full chat (/chat)
+ * the client renders each tool call as a card (see ToolRenderer); on the home
+ * page the agent acts it out on the page instead (getProject opens the project,
+ * getExperience walks to the role, and so on). The model calls these instead of
+ * restating data as plain text.
  */
 
 const noInput = z.object({});
@@ -14,6 +16,8 @@ export const PROJECT_IDS = [
   "whyzr",
   "scail",
   "patchwork",
+  "rutgers-apps",
+  "auto-triage",
   "agentically",
   "llm",
   "f1",
