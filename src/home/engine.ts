@@ -1350,30 +1350,25 @@ const PROJECTS = [
 ];
 
 const ROLES = [
-  { when: 'Jan 2026 to now', role: 'Software Developer', org: 'Rutgers SAS IT', line: 'Shipping two live Rutgers web apps and building AI tools for academic content.', project: 'rutgers-apps', projectLabel: 'See the apps',
+  { when: 'Jan 2026 to now', role: 'Software Developer', org: 'Rutgers SAS IT', line: 'Built a RAG chatbot for Rutgers Medical School and took two web apps to production.', project: 'rutgers-apps', projectLabel: 'See the apps',
     points: [
-      'Took two web apps to production for Rutgers: the Resident Survival Guide for medical residents and the SEL App for the Psychology Department (Next.js, TypeScript, PostgreSQL, AWS).',
-      'Shipped features and fixes across both apps, from sign-in and S3 file storage to tier-aware resource lists, and wrote RSG’s first automated test suite (39 unit, schema and API integration cases in CI).',
-      'Built an agentic AI chatbot from scratch (Node.js, TypeScript, Express, React), integrating LLM APIs with tool use and retrieval to deliver context-aware academic content across departments.',
-      'Designed a modular LLM evaluation framework supporting 4+ models with structured logging, latency tracking, and token-usage metrics for benchmarking RAG quality and instruction-following.',
-      'Implemented RAG to ground responses in structured academic content, enabling automated MCQ, programming, and essay-question generation mapped to learning objectives.'
+      'Built a production RAG chatbot for Rutgers Medical School’s clinical guide app on a local-only LLM stack so sensitive data stays on university infrastructure, serving quantized GGUF models through an OpenAI-compatible API.',
+      'Designed the LLM evaluation framework used to choose the production model: benchmarked Llama 3.1 8B, Qwen 2.5 7B, Phi-3.5 Mini, and Mistral 7B on 14 prompts across 9 categories with rule-based and LLM-as-judge scoring.',
+      'Scored RAG retrieval hit rate, citation validity, and latency per model; Llama 3.1 8B led the benchmark at 86% with the best local RAG tradeoff, while cloud 70B inference ran about 40x faster at the same hit rate.',
+      'Built the production deployment pipeline for two live Next.js and TypeScript apps on GitLab CI/CD and AWS EC2, with Docker image builds, health-check smoke tests, a manual promotion gate, and migrations run before launch.'
     ] },
   { when: 'May to Aug 2026', role: 'AI Engineering Intern', org: 'Peregrine', line: 'Built Scail, an AI search visibility audit engine, in Python.', project: 'scail', projectLabel: 'See Scail',
     points: [
       'Built Scail, an AI search visibility audit engine in Python: a 28-step pipeline with dependency-ordered execution, per-step persistence to Supabase, exponential-backoff retries, and resume-on-retry that skips completed steps.',
-      'Engineered concurrent fan-out of 30 queries across 5 AI platforms (ChatGPT, Claude, Gemini, Perplexity, Google AI Overviews) with ThreadPoolExecutor, using Claude Sonnet to write queries and Gemini Flash to parse answers via OpenRouter.',
-      'Developed LeadGenAgent, an idempotent multi-step agent chaining prospect discovery, contact enrichment, email verification, scorecard generation, and Netlify deployment across the Google Maps, Apollo, and MillionVerifier APIs.'
+      'Fanned out 30 queries concurrently across 5 AI platforms (ChatGPT, Claude, Gemini, Perplexity, Google AI Overviews) with ThreadPoolExecutor, with Claude Sonnet generating queries and Gemini Flash parsing answers.',
+      'Developed LeadGenAgent, an idempotent multi-step agent chaining prospect discovery, contact enrichment, email verification, scorecard generation, and Netlify deployment across the Google Maps, Apollo, and MillionVerifier APIs.',
+      'Implemented a weighted 0-100 visibility score, automated PDF and Excel deliverables, per-run cost tracking with budget caps and Slack alerts, and a FastAPI control panel, covered by 176 pytest tests.'
     ] },
   { when: 'Jul 2022 to Jul 2025', role: 'Member of Technical Staff 2', org: 'Cohesity', line: 'Built a production auto-triage system that cut debugging turnaround by 37%.',
     points: [
-      'Engineered a production Auto-Triage system (Python and ML) classifying defects across Product, Automation, and Environment, cutting debugging turnaround by 37%.',
-      'Built backend workflows processing 150k+ log events with NLP-based pattern detection for faster root-cause analysis across distributed systems.',
-      'Owned a full Jenkins CI/CD pipeline and a Grafana monitoring dashboard, reducing manual QA effort by 20%.'
-    ] },
-  { when: 'Jun to Jul 2021', role: 'Data Science Intern', org: 'Alpha AI', line: 'Built facial expression and speech emotion recognition pipelines.',
-    points: [
-      'Built Facial Expression and Speech Emotion Recognition pipelines (Keras, 27k 48x48 grayscale images).',
-      'Used OpenCV for face detection and emotion prediction, reaching about 73% accuracy.'
+      'Engineered a production Auto-Triage ML system in Python (Random Forest and SVM classifiers) that sorted defects into Product, Automation, and Environment categories, reducing debugging turnaround time by 37%.',
+      'Built backend workflows to process and analyze 150k+ system log events using NLP-based pattern detection, enabling faster root-cause analysis across distributed systems.',
+      'Developed and maintained a full Jenkins CI/CD pipeline; built a Grafana dashboard for product resource monitoring, reducing manual QA effort by 20%.'
     ] }
 ];
 const EDU = [
@@ -1381,11 +1376,12 @@ const EDU = [
   { when: 'Aug 2018 to May 2022', degree: 'B.Tech, Computer Science and Engineering (Big Data)', school: 'University of Petroleum and Energy Studies', note: '' }
 ];
 const SKILLS = {
-  'Agentic AI': ['Claude Agent SDK', 'MCP servers', 'Tool use', 'Gemini tool calling', 'Autonomous workflows', 'Prompt engineering'],
-  'RAG and vector DBs': ['RAG pipelines', 'Semantic search', 'MongoDB Atlas', 'OpenSearch', 'S3 Vectors', 'sentence-transformers'],
-  'AWS': ['Lambda', 'Bedrock', 'S3', 'EC2'],
-  'Languages': ['Python', 'Node.js', 'TypeScript', 'Java', 'SQL'],
-  'Backend and DevOps': ['Express', 'Next.js', 'PostgreSQL', 'REST APIs', 'Jenkins and GitLab CI/CD', 'Docker', 'Git']
+  'Agentic AI': ['Tool use', 'Multi-step agents', 'Multi-model orchestration', 'LLM-as-judge evaluation', 'Prompt engineering'],
+  'LLMs and serving': ['Claude', 'Gemini', 'Llama 3.1', 'Qwen 2.5', 'Groq', 'OpenRouter', 'llama-cpp-python', 'GGUF', 'Vercel AI SDK'],
+  'RAG and vector DBs': ['RAG pipelines', 'Semantic search', 'Voyage AI and MiniLM embeddings', 'MongoDB Atlas Vector Search', 'Qdrant'],
+  'Languages': ['Python', 'TypeScript', 'JavaScript', 'SQL'],
+  'Backend and frameworks': ['FastAPI', 'Node.js', 'Express', 'Next.js', 'React', 'REST APIs', 'Supabase (PostgreSQL)', 'pytest'],
+  'Cloud and DevOps': ['AWS (EC2, S3)', 'Docker', 'GitLab CI/CD', 'Jenkins', 'GitHub Actions', 'Vercel', 'Git']
 };
 const LINKS = {
   email: 'rohan.pant14@gmail.com',
@@ -1884,7 +1880,7 @@ addEventListener('hashchange', function onHash() {
 
 /* Ask me: a scripted router over the same facts the live chat uses */
 const INTENTS = {
-  experience: { 'experience': 3, 'where did you work': 4, 'where have you worked': 4, 'work before': 3, 'cohesity': 3, 'rutgers': 2, 'peregrine': 3, 'worked': 2, 'work history': 3, 'job': 2, 'jobs': 2, 'impact': 2, 'intern': 1, 'alpha ai': 3, 'career': 2, 'company': 1, 'companies': 1 },
+  experience: { 'experience': 3, 'where did you work': 4, 'where have you worked': 4, 'work before': 3, 'cohesity': 3, 'rutgers': 2, 'peregrine': 3, 'worked': 2, 'work history': 3, 'job': 2, 'jobs': 2, 'impact': 2, 'intern': 1, 'career': 2, 'company': 1, 'companies': 1 },
   skills: { 'skill': 3, 'skills': 3, 'stack': 2, 'build with': 3, 'tech': 2, 'technologies': 3, 'languages': 3, 'tools': 2, 'aws': 2, 'python': 1, 'typescript': 1, 'frameworks': 2 },
   resume: { 'resume': 4, 'cv': 4, 'résumé': 4 },
   availability: { 'available': 3, 'availability': 3, 'open to': 3, 'internship': 3, 'internships': 3, 'full-time': 3, 'full time': 3, 'opt': 3, 'visa': 3, 'graduat*': 2, 'hiring': 2, 'start': 1, 'sponsor*': 3, 'roles': 1 },
@@ -2269,11 +2265,16 @@ const FOLLOW = {
   skills: ['rag', 'work', 'open'], resume: ['reach', 'work', 'rag'], availability: ['reach', 'work', 'rag'],
   contact: ['rag', 'work', 'apps'], about: ['rag', 'work', 'reach'], fallback: ['rag', 'work', 'reach'], text: ['rag', 'work', 'reach']
 };
+/* The card grows when the reply and chips arrive, so remember how tall it gets with them. */
+let cardFullH = 0;
+const noteCardH = () => requestAnimationFrame(() => { cardFullH = agCard.offsetHeight; });
 function chips(keys) {
   agChips.replaceChildren(...keys.map(k => el('button', { type: 'button', class: 'ag-chip', text: CHIP[k], onclick: () => askScripted(CHIP[k]) })));
+  noteCardH();
 }
 function linkChips(list) {
   agChips.replaceChildren(...list.map(([label, href, solid]) => el('a', { class: 'ag-chip' + (solid ? ' solid' : ''), href, text: label })));
+  noteCardH();
 }
 function agIdle(again) {
   agRun++; agBusy = false; agMode = 'still'; live = null;
@@ -2336,9 +2337,11 @@ function scrollToFrac(node, frac) {
   window.scrollTo({ top: Math.max(0, scrollY + r.top - innerHeight * frac), behavior: reduce ? 'auto' : 'smooth' });
   return settleScroll();
 }
-/* Keep a spot clear of the card: scroll so the element's bottom sits above it. */
+/* Keep a spot clear of the card: scroll so the element's bottom sits above it, allowing for
+   the card's full height once the reply and chips are in. */
 function keepAboveCard(node, margin = 24) {
-  const r = node.getBoundingClientRect(), top = agCard.getBoundingClientRect().top - margin;
+  const c = agCard.getBoundingClientRect();
+  const r = node.getBoundingClientRect(), top = c.bottom - Math.max(c.height, cardFullH) - margin;
   if (r.bottom <= top) return Promise.resolve();
   window.scrollTo({ top: scrollY + Math.min(r.bottom - top, Math.max(0, r.top - 60)), behavior: reduce ? 'auto' : 'smooth' });
   return settleScroll();
@@ -2378,23 +2381,20 @@ async function closeFirst(ok) {
 
 /* Actions. Each one walks the page and returns when he is done. */
 const MARK = {
-  'Rutgers SAS IT': 'two live Rutgers web apps',
+  'Rutgers SAS IT': 'a RAG chatbot for Rutgers Medical School',
   'Peregrine': 'an AI search visibility audit engine',
-  'Cohesity': 'cut debugging turnaround by 37%',
-  'Alpha AI': 'speech emotion recognition pipelines'
+  'Cohesity': 'cut debugging turnaround by 37%'
 };
 const WORK_SAY = {
-  'Rutgers SAS IT': 'I’m a software developer at Rutgers SAS IT, where I took two web apps to production.',
+  'Rutgers SAS IT': 'At Rutgers SAS IT I built a RAG chatbot for Rutgers Medical School on local models, and took two web apps to production.',
   'Peregrine': 'At Peregrine I built Scail, an AI search visibility audit engine, as an AI engineering intern.',
-  'Cohesity': 'Three years at Cohesity. I built the auto-triage system that cut debugging time by 37%.',
-  'Alpha AI': 'At Alpha AI I built facial expression and speech emotion recognition pipelines.'
+  'Cohesity': 'Three years at Cohesity. I built the auto-triage system that cut debugging time by 37%.'
 };
 function roleFor(q) {
   const s = ' ' + q.toLowerCase() + ' ';
   const pick = org => ROLES.findIndex(r => r.org === org);
   if (/cohesity|triage|auto-triage/.test(s)) return pick('Cohesity');
   if (/peregrine|scail|intern(ship)? at/.test(s)) return pick('Peregrine');
-  if (/alpha/.test(s)) return pick('Alpha AI');
   if (/rutgers|sas it|now|current/.test(s)) return pick('Rutgers SAS IT');
   if (/before|previous|prior|past|used to/.test(s)) return pick('Cohesity');
   return 0;
@@ -2589,6 +2589,16 @@ function endRun(kind) {
   agBusy = false;
   if (kind === 'resume') linkChips([['View resume', LINKS.resume, true], ['Resume PDF', LINKS.pdf]]);
   else chips(FOLLOW[kind] || FOLLOW.text);
+  clearOfCard();
+}
+/* The reply and chips make the card taller, and it can grow over the spot where he stands.
+   If it does, nudge the page up so he and that spot sit above the card again. */
+function clearOfCard() {
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (agAt === onCard || agJ || agW || agCard.classList.contains('compact')) return;
+    const c = agCard.getBoundingClientRect(), over = ag.y - (c.top - 12);
+    if (over > 0 && ag.x > c.left - 30 && ag.x < c.right + 30) window.scrollTo({ top: scrollY + over, behavior: reduce ? 'auto' : 'smooth' });
+  }));
 }
 
 /* Runs */
